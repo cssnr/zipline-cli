@@ -1,0 +1,10 @@
+.idea/
+*.iml
+**/venv/
+**/__pycache__/
+build/
+dist/
+zipline_cli.*/
+*.pyc
+.coverage
+.zipline

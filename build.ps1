@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$egg_dir = "zipline_cli.*"
+$egg_dir = "zipline_cli.egg-info"
 if (Test-Path $egg_dir) {
     Remove-Item -Force -Recurse $egg_dir
 }
@@ -12,6 +12,6 @@ if (Test-Path ".\dist") {
 }
 
 python.exe -m pip uninstall -y zipline-cli
-python.exe setup.py install
+python.exe -m build
 
 Write-Output "Done."

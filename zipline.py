@@ -63,6 +63,8 @@ def get_default(values: List[str], default: Any = None,
                 suf: str = '') -> Optional[str]:
     for value in values:
         result = config(f'{pre}{value.upper()}{suf}', '', cast)
+        # print('value', value)
+        # print('result', result)
         if result:
             return result
     return default
@@ -70,6 +72,7 @@ def get_default(values: List[str], default: Any = None,
 
 def main():
     env_file = Path(os.path.expanduser('~')) / '.zipline'
+    # print(env_file)
     dotenv_path = env_file if os.path.exists(env_file) else find_dotenv(filename='.zipline')
     load_dotenv(dotenv_path=dotenv_path)
     parser = argparse.ArgumentParser(description='Zipline CLI.')
@@ -83,11 +86,11 @@ def main():
     parser.add_argument('-e', '-x', '--expires_at', '--expire', type=str, default=get_default(['expire', 'expire_at']),
                         help='Example: 1d. See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration')
     parser.add_argument('--embed', action=argparse.BooleanOptionalAction, default=get_default(['embed'], False, bool),
-                        help='Use to Disable Embed')
-    parser.add_argument('--setup', action=argparse.BooleanOptionalAction, default=False,
-                        help='Setup Required Variables: URL and AUTHORIZATION')
+                        help='Enable Embeds on Uploads')
+    parser.add_argument('--setup', action='store_true', default=False,
+                        help='Set Required Variables: URL and AUTHORIZATION')
     args = parser.parse_args()
-
+    # print(args)
     if args.setup:
         url = input('Zipline URL: ')
         token = input('Zipline Authorization Token: ')
@@ -122,6 +125,7 @@ def main():
     vars(args).pop('url')
     vars(args).pop('files')
     vars(args).pop('setup')
+    # print(vars(args))
     zipline = Zipline(url, **vars(args))
 
     if not files:

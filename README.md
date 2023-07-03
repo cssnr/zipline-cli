@@ -56,7 +56,7 @@ cat test.txt | zipline
 Create Text File from Text
 ```bash
 zipline
-# type or paste contents followed  by Ctrl+D  (Ctrl+Z Windows)
+# type or paste contents followed by Ctrl+D (Ctrl+Z on Windows)
 ```
 
 ## Environment Variables

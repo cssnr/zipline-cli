@@ -7,9 +7,9 @@ import requests
 import string
 import sys
 from decouple import config
-from dotenv import load_dotenv, find_dotenv
+from dotenv import find_dotenv, load_dotenv
 from pathlib import Path
-from typing import Optional, List, Any, TextIO
+from typing import Any, Dict, List, Optional, TextIO
 
 
 class Zipline(object):
@@ -25,11 +25,10 @@ class Zipline(object):
 
     def __init__(self, zipline_url: str, **kwargs):
         self.zipline_url: str = zipline_url.rstrip('/')
-        self.headers: dict = {}
+        self.headers: Dict[str, str] = {}
         for header, value in kwargs.items():
             if header.lower() not in self.allowed_headers:
-                error = f'{header.lower()} not in {self.allowed_headers}'
-                raise ValueError(error)
+                continue
             if value is None:
                 continue
             key = header.replace('_', '-').title()
@@ -54,81 +53,102 @@ class Zipline(object):
 
 
 def gen_rand(length: Optional[int] = 4) -> str:
+    """
+    Generate Random Streng at Given length
+    :param length: int: Length of Random String
+    :return: str: Random String
+    """
     length: int = length if not length < 0 else 4
     return ''.join(random.choice(string.ascii_letters) for _ in range(length))
 
 
-def get_default(values: List[str], default: Any = None,
-                cast: Optional[type] = str, pre: str = 'ZIPLINE_',
-                suf: str = '') -> Optional[str]:
+def get_default(values: List[str], default: Optional[Any] = None,
+                cast: Optional[type] = str, pre: Optional[str] = 'ZIPLINE_',
+                suf: Optional[str] = '') -> Optional[str]:
+    """
+    Get Default Environment Variable from List of values
+    :param values: list: List of Values to Check
+    :param default: any: Default Value if None
+    :param cast: type: Type to Cast Value
+    :param pre: str: Environment Variable Prefix
+    :param suf: str: Environment Variable Suffix
+    :return: str: Environment Variable or None
+    """
     for value in values:
         result = config(f'{pre}{value.upper()}{suf}', '', cast)
-        # print('value', value)
-        # print('result', result)
         if result:
             return result
     return default
 
 
-def main():
-    env_file = Path(os.path.expanduser('~')) / '.zipline'
-    # print(env_file)
-    dotenv_path = env_file if os.path.exists(env_file) else find_dotenv(filename='.zipline')
-    load_dotenv(dotenv_path=dotenv_path)
+def setup(env_file: Path) -> None:
+    print('Setting up Environment File...')
+    url = input('Zipline URL: ').strip()
+    token = input('Zipline Authorization Token: ').strip()
+    if not url or not token:
+        raise ValueError('Missing URL or Token.')
+    output = f'ZIPLINE_URL={url}\nZIPLINE_TOKEN={token}\n'
+    embed = input('Enabled Embed? [Yes]/No: ').strip()
+    if not embed or embed.lower() not in ['n', 'o', 'no', 'noo']:
+        output += 'ZIPLINE_EMBED=true\n'
+    expire = input('Default Expire? [Blank for None]: ').strip().lower()
+    match = re.search(r'^(\d+)(?:ms|s|m|h|d|w|y)$', expire)
+    if not match:
+        print(f'Warning: invalid expire format: {expire} skipping. See --help')
+    else:
+        output += f'ZIPLINE_EXPIRE={expire}\n'
+    with open(env_file, 'w') as f:
+        f.write(output)
+    print(f'Setup Complete. Variables Saved to: {env_file}')
+    sys.exit(0)
+
+
+def main() -> None:
+    zipline_file = '.zipline'
+    env_file = Path(os.path.expanduser('~')) / zipline_file
+    dotenv_path = env_file if os.path.isfile(env_file) else find_dotenv(filename=zipline_file)
+    env = load_dotenv(dotenv_path=dotenv_path)
+
     parser = argparse.ArgumentParser(description='Zipline CLI.')
-    parser.add_argument('files', metavar='Files', type=str, nargs='*',
-                        help='Files to Upload')
-    parser.add_argument('-u', '--url', type=str, default=get_default(['url']),
-                        help='Zipline URL.')
+    parser.add_argument('files', metavar='Files', type=str, nargs='*', help='Files to Upload.')
+    parser.add_argument('-u', '--url', type=str, default=get_default(['url']), help='Zipline URL.')
     parser.add_argument('-a', '-t', '--authorization', '--token', type=str,
                         default=get_default(['token', 'authorization']),
-                        help='Zipline Access Token for Authorization or ZIPLINE_TOKEN')
+                        help='Zipline Access Token for Authorization or ZIPLINE_TOKEN.')
     parser.add_argument('-e', '-x', '--expires_at', '--expire', type=str, default=get_default(['expire', 'expire_at']),
-                        help='Example: 1d. See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration')
+                        help='Ex: 1d, 2w. See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration')
     parser.add_argument('--embed', action=argparse.BooleanOptionalAction, default=get_default(['embed'], False, bool),
-                        help='Enable Embeds on Uploads')
-    parser.add_argument('--setup', action='store_true', default=False,
-                        help='Set Required Variables: URL and AUTHORIZATION')
+                        help='Enable Embeds on Uploads.')
+    parser.add_argument('-s', '--setup', action='store_true', default=False,
+                        help='Automatic Setup of Environment Variables.')
     args = parser.parse_args()
-    # print(args)
+
     if args.setup:
-        url = input('Zipline URL: ')
-        token = input('Zipline Authorization Token: ')
-        if not url or not token:
-            raise ValueError('Missing URL or Token.')
-        env_file = Path(os.path.expanduser('~')) / '.zipline'
-        with open(env_file, 'w') as f:
-            f.write(f'ZIPLINE_URL={url}\nZIPLINE_TOKEN={token}')
-        print('Setup Success. You can run again to change or update details.')
-        sys.exit(0)
+        setup(env_file)
+
+    if not env and not args.url and not args.authorization and not os.path.isfile(env_file):
+        env_file.touch()
+        print('First Run Detected, Entering Setup.')
+        setup(env_file)
 
     if not args.url:
         parser.print_help()
-        error = 'Missing Zipline URL. Use use --setup or specify --url'
-        raise ValueError(error)
+        raise ValueError('Missing URL. Use --setup or specify --url')
 
     if not args.authorization:
         parser.print_help()
-        error = 'Missing Zipline Token. Use use --setup or specify --token'
-        raise ValueError(error)
+        raise ValueError('Missing Token. Use --setup or specify --token')
 
     if args.expires_at:
-        args.expires_at = args.expires_at.lower()
-        match = re.search(r'(\d+(?:ms|s|m|h|d|w|y))', args.expires_at)
+        args.expires_at = args.expires_at.strip().lower()
+        match = re.search(r'^(\d+)(?:ms|s|m|h|d|w|y)$', args.expires_at)
         if not match:
             parser.print_help()
-            error = f'Invalid Expiration Format: {args.expires_at}. See --help'
-            raise ValueError(error)
+            raise ValueError(f'Invalid Expire Format: {args.expires_at}.')
 
-    url = args.url
-    files = args.files
-    vars(args).pop('url')
-    vars(args).pop('files')
-    vars(args).pop('setup')
-    # print(vars(args))
-    zipline = Zipline(url, **vars(args))
+    zipline = Zipline(args.url, **vars(args))
 
-    if not files:
+    if not args.files:
         content: str = sys.stdin.read().rstrip('\n') + '\n'
         text_f: TextIO = io.StringIO(content)
         name = f'{gen_rand(8)}.txt'
@@ -137,17 +157,26 @@ def main():
         sys.exit(0)
 
     exit_code = 1
-    for name in files:
-        if not os.path.isfile(name):
-            print(f'File Not Found: {name}')
+    for filename in args.files:
+        if not os.path.isfile(filename):
+            print(f'Warning: File Not Found: {filename}')
             continue
-        with open(name) as f:
-            new_name = f'{gen_rand()}-{os.path.basename(name)}'
-            url: str = zipline.send_file(new_name, f)
-            print(f'{new_name} -> {url}')
+        with open(filename) as f:
+            # name, ext = os.path.splitext(os.path.basename(filename))
+            # ext = f'.{ext}' if ext else ''
+            # name = f'{name}-{gen_rand(8)}{ext}'
+            # url: str = zipline.send_file(name, f)
+            url: str = zipline.send_file(filename, f)
+            print(f'{filename} -> {url}')
             exit_code = 0
     sys.exit(exit_code)
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit(1)
+    except Exception as error:
+        print('\nError: {}'.format(str(error)))
+        sys.exit(1)

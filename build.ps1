@@ -11,7 +11,6 @@ if (Test-Path ".\dist") {
     Remove-Item -Force -Recurse ".\dist"
 }
 
-python.exe -m pip uninstall -y zipline-cli
 python.exe -m build
 
-Write-Output "Done."
+Write-Output "Success."

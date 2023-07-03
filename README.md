@@ -14,24 +14,24 @@ This is currently a **WIP** and not complete, but has some useful functions.
 
 From PyPi using pip:
 ```text
-python -m pip install zipline-cli
+python3 -m pip install zipline-cli
 ```
 
 From GitHub using pip:
 ```text
-python -m pip install git+https://github.com/cssnr/zipline-cli.git
+python3 -m pip install git+https://github.com/cssnr/zipline-cli.git
 ```
 
 From Source using setuptools:
 ```text
 git clone https://github.com/cssnr/zipline-cli.git
 cd zipline-cli
-python setup.py install
+python3 setup.py install
 ```
 
 Uninstall:
 ```text
-python -m pip uninstall zipline-cli
+python3 -m pip uninstall zipline-cli
 ```
 
 ## CLI Usage

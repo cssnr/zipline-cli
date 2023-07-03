@@ -92,11 +92,12 @@ def setup(env_file: Path) -> None:
     if not embed or embed.lower() not in ['n', 'o', 'no', 'noo']:
         output += 'ZIPLINE_EMBED=true\n'
     expire = input('Default Expire? [Blank for None]: ').strip().lower()
-    match = re.search(r'^(\d+)(?:ms|s|m|h|d|w|y)$', expire)
-    if not match:
-        print(f'Warning: invalid expire format: {expire} skipping. See --help')
-    else:
-        output += f'ZIPLINE_EXPIRE={expire}\n'
+    if expire:
+        match = re.search(r'^(\d+)(?:ms|s|m|h|d|w|y)$', expire)
+        if not match:
+            print(f'Warning: invalid expire format: {expire}. See --help')
+        else:
+            output += f'ZIPLINE_EXPIRE={expire}\n'
     with open(env_file, 'w') as f:
         f.write(output)
     print(f'Setup Complete. Variables Saved to: {env_file}')

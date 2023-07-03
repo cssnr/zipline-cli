@@ -50,7 +50,7 @@ class Zipline(object):
         r = requests.post(url, headers=headers, files=files)
         r.raise_for_status()
         return r.json()['files'][0]
-        # return f'https://example.com/dummy-{file_name}'
+        # return f'https://example.com/dummy/{file_name}'
 
 
 def gen_rand(length: Optional[int] = 4) -> str:
@@ -58,18 +58,19 @@ def gen_rand(length: Optional[int] = 4) -> str:
     return ''.join(random.choice(string.ascii_letters) for _ in range(length))
 
 
-def get_default(values: List[str], cast: Optional[type] = str,
-                default: Any = None, pre: str = 'ZIPLINE_') -> Optional[str]:
+def get_default(values: List[str], default: Any = None,
+                cast: Optional[type] = str, pre: str = 'ZIPLINE_',
+                suf: str = '') -> Optional[str]:
     for value in values:
-        # result = os.environ.get(f'{pre}{value.upper()}', None)
-        result = config(f'{pre}{value.upper()}', '', cast)
+        result = config(f'{pre}{value.upper()}{suf}', '', cast)
         if result:
             return result
     return default
 
 
 def main():
-    dotenv_path = os.path.exists(Path('~/.zipline')) or find_dotenv(filename='.zipline')
+    env_file = Path(os.path.expanduser('~')) / '.zipline'
+    dotenv_path = env_file if os.path.exists(env_file) else find_dotenv(filename='.zipline')
     load_dotenv(dotenv_path=dotenv_path)
     parser = argparse.ArgumentParser(description='Zipline CLI.')
     parser.add_argument('files', metavar='Files', type=str, nargs='*',
@@ -81,7 +82,7 @@ def main():
                         help='Zipline Access Token for Authorization or ZIPLINE_TOKEN')
     parser.add_argument('-e', '-x', '--expires_at', '--expire', type=str, default=get_default(['expire', 'expire_at']),
                         help='Example: 1d. See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration')
-    parser.add_argument('--embed', action=argparse.BooleanOptionalAction, default=get_default(['embed'], bool, False),
+    parser.add_argument('--embed', action=argparse.BooleanOptionalAction, default=get_default(['embed'], False, bool),
                         help='Use to Disable Embed')
     parser.add_argument('--setup', action=argparse.BooleanOptionalAction, default=False,
                         help='Setup Required Variables: URL and AUTHORIZATION')

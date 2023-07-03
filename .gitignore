@@ -5,6 +5,7 @@
 build/
 dist/
 zipline_cli.*/
+*.log
 *.pyc
 .coverage
 .zipline

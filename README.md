@@ -6,7 +6,7 @@
 
 Python 3 CLI Uploader for Zipline.
 
-- Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
+-  Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
 
 This is currently a **WIP** and not complete, but has some useful functions.
 
@@ -59,38 +59,11 @@ zipline
 # type or paste contents followed  by Ctrl+D  (Ctrl+Z Windows)
 ```
 
-## API Reference
-
-Initialize the class with your Zipline URL. 
-Everything else is a header passed as a kwarg.
-
-```python
-from zipline import Zipline
-zipline = Zipline('ZIPLINE_URL')
-```
-
-Zipline Token/Authorization is a header kwarg and can be passed as follows:
-
-```python
-from zipline import Zipline
-zipline = Zipline('ZIPLINE_URL', authorization='ZIPLINE_TOKEN')
-```
-
-Upload a File
-
-```python
-from zipline import Zipline
-zipline = Zipline('ZIPLINE_URL', authorization='ZIPLINE_TOKEN')
-with open('text.txt') as f:
-    url = zipline.send_file('test.txt', f)
-print(url)
-```
-
 ## Environment Variables
 
 Environment Variables are stored in the `.zipline` file in your home directory.
 
-- Location: `~/.zipline`
+-  Location: `~/.zipline`
 
 | Variable       | Description                                                                 |
 |----------------|-----------------------------------------------------------------------------|
@@ -101,7 +74,28 @@ Environment Variables are stored in the `.zipline` file in your home directory.
 
 You may also override them by exporting the variables in your current environment.
 
+## API Reference
+
+Initialize the class with your Zipline URL. 
+Everything else is a header passed as a kwarg. 
+The API does not yet support environment variables. 
+
+Zipline Token/Authorization is a header kwarg and can be passed as follows:
+```python
+from zipline import Zipline
+zipline = Zipline('ZIPLINE_URL', authorization='ZIPLINE_TOKEN')
+```
+
+Upload a File
+```python
+from zipline import Zipline
+zipline = Zipline('ZIPLINE_URL', authorization='ZIPLINE_TOKEN')
+with open('text.txt') as f:
+    url = zipline.send_file('test.txt', f)
+print(url)
+```
+
 ## Additional Information
 
-If you have more questions, concerns, or comments? 
-Join our [Discord](https://discord.gg/wXy6m2X8wY) for more information...
+> If you have more questions, concerns, or comments? 
+> Join our [Discord](https://discord.gg/wXy6m2X8wY) for more information...

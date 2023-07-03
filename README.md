@@ -1,12 +1,12 @@
 [![Discord](https://img.shields.io/discord/899171661457293343?color=7289da&label=discord&logo=discord&logoColor=white&style=flat)](https://discord.gg/wXy6m2X8wY)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9b356c4327df41e395c81de1c717ce11)](https://app.codacy.com/gh/cssnr/zipline-cli/dashboard)
-[![PyPI](https://img.shields.io/pypi/v/vultr-python)](https://pypi.org/project/zipline-cli/)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1eee626c47fa4e6fb8b1ed3efdd3e518)](https://app.codacy.com/gh/cssnr/zipline-cli/dashboard)
+[![PyPI](https://img.shields.io/pypi/v/zipline-cli)](https://pypi.org/project/zipline-cli/)
 [![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://zipline.diced.tech/)
 # Zipline CLI
 
 Python 3 CLI Uploader for Zipline.
 
--  Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
+*   Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
 
 This is currently a **WIP** and not complete, but has some useful functions.
 
@@ -63,7 +63,7 @@ zipline
 
 Environment Variables are stored in the `.zipline` file in your home directory.
 
--  Location: `~/.zipline`
+*   Location: `~/.zipline`
 
 | Variable       | Description                                                                 |
 |----------------|-----------------------------------------------------------------------------|

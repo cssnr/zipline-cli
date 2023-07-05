@@ -5,8 +5,8 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md'), 'r') as f:
     long_description = f.read()
 
 setup(
+    version='0.1.3',
     name='zipline-cli',
-    version='0.1.2',
     description='Python 3 CLI for Zipline',
     long_description=long_description,
     long_description_content_type="text/markdown",

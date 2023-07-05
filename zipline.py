@@ -12,10 +12,37 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, TextIO
 
 
+class ZipURL(object):
+    """
+    Zipline URL Object
+    :param file_url: str: Zipline File Display URL
+    """
+
+    __slots__ = ['url', 'raw']
+
+    def __init__(self, file_url: str):
+        self.url: str = file_url
+        self.raw: str = self._get_raw(file_url)
+
+    def __repr__(self):
+        return f'<url={self.url} raw={self.raw}>'
+
+    def __str__(self):
+        return self.url
+
+    @staticmethod
+    def _get_raw(url: str) -> str:
+        try:
+            s = url.split('/', 4)
+            return f"{s[0]}//{s[2]}/r/{s[4]}"
+        except Exception:
+            return ''
+
+
 class Zipline(object):
     """
     Zipline Python API
-    :param url: str: Zipline URL
+    :param base_url: str: Zipline URL
     :param kwargs: Zipline Headers
     """
     allowed_headers = ['format', 'image_compression_percent', 'expires_at',
@@ -23,19 +50,19 @@ class Zipline(object):
                        'authorization', 'no_json', 'x_zipline_filename',
                        'original_name', 'override_domain']
 
-    def __init__(self, zipline_url: str, **kwargs):
-        self.zipline_url: str = zipline_url.rstrip('/')
-        self.headers: Dict[str, str] = {}
+    def __init__(self, base_url: str, **kwargs):
+        self.base_url: str = base_url.rstrip('/')
+        self._headers: Dict[str, str] = {}
         for header, value in kwargs.items():
             if header.lower() not in self.allowed_headers:
                 continue
             if value is None:
                 continue
             key = header.replace('_', '-').title()
-            self.headers[key] = str(value)
+            self._headers[key] = str(value)
 
     def send_file(self, file_name: str, file_object: TextIO,
-                  overrides: Optional[dict] = None) -> str:
+                  overrides: Optional[dict] = None) -> ZipURL:
         """
         Send File to Zipline
         :param file_name: str: Name of File for files tuple
@@ -43,13 +70,25 @@ class Zipline(object):
         :param overrides: dict: Header Overrides
         :return: str: File URL
         """
-        url = self.zipline_url + '/api/upload'
+        url = self.base_url + '/api/upload'
         files = {'file': (file_name, file_object)}
-        headers = self.headers | overrides if overrides else self.headers
+        headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)
         r.raise_for_status()
-        return r.json()['files'][0]
+        return ZipURL(r.json()['files'][0])
         # return f'https://example.com/dummy/{file_name}'
+
+
+def format_output(filename: str, url: ZipURL) -> str:
+    """
+    Format URL Output
+    :param filename: str: Original or File Name
+    :param url: ZipURL: ZipURL to Format
+    :return: str: Formatted Output
+    """
+    if url.raw:
+        return f'{filename}\n{url}\n{url.raw}'
+    return f'{filename}\n{url}'
 
 
 def gen_rand(length: Optional[int] = 4) -> str:
@@ -153,22 +192,22 @@ def main() -> None:
         content: str = sys.stdin.read().rstrip('\n') + '\n'
         text_f: TextIO = io.StringIO(content)
         name = f'{gen_rand(8)}.txt'
-        url: str = zipline.send_file(name, text_f)
-        print(f'{name} -> {url}')
+        url: ZipURL = zipline.send_file(name, text_f)
+        print(format_output(name, url))
         sys.exit(0)
 
     exit_code = 1
-    for filename in args.files:
-        if not os.path.isfile(filename):
-            print(f'Warning: File Not Found: {filename}')
+    for name in args.files:
+        if not os.path.isfile(name):
+            print(f'Warning: File Not Found: {name}')
             continue
-        with open(filename) as f:
+        with open(name) as f:
             # name, ext = os.path.splitext(os.path.basename(filename))
             # ext = f'.{ext}' if ext else ''
             # name = f'{name}-{gen_rand(8)}{ext}'
             # url: str = zipline.send_file(name, f)
-            url: str = zipline.send_file(filename, f)
-            print(f'{filename} -> {url}')
+            url: ZipURL = zipline.send_file(name, f)
+            print(format_output(name, url))
             exit_code = 0
     sys.exit(exit_code)
 

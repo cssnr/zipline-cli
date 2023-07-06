@@ -157,7 +157,7 @@ def main() -> None:
                         help='Zipline Access Token for Authorization or ZIPLINE_TOKEN.')
     parser.add_argument('-e', '-x', '--expires_at', '--expire', type=str, default=get_default(['expire', 'expire_at']),
                         help='Ex: 1d, 2w. See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration')
-    parser.add_argument('--embed', action=argparse.BooleanOptionalAction, default=get_default(['embed'], False, bool),
+    parser.add_argument('--embed', action='store_true', default=get_default(['embed'], False, bool),
                         help='Enable Embeds on Uploads.')
     parser.add_argument('-s', '--setup', action='store_true', default=False,
                         help='Automatic Setup of Environment Variables.')

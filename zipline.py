@@ -17,7 +17,6 @@ class ZipURL(object):
     Zipline URL Object
     :param file_url: str: Zipline File Display URL
     """
-
     __slots__ = ['url', 'raw']
 
     def __init__(self, file_url: str):
@@ -76,7 +75,6 @@ class Zipline(object):
         r = requests.post(url, headers=headers, files=files)
         r.raise_for_status()
         return ZipURL(r.json()['files'][0])
-        # return f'https://example.com/dummy/{file_name}'
 
 
 def format_output(filename: str, url: ZipURL) -> str:
@@ -86,9 +84,8 @@ def format_output(filename: str, url: ZipURL) -> str:
     :param url: ZipURL: ZipURL to Format
     :return: str: Formatted Output
     """
-    if url.raw:
-        return f'{filename}\n{url}\n{url.raw}'
-    return f'{filename}\n{url}'
+    zipline_format = config('ZIPLINE_FORMAT', '{filename}\n{url}\n{raw_url}')
+    return zipline_format.format(filename=filename, url=url, raw_url=url.raw)
 
 
 def gen_rand(length: Optional[int] = 4) -> str:

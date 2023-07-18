@@ -140,7 +140,7 @@ def setup(env_file: Path) -> None:
     sys.exit(0)
 
 
-def main() -> None:
+def run() -> None:
     zipline_file = '.zipline'
     env_file = Path(os.path.expanduser('~')) / zipline_file
     dotenv_path = env_file if os.path.isfile(env_file) else find_dotenv(filename=zipline_file)
@@ -209,11 +209,15 @@ def main() -> None:
     sys.exit(exit_code)
 
 
-if __name__ == '__main__':
+def main() -> None:
     try:
-        main()
+        run()
     except KeyboardInterrupt:
         sys.exit(1)
     except Exception as error:
         print('\nError: {}'.format(str(error)))
         sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()

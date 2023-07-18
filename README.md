@@ -96,13 +96,13 @@ Environment Variables are stored in the `.zipline` file in your home directory.
 
 *   Location: `~/.zipline` or `$HOME/.zipline`
 
-| Variable       | Description                                                                  |
-|----------------|------------------------------------------------------------------------------|
-| ZIPLINE_URL    | URL to your Zipline Instance                                                 |
-| ZIPLINE_TOKEN  | Authorization Token from Zipline                                             |
-| ZIPLINE_EMBED  | Set this enable Embed on your uploads                                        |
-| ZIPLINE_FORMAT | Output Format after upload. Available variables: `{url.url}` and `{url.raw}` |
-| ZIPLINE_EXPIRE | See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration  |
+| Variable       | Description                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+| ZIPLINE_URL    | URL to your Zipline Instance                                                |
+| ZIPLINE_TOKEN  | Authorization Token from Zipline                                            |
+| ZIPLINE_EMBED  | Set this enable Embed on your uploads                                       |
+| ZIPLINE_FORMAT | Output Format after upload. Available variables: `{url}` and `{raw_url}`    |
+| ZIPLINE_EXPIRE | See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration |
 
 You may override them by exporting the variables in your current environment
 or using the corresponding command line arguments. See `-h` for more info.

@@ -2,6 +2,7 @@
 [![PyPI](https://img.shields.io/github/issues-raw/cssnr/zipline-cli?logo=github&logoColor=white&label=Issues)](https://github.com/cssnr/zipline-cli/issues)
 [![Codacy Badge](https://img.shields.io/codacy/grade/1eee626c47fa4e6fb8b1ed3efdd3e518?logo=codacy&logoColor=white&label=Codacy)](https://app.codacy.com/gh/cssnr/zipline-cli/dashboard)
 [![PyPI](https://img.shields.io/pypi/v/zipline-cli?logo=python&logoColor=white&label=PyPi)](https://pypi.org/project/zipline-cli/)
+[![Build Status](https://drone.hosted-domains.com/api/badges/cssnr/zipline-cli/status.svg)](https://drone.hosted-domains.com/cssnr/zipline-cli)
 [![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://github.com/cssnr/zipline-cli)
 # Zipline CLI
 
@@ -95,12 +96,13 @@ Environment Variables are stored in the `.zipline` file in your home directory.
 
 *   Location: `~/.zipline` or `$HOME/.zipline`
 
-| Variable       | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| ZIPLINE_URL    | URL to your Zipline Instance                                                |
-| ZIPLINE_TOKEN  | Authorization Token from Zipline                                            |
-| ZIPLINE_EMBED  | Set this enable Embed on your uploads                                       |
-| ZIPLINE_EXPIRE | See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration |
+| Variable       | Description                                                                  |
+|----------------|------------------------------------------------------------------------------|
+| ZIPLINE_URL    | URL to your Zipline Instance                                                 |
+| ZIPLINE_TOKEN  | Authorization Token from Zipline                                             |
+| ZIPLINE_EMBED  | Set this enable Embed on your uploads                                        |
+| ZIPLINE_FORMAT | Output Format after upload. Available variables: `{url.url}` and `{url.raw}` |
+| ZIPLINE_EXPIRE | See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration  |
 
 You may override them by exporting the variables in your current environment
 or using the corresponding command line arguments. See `-h` for more info.

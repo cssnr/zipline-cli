@@ -1,4 +1,5 @@
 ZIPLINE_URL=https://i.cssnr.com/
 ZIPLINE_TOKEN=LlMPn29pIhfFHiCeNFJPtr8h.7gdjTxk5bpnSdMZNSF
 ZIPLINE_EMBED=True
-ZIPLINE_EXPIRE=
+ZIPLINE_FORMAT="{filename} -> {url}\n{raw_url}"
+ZIPLINE_EXPIRE=1y

@@ -6,6 +6,10 @@ name: test-amd64
 platform:
   arch: amd64
 
+trigger:
+  event:
+    - push
+
 environment:
   ZIPLINE_URL: http://zipline:3000/
 

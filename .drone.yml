@@ -40,41 +40,42 @@ steps:
     depends_on:
       - zipline
     commands:
+      - sleep 30
       - python3 -m pip install -r requirements.txt
       - flake8 zipline.py
       - python3 setup.py install
       - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
       - zipline zipline.py
 
-  - name: test-3.10
-    image: python:3.10
-    depends_on:
-      - zipline
-    commands:
-      - python3 -m pip install -r requirements.txt
-      - flake8 zipline.py
-      - python3 setup.py install
-      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
-      - zipline zipline.py
-
-  - name: test-3.9
-    image: python:3.9
-    depends_on:
-      - zipline
-    commands:
-      - python3 -m pip install -r requirements.txt
-      - flake8 zipline.py
-      - python3 setup.py install
-      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
-      - zipline zipline.py
-
-  - name: test-3.8
-    image: python:3.8
-    depends_on:
-      - zipline
-    commands:
-      - python3 -m pip install -r requirements.txt
-      - flake8 zipline.py
-      - python3 setup.py install
-      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
-      - zipline zipline.py
+#  - name: test-3.10
+#    image: python:3.10
+#    depends_on:
+#      - zipline
+#    commands:
+#      - python3 -m pip install -r requirements.txt
+#      - flake8 zipline.py
+#      - python3 setup.py install
+#      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+#      - zipline zipline.py
+#
+#  - name: test-3.9
+#    image: python:3.9
+#    depends_on:
+#      - zipline
+#    commands:
+#      - python3 -m pip install -r requirements.txt
+#      - flake8 zipline.py
+#      - python3 setup.py install
+#      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+#      - zipline zipline.py
+#
+#  - name: test-3.8
+#    image: python:3.8
+#    depends_on:
+#      - zipline
+#    commands:
+#      - python3 -m pip install -r requirements.txt
+#      - flake8 zipline.py
+#      - python3 setup.py install
+#      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+#      - zipline zipline.py

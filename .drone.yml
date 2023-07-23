@@ -31,29 +31,19 @@ services:
       CORE_RETURN_HTTPS: false
       CORE_SECRET: H8Y9lSs48w3HwOgFfpaF0G
       CORE_DATABASE_URL: postgres://postgres:postgres@postgres/postgres
-    command:
-      - echo $${ZIPLINE_URL}
-      - while ! wget --spider http://zipline:3000/; do sleep 1; done
     depends_on:
       - postgres
 
 steps:
-#  - name: Services Health Check
-#    image: nicolaka/netshoot
-#    commands:
-#      - echo one ${ZIPLINE_URL}
-#      - echo two $${ZIPLINE_URL}
-#      - while ! curl --silent http://zipline:3000/; do sleep 1; done
-
   - name: test-3.11
     image: python:3.11
     depends_on:
       - zipline
     commands:
-#      - sleep 30
       - python3 -m pip install -r requirements.txt
       - flake8 zipline.py
       - python3 setup.py install
+      - echo $${ZIPLINE_URL}
       - while ! curl --silent http://zipline:3000/; do sleep 1; done
       - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
       - zipline zipline.py

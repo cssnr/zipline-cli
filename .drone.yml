@@ -21,8 +21,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DATABASE: postgres
-    command:
-      - while ! pg_isready -U postgres; do sleep 1; done
 
   - name: zipline
     hostname: zipline

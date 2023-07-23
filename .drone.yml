@@ -15,7 +15,6 @@ environment:
 
 services:
   - name: postgres
-    hostname: postgres
     image: postgres:15
     environment:
       POSTGRES_USER: postgres
@@ -23,8 +22,7 @@ services:
       POSTGRES_DATABASE: postgres
 
   - name: zipline
-    hostname: zipline
-    image: ghcr.io/diced/zipline:3.7.1
+    image: ghcr.io/diced/zipline:latest
     environment:
       DEBUG: true
       CORE_PORT: 3000

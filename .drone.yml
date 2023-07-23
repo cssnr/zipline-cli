@@ -43,40 +43,42 @@ steps:
       - python3 -m pip install -r requirements.txt
       - flake8 zipline.py
       - python3 setup.py install
-      - echo $${ZIPLINE_URL}
-      - while ! curl --silent http://zipline:3000/; do sleep 1; done
+      - while ! curl --silent $${ZIPLINE_URL}; do sleep 1; done
       - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
       - zipline zipline.py
 
-#  - name: test-3.10
-#    image: python:3.10
-#    depends_on:
-#      - zipline
-#    commands:
-#      - python3 -m pip install -r requirements.txt
-#      - flake8 zipline.py
-#      - python3 setup.py install
-#      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
-#      - zipline zipline.py
-#
-#  - name: test-3.9
-#    image: python:3.9
-#    depends_on:
-#      - zipline
-#    commands:
-#      - python3 -m pip install -r requirements.txt
-#      - flake8 zipline.py
-#      - python3 setup.py install
-#      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
-#      - zipline zipline.py
-#
-#  - name: test-3.8
-#    image: python:3.8
-#    depends_on:
-#      - zipline
-#    commands:
-#      - python3 -m pip install -r requirements.txt
-#      - flake8 zipline.py
-#      - python3 setup.py install
-#      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
-#      - zipline zipline.py
+  - name: test-3.10
+    image: python:3.10
+    depends_on:
+      - zipline
+    commands:
+      - python3 -m pip install -r requirements.txt
+      - flake8 zipline.py
+      - python3 setup.py install
+      - while ! curl --silent $${ZIPLINE_URL}; do sleep 1; done
+      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+      - zipline zipline.py
+
+  - name: test-3.9
+    image: python:3.9
+    depends_on:
+      - zipline
+    commands:
+      - python3 -m pip install -r requirements.txt
+      - flake8 zipline.py
+      - python3 setup.py install
+      - while ! curl --silent $${ZIPLINE_URL}; do sleep 1; done
+      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+      - zipline zipline.py
+
+  - name: test-3.8
+    image: python:3.8
+    depends_on:
+      - zipline
+    commands:
+      - python3 -m pip install -r requirements.txt
+      - flake8 zipline.py
+      - python3 setup.py install
+      - while ! curl --silent $${ZIPLINE_URL}; do sleep 1; done
+      - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+      - zipline zipline.py

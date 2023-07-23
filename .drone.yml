@@ -40,6 +40,13 @@ services:
       - postgres
 
 steps:
+#  - name: Services Health Check
+#    image: nicolaka/netshoot
+#    commands:
+#      - echo one ${ZIPLINE_URL}
+#      - echo two $${ZIPLINE_URL}
+#      - while ! curl --silent http://zipline:3000/; do sleep 1; done
+
   - name: test-3.11
     image: python:3.11
     depends_on:
@@ -49,6 +56,7 @@ steps:
       - python3 -m pip install -r requirements.txt
       - flake8 zipline.py
       - python3 setup.py install
+      - while ! curl --silent http://zipline:3000/; do sleep 1; done
       - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
       - zipline zipline.py
 

@@ -40,7 +40,7 @@ steps:
     commands:
       - python3 -m pip install -r requirements.txt
       - flake8 zipline.py
-      - python3 setup.py install
+      - python3 -m pip install -e .
       - while ! curl --silent $${ZIPLINE_URL}; do sleep 1; done
       - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
       - zipline zipline.py
@@ -52,7 +52,7 @@ steps:
     commands:
       - python3 -m pip install -r requirements.txt
       - flake8 zipline.py
-      - python3 setup.py install
+      - python3 -m pip install -e .
       - while ! curl --silent $${ZIPLINE_URL}; do sleep 1; done
       - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
       - zipline zipline.py
@@ -64,7 +64,7 @@ steps:
     commands:
       - python3 -m pip install -r requirements.txt
       - flake8 zipline.py
-      - python3 setup.py install
+      - python3 -m pip install -e .
       - while ! curl --silent $${ZIPLINE_URL}; do sleep 1; done
       - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
       - zipline zipline.py
@@ -76,7 +76,7 @@ steps:
     commands:
       - python3 -m pip install -r requirements.txt
       - flake8 zipline.py
-      - python3 setup.py install
+      - python3 -m pip install -e .
       - while ! curl --silent $${ZIPLINE_URL}; do sleep 1; done
       - export ZIPLINE_TOKEN=$(python3 get_test_token.py)
       - zipline zipline.py

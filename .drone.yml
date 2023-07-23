@@ -21,6 +21,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DATABASE: postgres
+    command:
+      - while ! pg_isready -U postgres; do sleep 1; done
 
   - name: zipline
     hostname: zipline
@@ -31,6 +33,9 @@ services:
       CORE_RETURN_HTTPS: false
       CORE_SECRET: H8Y9lSs48w3HwOgFfpaF0G
       CORE_DATABASE_URL: postgres://postgres:postgres@postgres/postgres
+    command:
+      - echo $${ZIPLINE_URL}
+      - while ! wget --spider http://zipline:3000/; do sleep 1; done
     depends_on:
       - postgres
 
@@ -40,7 +45,7 @@ steps:
     depends_on:
       - zipline
     commands:
-      - sleep 30
+#      - sleep 30
       - python3 -m pip install -r requirements.txt
       - flake8 zipline.py
       - python3 setup.py install

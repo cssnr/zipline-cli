@@ -24,7 +24,7 @@ services:
 
   - name: zipline
     hostname: zipline
-    image: ghcr.io/diced/zipline:latest
+    image: ghcr.io/diced/zipline:3.7.1
     environment:
       DEBUG: true
       CORE_PORT: 3000

@@ -20,14 +20,14 @@ jobs:
     services:
       postgres:
         image: postgres:15
-        environment:
+        env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DATABASE: postgres
 
       zipline:
         image: ghcr.io/diced/zipline:latest
-        environment:
+        env:
           DEBUG: true
           CORE_PORT: 3000
           CORE_RETURN_HTTPS: false

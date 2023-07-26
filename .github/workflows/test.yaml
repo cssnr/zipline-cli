@@ -16,7 +16,7 @@ jobs:
         os: [ubuntu-22.04]
         version: ["3.11"]
     runs-on: ${{ matrix.os }}
-    container: ubuntu:focal
+    container: ubuntu:latest
 
     services:
       postgres:

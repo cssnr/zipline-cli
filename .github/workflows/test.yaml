@@ -1,4 +1,4 @@
-name: Test
+name: Build/Test
 
 on:
   push:
@@ -47,18 +47,21 @@ jobs:
         with:
           python-version: ${{ matrix.version }}
 
-      - name: "Setup pip ${{ matrix.version }}"
+      - name: "Pip Install ${{ matrix.version }}"
         run: |
           python -m pip install -U pip
           python -m pip install -Ur requirements.txt
           pip install flake8 coverage
 
-      - name: "Lint ${{ matrix.version }}"
+      - name: "Flake8 ${{ matrix.version }}"
         run: flake8 zipline.py
+
+      - name: "Build ${{ matrix.version }}"
+        run: |
+          python -m pip install -e .
 
       - name: "Test ${{ matrix.version }}"
         run: |
-          python -m pip install -e .
           echo ZIPLINE_URL: ${ZIPLINE_URL}
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
           echo ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}

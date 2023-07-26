@@ -1,7 +1,7 @@
 [![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=Discord)](https://discord.gg/wXy6m2X8wY)
 [![Issues](https://img.shields.io/github/issues-raw/cssnr/zipline-cli?logo=github&logoColor=white&label=Issues)](https://github.com/cssnr/zipline-cli/issues)
 [![Codacy](https://img.shields.io/codacy/grade/1eee626c47fa4e6fb8b1ed3efdd3e518?logo=codacy&logoColor=white&label=Codacy)](https://app.codacy.com/gh/cssnr/zipline-cli/dashboard)
-[![Drone](https://img.shields.io/drone/build/cssnr/zipline-cli?server=https%3A%2F%2Fdrone.hosted-domains.com&logo=drone&label=Build)](https://drone.hosted-domains.com/cssnr/zipline-cli)
+[![Build](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml/badge.svg)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
 [![PyPI](https://img.shields.io/pypi/v/zipline-cli?logo=python&logoColor=white&label=PyPI)](https://pypi.org/project/zipline-cli/)
 [![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://github.com/cssnr/zipline-cli)
 # Zipline CLI

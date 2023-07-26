@@ -55,9 +55,9 @@ jobs:
       - name: "Test ${{ matrix.version }}"
         run: |
           python -m pip install -e .
-          echo sleep 15
-          sleep 15
+          echo ZIPLINE_URL: ${ZIPLINE_URL}
           curl -Iv ${ZIPLINE_URL}
           #while ! curl --silent ${ZIPLINE_URL}; do sleep 1; done
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+          echo ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}
           zipline zipline.py

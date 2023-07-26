@@ -24,6 +24,8 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DATABASE: postgres
+        ports:
+          - 5432:5432
 
       zipline:
         image: ghcr.io/diced/zipline:latest

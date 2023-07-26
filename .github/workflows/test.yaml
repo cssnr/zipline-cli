@@ -33,8 +33,6 @@ jobs:
           CORE_RETURN_HTTPS: false
           CORE_SECRET: H8Y9lSs48w3HwOgFfpaF0G
           CORE_DATABASE_URL: postgres://postgres:postgres@postgres/postgres
-        depends_on:
-          - postgres
 
     steps:
       - name: "Checkout"

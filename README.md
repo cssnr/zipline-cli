@@ -1,7 +1,7 @@
-[![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=Discord)](https://discord.gg/wXy6m2X8wY)
-[![Issues](https://img.shields.io/github/issues-raw/cssnr/zipline-cli?logo=github&logoColor=white&label=Issues)](https://github.com/cssnr/zipline-cli/issues)
-[![Codacy](https://img.shields.io/codacy/grade/1eee626c47fa4e6fb8b1ed3efdd3e518?logo=codacy&logoColor=white&label=Codacy)](https://app.codacy.com/gh/cssnr/zipline-cli/dashboard)
-[![Drone](https://img.shields.io/drone/build/cssnr/zipline-cli?server=https%3A%2F%2Fdrone.hosted-domains.com&logo=drone&label=Build)](https://drone.hosted-domains.com/cssnr/zipline-cli)
+[![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=Discord&color=31c754)](https://discord.gg/wXy6m2X8wY)
+[![Issues](https://img.shields.io/github/issues-raw/cssnr/zipline-cli?logo=github&logoColor=white&label=Issues&color=31c754)](https://github.com/cssnr/zipline-cli/issues)
+[![Codacy](https://img.shields.io/codacy/grade/1eee626c47fa4e6fb8b1ed3efdd3e518?logo=codacy&logoColor=white&label=Codacy&color=31c754)](https://app.codacy.com/gh/cssnr/zipline-cli/dashboard)
+[![Build](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml/badge.svg)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
 [![PyPI](https://img.shields.io/pypi/v/zipline-cli?logo=python&logoColor=white&label=PyPI)](https://pypi.org/project/zipline-cli/)
 [![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://github.com/cssnr/zipline-cli)
 # Zipline CLI
@@ -9,7 +9,7 @@
 Python 3 CLI Uploader for Zipline.
 Zipline CLI is currently functional and **Under Active Development**.  
 Please open a [Feature Request](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
-for new features and submit an [Issue](https://github.com/cssnr/zipline-cli/issues)
+for new features and submit an [Issue](https://github.com/cssnr/zipline-cli/issues/new)
 for any bugs you find.
 
 *   Zipline Docs: [https://zipline.diced.tech/](https://zipline.diced.tech/)
@@ -107,7 +107,7 @@ Environment Variables are stored in the `.zipline` file in your home directory.
 See [.zipline.example](.zipline.example) for an example `.zipline` file.
 
 You may override them by exporting the variables in your current environment
-or using the corresponding command line arguments. See `-h` for more info.
+or using the corresponding command line arguments. Use `zipline -h` for more info.
 
 ## Python API Reference
 

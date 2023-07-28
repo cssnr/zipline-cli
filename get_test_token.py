@@ -3,9 +3,8 @@ import sys
 import psycopg2
 import requests
 
-query = 'SELECT "token" FROM public."User" WHERE id=1 ORDER BY id ASC;'
 pg_data = {
-    'host': 'postgres',
+    'host': 'localhost',
     'database': 'postgres',
     'user': 'postgres',
     'password': 'postgres',
@@ -15,9 +14,10 @@ zip_data = {
     'password': 'password',
     'code': None,
 }
+query = 'SELECT "token" FROM public."User" WHERE id=1 ORDER BY id ASC;'
 
 # set zipline url
-zip_uri = os.environ.get('ZIPLINE_URL', 'http://zipline:3000').rstrip('/')
+zip_uri = os.environ.get('ZIPLINE_URL', 'http://localhost:3000').rstrip('/')
 zip_url = f'{zip_uri}/api/auth/login'
 
 # log in to create account

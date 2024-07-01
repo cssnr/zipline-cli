@@ -9,7 +9,7 @@ import sys
 from decouple import config
 from dotenv import find_dotenv, load_dotenv
 from pathlib import Path
-from typing import Any, Dict, List, Optional, TextIO
+from typing import Any, Dict, List, Optional, TextIO, BinaryIO, Union
 
 
 class ZipURL(object):
@@ -60,7 +60,7 @@ class Zipline(object):
             key = header.replace('_', '-').title()
             self._headers[key] = str(value)
 
-    def send_file(self, file_name: str, file_object: TextIO,
+    def send_file(self, file_name: str, file_object: Union[BinaryIO, TextIO],
                   overrides: Optional[dict] = None) -> ZipURL:
         """
         Send File to Zipline
@@ -198,7 +198,7 @@ def run() -> None:
         if not os.path.isfile(name):
             print(f'Warning: File Not Found: {name}')
             continue
-        with open(name) as f:
+        with open(name, 'rb') as f:
             # name, ext = os.path.splitext(os.path.basename(filename))
             # ext = f'.{ext}' if ext else ''
             # name = f'{name}-{gen_rand(8)}{ext}'

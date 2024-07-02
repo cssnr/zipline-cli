@@ -1,14 +1,25 @@
 import os
+import re
 from setuptools import setup
-from packaging.version import parse, InvalidVersion
+# from packaging.version import parse, InvalidVersion
 
 
-def get_version() -> str:
-    try:
-        ref = os.environ.get('GITHUB_REF_NAME', '0.0.1')
-        version = parse(ref)
-        return version.public
-    except InvalidVersion:
+# def get_version() -> str:
+#     try:
+#         ref = os.environ.get('GITHUB_REF_NAME', '0.0.1')
+#         version = parse(ref)
+#         return version.public
+#     except InvalidVersion:
+#         return '0.0.1'
+
+
+def get_version():
+    version = os.environ.get('GITHUB_REF_NAME', '0.0.1')
+    pattern = r'^(\d+)\.(\d+)\.(\d+)(?:-(\w+|\d+)\.(\w+|\d+))?$'
+    match = re.match(pattern, version)
+    if match:
+        return version
+    else:
         return '0.0.1'
 
 

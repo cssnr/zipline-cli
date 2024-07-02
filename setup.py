@@ -37,7 +37,6 @@ setup(
     author_email='shane@sapps.me',
     py_modules=['zipline'],
     install_requires=['requests', 'python-decouple', 'python-dotenv'],
-    setup_requires=['packaging', 'setuptools', 'wheel'],
     python_requires='>=3.8',
     include_package_data=True,
     zip_safe=False,

@@ -1,6 +1,5 @@
 build
 flake8
-packaging
 psycopg2
 python-decouple
 python-dotenv

@@ -1,18 +1,21 @@
 [![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=Discord&color=31c754)](https://discord.gg/wXy6m2X8wY)
 [![Issues](https://img.shields.io/github/issues-raw/cssnr/zipline-cli?logo=github&logoColor=white&label=Issues&color=31c754)](https://github.com/cssnr/zipline-cli/issues)
 [![Codacy](https://img.shields.io/codacy/grade/1eee626c47fa4e6fb8b1ed3efdd3e518?logo=codacy&logoColor=white&label=Codacy&color=31c754)](https://app.codacy.com/gh/cssnr/zipline-cli/dashboard)
-[![Build](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml/badge.svg)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
+[![Test](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml/badge.svg)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
+[![Build](https://github.com/cssnr/zipline-cli/actions/workflows/build.yaml/badge.svg)](https://github.com/cssnr/zipline-cli/actions/workflows/build.yaml)
+[![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/zipline-cli?logo=github)](https://github.com/cssnr/zipline-cli/releases/latest)
 [![PyPI](https://img.shields.io/pypi/v/zipline-cli?logo=python&logoColor=white&label=PyPI)](https://pypi.org/project/zipline-cli/)
 [![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://github.com/cssnr/zipline-cli)
 # Zipline CLI
 
-Python 3 CLI Uploader for Zipline.
+Python 3 CLI Uploader for Zipline and Django Files.
 Zipline CLI is currently functional and **Under Active Development**.  
 Please open a [Feature Request](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
 for new features and submit an [Issue](https://github.com/cssnr/zipline-cli/issues/new)
 for any bugs you find.
 
-*   Zipline Docs: [https://zipline.diced.tech/](https://zipline.diced.tech/)
+*   Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
+*   Django Files: [https://django-files.github.io/](https://django-files.github.io/)
 
 ## Table of Contents
 
@@ -96,13 +99,14 @@ Environment Variables are stored in the `.zipline` file in your home directory.
 
 *   Location: `~/.zipline` or `$HOME/.zipline`
 
-| Variable       | Description                                                                  |
-|----------------|------------------------------------------------------------------------------|
-| ZIPLINE_URL    | URL to your Zipline Instance                                                 |
-| ZIPLINE_TOKEN  | Authorization Token from Zipline                                             |
-| ZIPLINE_EMBED  | Set this enable Embed on your uploads                                        |
-| ZIPLINE_FORMAT | Output Format after upload. Variables: `{filename}`, `{url}` and `{raw_url}` |
-| ZIPLINE_EXPIRE | See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration  |
+| Variable       | Description                                                                                       |
+|----------------|---------------------------------------------------------------------------------------------------|
+| ZIPLINE_URL    | URL to your Zipline Instance                                                                      |
+| ZIPLINE_TOKEN  | Authorization Token from Zipline                                                                  |
+| ZIPLINE_EMBED  | Set this enable Embed on your uploads                                                             |
+| ZIPLINE_FORMAT | Output Format after upload. Variables: `{filename}`, `{url}` and `{raw_url}`                      |
+| ZIPLINE_EXPIRE | Zipline: https://zipline.diced.tech/docs/guides/upload-options#image-expiration                   |
+| ZIPLINE_EXPIRE | Django Files: https://github.com/onegreyonewhite/pytimeparse2#pytimeparse2-time-expression-parser |
 
 See [.zipline.example](.zipline.example) for an example `.zipline` file.
 
@@ -137,5 +141,3 @@ Still have questions, concerns, or comments?
 *   [Feature Requests](https://github.com/cssnr/zipline-cli/discussions/categories/feature-requests)
 *   [Helpdesk Q&A](https://github.com/cssnr/zipline-cli/discussions/categories/helpdesk-q-a)
 *   [Discord](https://discord.gg/wXy6m2X8wY)
-
-> Zipline Guide: Hit That Fresh Nar Nar: [youtube.com/watch?v=bJHYo2aGWgE](https://www.youtube.com/watch?v=bJHYo2aGWgE)

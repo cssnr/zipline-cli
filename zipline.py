@@ -9,7 +9,7 @@ import sys
 from decouple import config
 from dotenv import find_dotenv, load_dotenv
 from pathlib import Path
-from typing import Any, Dict, List, Optional, TextIO
+from typing import Any, Dict, List, Optional, TextIO, BinaryIO, Union
 
 
 class ZipURL(object):
@@ -60,7 +60,7 @@ class Zipline(object):
             key = header.replace('_', '-').title()
             self._headers[key] = str(value)
 
-    def send_file(self, file_name: str, file_object: TextIO,
+    def send_file(self, file_name: str, file_object: Union[BinaryIO, TextIO],
                   overrides: Optional[dict] = None) -> ZipURL:
         """
         Send File to Zipline
@@ -75,6 +75,16 @@ class Zipline(object):
         r = requests.post(url, headers=headers, files=files)
         r.raise_for_status()
         return ZipURL(r.json()['files'][0])
+
+
+def get_mode(file_path: str, blocksize: int = 512) -> str:
+    try:
+        with open(file_path, 'rb') as file:
+            chunk = file.read(blocksize)
+        chunk.decode('utf-8')
+    except UnicodeDecodeError:
+        return 'rb'
+    return 'r'
 
 
 def format_output(filename: str, url: ZipURL) -> str:
@@ -94,7 +104,7 @@ def gen_rand(length: Optional[int] = 4) -> str:
     :param length: int: Length of Random String
     :return: str: Random String
     """
-    length: int = length if not length < 0 else 4
+    length: int = length if length >= 0 else 4
     return ''.join(random.choice(string.ascii_letters) for _ in range(length))
 
 
@@ -198,7 +208,8 @@ def run() -> None:
         if not os.path.isfile(name):
             print(f'Warning: File Not Found: {name}')
             continue
-        with open(name) as f:
+        mode = get_mode(name)
+        with open(name, mode) as f:
             # name, ext = os.path.splitext(os.path.basename(filename))
             # ext = f'.{ext}' if ext else ''
             # name = f'{name}-{gen_rand(8)}{ext}'

@@ -5,7 +5,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md'), 'r') as f:
     long_description = f.read()
 
 setup(
-    version='0.1.5',
+    version=os.environ.get('GITHUB_REF_NAME', '0.0.1'),
     name='zipline-cli',
     description='Python 3 CLI for Zipline',
     long_description=long_description,
@@ -15,7 +15,7 @@ setup(
     author_email='shane@sapps.me',
     py_modules=['zipline'],
     install_requires=['requests', 'python-decouple', 'python-dotenv'],
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     include_package_data=True,
     zip_safe=False,
     platforms='any',

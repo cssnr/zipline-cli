@@ -8,4 +8,4 @@ zipline_cli.*/
 *.log
 *.pyc
 .coverage
-.zipline
+.zipline*

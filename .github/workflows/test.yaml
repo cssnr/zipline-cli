@@ -84,4 +84,6 @@ jobs:
         run: |
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
           echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
+          zipline README.md ||:
+          sleep 3
           zipline README.md

@@ -28,6 +28,10 @@ time.sleep(3)
 # login
 r = requests.post(f"{zip_uri}/api/auth/login", json=zip_data)
 r.raise_for_status()
+time.sleep(3)
+r = requests.post(f"{zip_uri}/api/auth/login", json=zip_data)
+r.raise_for_status()
+time.sleep(3)
 
 # get token from postgres
 with psycopg2.connect(**pg_data) as conn:  # type: ignore

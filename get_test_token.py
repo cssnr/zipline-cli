@@ -20,9 +20,6 @@ query = 'SELECT "token" FROM public."User" WHERE id=1 ORDER BY id ASC;'
 zip_uri = os.environ.get('ZIPLINE_URL', 'http://localhost:3000').rstrip('/')
 zip_url = f'{zip_uri}/api/auth/login'
 
-print(f'zip_uri: {zip_uri}')
-print(f'zip_url: {zip_url}')
-
 # log in to create account
 r = requests.post(zip_url, json=zip_data)
 r.raise_for_status()

@@ -50,11 +50,11 @@ jobs:
           file_glob: true
           file: dist/*
 
-      #- name: "Publish to Test PyPI"
-      #  if: ${{ github.event.release.prerelease }}
-      #  uses: pypa/gh-action-pypi-publish@release/v1
-      #  with:
-      #    repository-url: https://test.pypi.org/legacy/
+      - name: "Publish to Test PyPI"
+        if: ${{ github.event.release.prerelease }}
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
 
       #- name: "Publish to PyPI"
       #  if: ${{ !github.event.release.prerelease }}

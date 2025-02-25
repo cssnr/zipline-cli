@@ -1,20 +1,20 @@
-# Project
+# Dependencies
 
-flake8
-psycopg2
 python-decouple
 python-dotenv
 requests
 
-# Tools
+# Development
 
 black
 build
 coverage
+flake8
 isort
 mypy
 pytest
 python-decouple-typed
+psycopg2
 ruff
 setuptools
 twine

@@ -29,7 +29,7 @@ jobs:
           - 5432:5432
 
       zipline:
-        image: ghcr.io/diced/zipline:latest
+        image: ghcr.io/diced/zipline:v3
         env:
           DEBUG: true
           CORE_PORT: 3000

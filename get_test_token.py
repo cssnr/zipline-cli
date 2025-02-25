@@ -17,7 +17,7 @@ zip_data = {
 query = 'SELECT "token" FROM public."User" WHERE id=1 ORDER BY id ASC;'
 
 # set zipline url
-zip_uri = os.environ.get('ZIPLINE_URL', 'http://127.0.0.1:3000').rstrip('/')
+zip_uri = os.environ.get('ZIPLINE_URL', 'http://localhost:3000').rstrip('/')
 zip_url = f'{zip_uri}/api/auth/login'
 
 print(f'zip_uri: {zip_uri}')

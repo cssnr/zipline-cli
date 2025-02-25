@@ -60,6 +60,13 @@ jobs:
       - name: "Build ${{ matrix.version }}"
         run: python -m pip install -e .
 
+      - name: "Debug ${{ matrix.version }}"
+        run: |
+          ping -c 1 localhost || :
+          ping -c 1 127.0.0.1 || :
+          curl -I localhost:3000 || :
+          curl -I 127.0.0.1:3000 || :
+
       - name: "Test ${{ matrix.version }}"
         run: |
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)

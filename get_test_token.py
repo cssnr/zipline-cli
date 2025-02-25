@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 import psycopg2
 import requests
@@ -23,6 +24,7 @@ zip_uri = os.environ.get("ZIPLINE_URL", "http://localhost:3000").rstrip("/")
 # setup
 r = requests.post(f"{zip_uri}/api/setup", json=zip_data)
 r.raise_for_status()
+time.sleep(5)
 # login
 r = requests.post(f"{zip_uri}/auth/login", json=zip_data)
 r.raise_for_status()

@@ -22,7 +22,7 @@ license = { text = "MIT License" }
 #license = { file = "LICENSE" }
 
 [project.scripts]
-my-script = "zipline:main"
+zipline = "zipline:main"
 
 [project.urls]
 Homepage = "https://cssnr.com/"

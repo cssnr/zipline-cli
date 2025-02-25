@@ -43,7 +43,7 @@ jobs:
       - name: "Flake8"
         if: ${{ always() }}
         run: |
-          flake8 zipline.py
+          flake8 --max-line-length 119 --extend-exclude ".github" .
 
       - name: "Ruff"
         if: ${{ always() }}
@@ -60,7 +60,7 @@ jobs:
       - name: "Mypy"
         if: ${{ always() }}
         run: |
-          mypy src
+          mypy .
 
       - name: "Prettier"
         if: ${{ always() }}

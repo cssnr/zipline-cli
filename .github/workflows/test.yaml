@@ -45,7 +45,7 @@ jobs:
           DEBUG: true
           CORE_PORT: 3000
           CORE_RETURN_HTTPS: false
-          CORE_SECRET: H8Y9lSs48w3HwOgFfpaF0G
+          CORE_SECRET: NasMA3ByEXw5P65Gcx8BZOB9QhJN5qom
           DATABASE_URL: postgres://postgres:postgres@postgres/postgres
         ports:
           - 3000:3000
@@ -82,8 +82,8 @@ jobs:
 
       - name: "Test ${{ matrix.version }}"
         run: |
-          ping -c1 localhost ||:
           curl -Iv "${ZIPLINE_URL}" ||:
+          sleep 3
           curl -Iv "http://127.0.0.1:3000" ||:
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
           echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"

@@ -1,7 +1,23 @@
-build
+# Project
+
 flake8
 psycopg2
 python-decouple
 python-dotenv
 requests
+
+# Tools
+
+black
+build
+coverage
+isort
+mypy
+pytest
+python-decouple-typed
+ruff
+setuptools
+twine
+types-psycopg2
+types-requests
 wheel

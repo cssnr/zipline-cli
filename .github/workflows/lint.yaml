@@ -40,6 +40,10 @@ jobs:
           python -m pip install -Ur requirements.txt
           python -m pip install -e .
 
+      - name: "Flake8"
+        if: ${{ always() }}
+        run: flake8 zipline.py
+
       - name: "Ruff"
         if: ${{ always() }}
         uses: astral-sh/ruff-action@v3

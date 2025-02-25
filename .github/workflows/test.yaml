@@ -82,9 +82,6 @@ jobs:
 
       - name: "Test ${{ matrix.version }}"
         run: |
-          curl -Iv "${ZIPLINE_URL}" ||:
-          sleep 3
-          curl -Iv "http://127.0.0.1:3000" ||:
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
           echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
           zipline README.md

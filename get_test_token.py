@@ -20,10 +20,11 @@ query = 'SELECT "token" FROM public."User";'
 
 # set zipline url
 zip_uri = os.environ.get("ZIPLINE_URL", "http://localhost:3000").rstrip("/")
-zip_url = f"{zip_uri}/api/setup"
-
-# log in to create account
-r = requests.post(zip_url, json=zip_data)
+# setup
+r = requests.post(f"{zip_uri}/api/setup", json=zip_data)
+r.raise_for_status()
+# login
+r = requests.post(f"{zip_uri}/auth/login", json=zip_data)
 r.raise_for_status()
 
 # get token from postgres

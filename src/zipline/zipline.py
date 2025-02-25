@@ -89,7 +89,7 @@ class Zipline(object):
         headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)
         r.raise_for_status()
-        return ZipURL(r.json()["files"][0])
+        return ZipURL(r.json()["files"][0]["url"])
 
 
 def get_mode(file_path: str, blocksize: int = 512) -> str:

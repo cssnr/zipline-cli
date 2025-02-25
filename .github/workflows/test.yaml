@@ -39,7 +39,7 @@ jobs:
           - 5432:5432
 
       zipline:
-        image: ghcr.io/diced/zipline:v3
+        image: ghcr.io/diced/zipline:latest
         env:
           DEBUG: true
           CORE_PORT: 3000
@@ -82,4 +82,5 @@ jobs:
       - name: "Test ${{ matrix.version }}"
         run: |
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+          echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
           zipline README.md

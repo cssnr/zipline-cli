@@ -20,7 +20,7 @@ query = 'SELECT "token" FROM public."User" WHERE id=1 ORDER BY id ASC;'
 
 # set zipline url
 zip_uri = os.environ.get("ZIPLINE_URL", "http://localhost:3000").rstrip("/")
-zip_url = f"{zip_uri}/api/auth/login"
+zip_url = f"{zip_uri}/api/setup"
 
 # log in to create account
 r = requests.post(zip_url, json=zip_data)

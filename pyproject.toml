@@ -1,0 +1,73 @@
+# Project
+
+[project]
+name = "zipline-cli"
+description = "Python 3 CLI for Zipline"
+authors = [{ name="Shane" }]
+readme = "README.md"
+dynamic = ["version"]
+dependencies = ["requests", "python-decouple", "python-dotenv"]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",  # Adjust if necessary
+    "Natural Language :: English",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+]
+license = { text = "MIT License" }
+#license = { file = "LICENSE" }
+
+[project.scripts]
+my-script = "zipline:main"
+
+[project.urls]
+Homepage = "https://cssnr.com/"
+Source = "https://github.com/cssnr/zipline-cli"
+Issues = "https://github.com/cssnr/zipline-cli/issues"
+
+# Setup Tools
+
+[tool.setuptools]
+py-modules = ["zipline"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {file = "version.txt"}
+#version = { attr = "zipline.__version__" }
+
+# Build System
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0", "wheel"]
+
+# Black
+
+[tool.black]
+line-length = 119
+
+# Ruff
+
+[tool.ruff]
+line-length = 119
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "B", "Q"]
+
+# Coverage
+
+[tool.coverage.run]
+omit = ["*/*.egg-info/*"]
+source = ["src"]
+
+# Isort
+
+[tool.isort]
+profile = "black"
+lines_after_imports = 2
+src_paths = ["src", "test"]

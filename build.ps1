@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 #$env:ZIPLINE_VERSION = $args[0]
 #Write-Output "Version: $env:ZIPLINE_VERSION"
 
-$egg_dir = ".\zipline_cli.egg-info"
+$egg_dir = ".\*.egg-info"
 if (Test-Path $egg_dir) {
     Remove-Item -Force -Recurse $egg_dir
 }

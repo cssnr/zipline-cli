@@ -5,6 +5,7 @@
 build/
 dist/
 zipline_cli.*/
+*.egg-info/
 *.log
 *.pyc
 .coverage

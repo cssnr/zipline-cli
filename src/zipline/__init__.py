@@ -9,4 +9,12 @@ def get_version():
     return version if match else "0.0.1"
 
 
+try:
+    from .zipline import Zipline
+except ImportError:
+    Zipline = None
+
+
 __version__ = get_version()
+
+__all__ = ["Zipline", "__version__"]

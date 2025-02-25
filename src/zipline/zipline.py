@@ -266,22 +266,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
-# def get_version():
-#     version = os.environ.get('GITHUB_REF_NAME', '0.0.1')
-#     pattern = r'^(\d+)\.(\d+)\.(\d+)(?:-(\w+|\d+)\.(\w+|\d+))?$'
-#     match = re.match(pattern, version)
-#     if match:
-#         return version
-#     else:
-#         return '0.0.1'
-
-
-# def get_version():
-#     if os.path.isfile('version.txt'):
-#        with open('version.txt') as f:
-#            return f.read().strip()
-#     return '0.0.1'
-#
-# __version__ = get_version()

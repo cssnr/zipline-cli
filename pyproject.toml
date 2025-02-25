@@ -22,7 +22,7 @@ license = { text = "MIT License" }
 #license = { file = "LICENSE" }
 
 [project.scripts]
-zipline = "zipline:main"
+zipline = "zipline.zipline:main"
 
 [project.urls]
 Homepage = "https://cssnr.com/"
@@ -32,8 +32,8 @@ Issues = "https://github.com/cssnr/zipline-cli/issues"
 # Setup Tools
 
 [tool.setuptools.dynamic]
-version = {file = "version.txt"}
-#version = { attr = "zipline.__version__" }
+#version = {file = "version.txt"}
+version = { attr = "zipline.__version__" }
 
 [tool.setuptools]
 py-modules = ["zipline"]

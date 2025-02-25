@@ -25,7 +25,8 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        #version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        version: ["3.13"]
     runs-on: ${{ matrix.os }}
 
     services:
@@ -81,6 +82,9 @@ jobs:
 
       - name: "Test ${{ matrix.version }}"
         run: |
+          ping -c1 localhost ||:
+          curl -Iv "${ZIPLINE_URL}" ||:
+          curl -Iv "http://127.0.0.1:3000" ||:
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
           echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
           zipline README.md

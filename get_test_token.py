@@ -16,7 +16,7 @@ zip_data = {
     "password": "password",
     "code": None,
 }
-query = 'SELECT "token" FROM public."User" WHERE id=1 ORDER BY id ASC;'
+query = 'SELECT "token" FROM public."User";'
 
 # set zipline url
 zip_uri = os.environ.get("ZIPLINE_URL", "http://localhost:3000").rstrip("/")

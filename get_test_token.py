@@ -24,9 +24,9 @@ zip_uri = os.environ.get("ZIPLINE_URL", "http://localhost:3000").rstrip("/")
 # setup
 r = requests.post(f"{zip_uri}/api/setup", json=zip_data)
 r.raise_for_status()
-time.sleep(5)
+time.sleep(3)
 # login
-r = requests.post(f"{zip_uri}/auth/login", json=zip_data)
+r = requests.post(f"{zip_uri}/api/auth/login", json=zip_data)
 r.raise_for_status()
 
 # get token from postgres

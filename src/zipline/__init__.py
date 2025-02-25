@@ -1,5 +1,9 @@
 import os
 import re
+from typing import Optional
+
+
+Zipline: Optional[type] = None
 
 
 def get_version():

@@ -75,5 +75,6 @@ lines_after_imports = 2
 skip = [".github"]
 
 # Mypy
+
 [mypy]
 ignore_missing_imports = true

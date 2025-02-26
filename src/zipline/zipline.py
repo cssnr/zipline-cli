@@ -6,7 +6,7 @@ import re
 import string
 import sys
 from pathlib import Path
-from typing import Any, BinaryIO, Dict, List, Optional, TextIO, Union
+from typing import Any, Dict, List, Optional, TextIO, Literal, IO
 
 import requests
 from decouple import config
@@ -15,7 +15,7 @@ from dotenv import find_dotenv, load_dotenv
 
 class ZipURL(object):
     """
-    TODO: This
+    TODO: Need to use a variable route
     Zipline URL Object
     :param file_url: str: Zipline File Display URL
     """
@@ -88,9 +88,7 @@ class Zipline(object):
             key = header.replace("_", "-").title()
             self._headers[key] = str(value)
 
-    def send_file(
-        self, file_name: str, file_object: Union[BinaryIO, TextIO], overrides: Optional[dict] = None
-    ) -> ZipURL:
+    def send_file(self, file_name: str, file_object: IO, overrides: Optional[dict] = None) -> ZipURL:
         """
         Send File to Zipline
         :param file_name: str: Name of File for files tuple
@@ -103,10 +101,10 @@ class Zipline(object):
         headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)
         r.raise_for_status()
-        return ZipURL(r.json()["files"][0]["url"])  # TODO: This
+        return ZipURL(r.json()["files"][0]["url"])  # TODO: v4 CHANGE
 
 
-def get_mode(file_path: str, blocksize: int = 512) -> str:
+def get_mode(file_path: str, blocksize: int = 512) -> Literal["r", "rb"]:
     try:
         with open(file_path, "rb") as file:
             chunk = file.read(blocksize)
@@ -140,9 +138,9 @@ def gen_rand(length: int = 4) -> str:
 def get_default(
     values: List[str],
     default: Optional[Any] = None,
-    cast: Optional[type] = str,
-    pre: Optional[str] = "ZIPLINE_",
-    suf: Optional[str] = "",
+    cast: type = str,
+    pre: str = "ZIPLINE_",
+    suf: str = "",
 ) -> Optional[str]:
     """
     Get Default Environment Variable from List of values
@@ -154,7 +152,7 @@ def get_default(
     :return: str: Environment Variable or None
     """
     for value in values:
-        result = config(f"{pre}{value.upper()}{suf}", "", cast)  # type: ignore
+        result = config(f"{pre}{value.upper()}{suf}", "", cast)
         if result:
             return result
     return default
@@ -256,14 +254,14 @@ def run() -> None:
         if not os.path.isfile(name):
             print(f"Warning: File Not Found: {name}")
             continue
-        mode = get_mode(name)
+        mode: Literal["r", "rb"] = get_mode(name)
         with open(name, mode) as f:
             # name, ext = os.path.splitext(os.path.basename(filename))
             # ext = f'.{ext}' if ext else ''
             # name = f'{name}-{gen_rand(8)}{ext}'
             # url: str = zipline.send_file(name, f)
-            url: ZipURL = zipline.send_file(name, f)  # type: ignore
-            print(format_output(name, url))
+            zip_url: ZipURL = zipline.send_file(name, f)
+            print(format_output(name, zip_url))
             exit_code = 0
     sys.exit(exit_code)
 

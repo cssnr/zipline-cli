@@ -10,7 +10,7 @@
 [![GitHub Repo Stars](https://img.shields.io/github/stars/cssnr/zipline-cli?style=flat&logo=github&logoColor=white)](https://github.com/cssnr/zipline-cli/stargazers)
 [![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&logoColor=white&label=org%20stars)](https://cssnr.github.io/)
 [![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=discord&color=7289da)](https://discord.gg/wXy6m2X8wY)
-[![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://github.com/cssnr/zipline-cli)
+[![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://github.com/cssnr/zipline-cli/tree/update?tab=readme-ov-file#readme)
 
 # Zipline CLI
 

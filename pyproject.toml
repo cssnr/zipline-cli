@@ -1,6 +1,5 @@
 # Project
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
-
 [project]
 name = "zipline-cli"
 description = "Python 3 CLI for Zipline"
@@ -32,7 +31,6 @@ Issues = "https://github.com/cssnr/zipline-cli/issues"
 
 # Setup Tools
 # https://setuptools.pypa.io/en/latest/
-
 [tool.setuptools.dynamic]
 version = { attr = "zipline.__version__" }
 #version = {file = "version.txt"}
@@ -50,33 +48,19 @@ requires = ["setuptools>=61.0", "wheel"]
 
 # Black
 # https://black.readthedocs.io/en/stable/usage_and_configuration/
-
 [tool.black]
 line-length = 119
 extend-exclude = "(\\.github)"
 
-# Ruff
-# https://docs.astral.sh/ruff/configuration/
-
-[tool.ruff]
-line-length = 119
-target-version = "py313"
-exclude = [".github"]
-
-[tool.ruff.lint]
-select = ["E4", "E7", "E9", "F", "B", "Q"]
-
 # Coverage
 # https://coverage.readthedocs.io/en/latest/
-
 [tool.coverage.run]
 omit = ["*.egg-info/*", ".github/*"]
-#source = ["zipline.py"]
 source = ["src"]
+#source = ["zipline.py"]
 
 # Isort
 # https://pycqa.github.io/isort/docs/configuration/options.html
-
 [tool.isort]
 profile = "black"
 lines_after_imports = 2
@@ -85,6 +69,15 @@ skip = [".github"]
 
 # Mypy
 # https://mypy.readthedocs.io/en/stable/config_file.html
-
 #[tool.mypy]
 #ignore_missing_imports = true
+
+# Ruff
+# https://docs.astral.sh/ruff/configuration/
+[tool.ruff]
+line-length = 119
+target-version = "py313"
+exclude = [".github"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "B", "Q"]

@@ -15,6 +15,7 @@ from dotenv import find_dotenv, load_dotenv
 
 class ZipURL(object):
     """
+    TODO: This
     Zipline URL Object
     :param file_url: str: Zipline File Display URL
     """
@@ -48,6 +49,7 @@ class Zipline(object):
     """
 
     allowed_headers = [
+        # zipline v3
         "format",
         "image_compression_percent",
         "expires_at",
@@ -61,6 +63,18 @@ class Zipline(object):
         "x_zipline_filename",
         "original_name",
         "override_domain",
+        # zipline v4
+        "x-zipline-deletes-at",
+        "x-zipline-format",
+        "x-zipline-image-compression-percent",
+        "x-zipline-password",
+        "x-zipline-max-views",
+        "x-zipline-no-json",
+        "x-zipline-original-name",
+        "x-zipline-folder",
+        "x-zipline-filename",
+        "x-zipline-domain",
+        "x-zipline-file-extension",
     ]
 
     def __init__(self, base_url: str, **kwargs):
@@ -89,7 +103,7 @@ class Zipline(object):
         headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)
         r.raise_for_status()
-        return ZipURL(r.json()["files"][0]["url"])
+        return ZipURL(r.json()["files"][0]["url"])  # TODO: This
 
 
 def get_mode(file_path: str, blocksize: int = 512) -> str:

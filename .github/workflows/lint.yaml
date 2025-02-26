@@ -60,7 +60,7 @@ jobs:
       - name: "Mypy"
         if: ${{ always() }}
         run: |
-          mypy src
+          mypy .
 
       - name: "Prettier"
         if: ${{ always() }}

@@ -77,8 +77,8 @@ class Zipline(object):
         "x-zipline-file-extension",
     ]
 
-    def __init__(self, base_url: str, **kwargs):
-        self.base_url: str = base_url.rstrip("/")
+    def __init__(self, url: str, **kwargs):
+        self.base_url: str = url.rstrip("/")
         self._headers: Dict[str, str] = {}
         for header, value in kwargs.items():
             if header.lower() not in self.allowed_headers:
@@ -241,7 +241,7 @@ def run() -> None:
             parser.print_help()
             raise ValueError(f"Invalid Expire Format: {args.expires_at}.")
 
-    zipline = Zipline(args.url, **vars(args))
+    zipline = Zipline(**vars(args))
 
     if not args.files:
         content: str = sys.stdin.read().rstrip("\n") + "\n"

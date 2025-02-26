@@ -44,8 +44,9 @@ jobs:
           DEBUG: true
           CORE_PORT: 3000
           CORE_RETURN_HTTPS: false
-          CORE_SECRET: H8Y9lSs48w3HwOgFfpaF0G
+          CORE_SECRET: NasMA3ByEXw5P65Gcx8BZOB9QhJN5qom
           CORE_DATABASE_URL: postgres://postgres:postgres@postgres/postgres
+          #DATABASE_URL: postgres://postgres:postgres@postgres/postgres # TODO: v4
         ports:
           - 3000:3000
 
@@ -82,4 +83,5 @@ jobs:
       - name: "Test ${{ matrix.version }}"
         run: |
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+          echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
           zipline README.md

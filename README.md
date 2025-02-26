@@ -9,7 +9,7 @@
 
 # Zipline CLI
 
-Python 3 CLI Uploader for Zipline and Django Files.
+Python 3 CLI Uploader for Zipline v3 and Django Files.
 Zipline CLI is currently functional and **Under Active Development**.  
 Please open a [Feature Request](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
 for new features and submit an [Issue](https://github.com/cssnr/zipline-cli/issues/new)
@@ -17,6 +17,15 @@ for any bugs you find.
 
 - Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
 - Django Files: [https://django-files.github.io/](https://django-files.github.io/)
+
+> [!IMPORTANT]  
+> An update for Zipline v4 is currently in progress.
+> Zipline-CLI v2 "should" work with both Zipline v3 and v4.
+
+```python
+# v4: Add url to line 104: ["url"]
+return ZipURL(r.json()["files"][0]["url"])
+```
 
 ## Table of Contents
 

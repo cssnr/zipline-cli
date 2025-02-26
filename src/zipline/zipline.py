@@ -6,7 +6,7 @@ import re
 import string
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, TextIO, Literal, IO
+from typing import IO, Any, Dict, List, Literal, Optional, TextIO
 
 import requests
 from decouple import config

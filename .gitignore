@@ -1,11 +1,12 @@
 .idea/
 *.iml
+.vscode/
 **/venv/
 **/__pycache__/
-build/
+**/*.egg-info/
 dist/
-zipline_cli.*/
 *.log
 *.pyc
 .coverage
+coverage.xml
 .zipline*

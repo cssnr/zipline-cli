@@ -44,8 +44,9 @@ jobs:
           DEBUG: true
           CORE_PORT: 3000
           CORE_RETURN_HTTPS: false
-          CORE_SECRET: H8Y9lSs48w3HwOgFfpaF0G
+          CORE_SECRET: NasMA3ByEXw5P65Gcx8BZOB9QhJN5qom
           CORE_DATABASE_URL: postgres://postgres:postgres@postgres/postgres
+          #DATABASE_URL: postgres://postgres:postgres@postgres/postgres # TODO: v4
         ports:
           - 3000:3000
 
@@ -65,21 +66,22 @@ jobs:
           python-version: ${{ matrix.version }}
           cache: "pip"
 
-      - name: "Debug ${{ matrix.version }}"
-        run: |
-          ls -lAh dist/*.whl
-
-      - name: "Install ${{ matrix.version }}"
+      - name: "Requirements ${{ matrix.version }}"
         run: |
           python -m pip install -U pip
           python -m pip install -U pip pytest psycopg2
+
+      - name: "Install ${{ matrix.version }}"
+        run: |
+          #python -m pip install -e .
           python -m pip install dist/*.whl
 
-      #- name: "Build ${{ matrix.version }}"
+      #- name: "Debug ${{ matrix.version }}"
       #  run: |
-      #    python -m pip install -e .
+      #    ls -lAhR .
 
       - name: "Test ${{ matrix.version }}"
         run: |
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
-          zipline zipline.py
+          echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
+          zipline README.md

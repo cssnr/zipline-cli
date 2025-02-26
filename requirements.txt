@@ -1,7 +1,23 @@
-build
-flake8
-psycopg2
+# Dependencies
+
 python-decouple
 python-dotenv
 requests
+
+# Development
+
+black
+build
+coverage
+flake8
+isort
+mypy
+pytest
+python-decouple-typed
+psycopg2
+ruff
+setuptools
+twine
+types-psycopg2
+types-requests
 wheel

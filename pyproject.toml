@@ -81,5 +81,5 @@ skip = [".github"]
 
 # Mypy
 
-[mypy]
-ignore_missing_imports = true
+#[tool.mypy]
+#ignore_missing_imports = true

@@ -1,7 +1,16 @@
-name: Test
+name: "Test"
 
 on:
+  workflow_dispatch:
   push:
+    branches: [master]
+    paths: &paths
+      - ".github/workflows/test.yaml"
+      - "src/**"
+      - "tests/**"
+      - "pyproject.toml"
+  pull_request:
+    paths: *paths
 
 env:
   ZIPLINE_URL: http://localhost:3000/
@@ -16,8 +25,8 @@ jobs:
     with:
       name: test
 
-  test:
-    name: Test
+  test3:
+    name: "Test V3"
     timeout-minutes: 5
     if: ${{ !contains(github.event.head_commit.message, '#notest') }}
     needs: [build]
@@ -25,7 +34,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
     runs-on: ${{ matrix.os }}
 
     services:
@@ -46,34 +55,41 @@ jobs:
           CORE_RETURN_HTTPS: false
           CORE_SECRET: NasMA3ByEXw5P65Gcx8BZOB9QhJN5qom
           CORE_DATABASE_URL: postgres://postgres:postgres@postgres/postgres
-          #DATABASE_URL: postgres://postgres:postgres@postgres/postgres # TODO: v4
         ports:
           - 3000:3000
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
+
+      - name: "Debug event.json"
+        if: ${{ !github.event.act }}
+        continue-on-error: true
+        run: cat "${GITHUB_EVENT_PATH}"
+
+      - name: "Debug CTX github"
+        if: ${{ !github.event.act }}
+        continue-on-error: true
+        env:
+          GITHUB_CTX: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CTX"
 
       - name: "Download Artifact"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: test
           path: dist
 
       - name: "Setup Python ${{ matrix.version }}"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.version }}
           cache: "pip"
 
-      - name: "Requirements ${{ matrix.version }}"
-        run: |
-          python -m pip install -U pip
-          python -m pip install -U pip pytest psycopg2
-
       - name: "Install ${{ matrix.version }}"
         run: |
-          #python -m pip install -e .
+          python -V
+          python -m pip install -U pip psycopg2
           python -m pip install dist/*.whl
 
       #- name: "Debug ${{ matrix.version }}"
@@ -83,5 +99,82 @@ jobs:
       - name: "Test ${{ matrix.version }}"
         run: |
           export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+          echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
+          zipline README.md
+
+  test4:
+    name: "Test V4"
+    timeout-minutes: 5
+    if: ${{ !contains(github.event.head_commit.message, '#notest') }}
+    needs: [build]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest"]
+        version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+    runs-on: ${{ matrix.os }}
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DATABASE: postgres
+        ports:
+          - 5432:5432
+
+      zipline:
+        image: ghcr.io/diced/zipline:v4
+        env:
+          DEBUG: true
+          CORE_PORT: 3000
+          CORE_RETURN_HTTPS: false
+          CORE_SECRET: NasMA3ByEXw5P65Gcx8BZOB9QhJN5qom
+          DATABASE_URL: postgres://postgres:postgres@postgres/postgres
+        ports:
+          - 3000:3000
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v5
+
+      - name: "Debug event.json"
+        if: ${{ !github.event.act }}
+        continue-on-error: true
+        run: cat "${GITHUB_EVENT_PATH}"
+
+      - name: "Debug CTX github"
+        if: ${{ !github.event.act }}
+        continue-on-error: true
+        env:
+          GITHUB_CTX: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CTX"
+
+      - name: "Download Artifact"
+        uses: actions/download-artifact@v6
+        with:
+          name: test
+          path: dist
+
+      - name: "Setup Python ${{ matrix.version }}"
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.version }}
+          cache: "pip"
+
+      - name: "Install ${{ matrix.version }}"
+        run: |
+          python -V
+          python -m pip install -U pip psycopg2
+          python -m pip install dist/*.whl
+
+      #- name: "Debug ${{ matrix.version }}"
+      #  run: |
+      #    ls -lAhR .
+
+      - name: "Test ${{ matrix.version }}"
+        run: |
+          export ZIPLINE_TOKEN=$(python3 get_token_v4.py)
           echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
           zipline README.md

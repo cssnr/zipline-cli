@@ -47,28 +47,26 @@ zipline --setup
 
 ## Install
 
-From PyPi using pip:
+From PyPI: https://pypi.org/p/zipline-cli
 
 ```shell
 python3 -m pip install zipline-cli
 ```
 
-From GitHub using pip:
+From GitHub using pip.
 
 ```shell
 python3 -m pip install git+https://github.com/cssnr/zipline-cli.git
 ```
 
-From Source using pip:
+From Source using pip.
 
 ```shell
 git clone https://github.com/cssnr/zipline-cli.git
 python3 -m pip install -e zipline-cli
 ```
 
-### Uninstall
-
-To completely remove from any above install methods:
+Uninstall.
 
 ```shell
 python3 -m pip uninstall zipline-cli

@@ -2,7 +2,7 @@
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 [project]
 name = "zipline-cli"
-description = "Python 3 CLI for Diced/Zipline Upload Server"
+description = "Python 3 CLI Uploader File Uploader for Zipline v3/v4 Upload Server and Django Files."
 authors = [{ name="Shane" }]
 readme = "README.md"
 dynamic = ["version"]

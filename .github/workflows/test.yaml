@@ -4,13 +4,12 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
-    paths: &paths
+    paths:
       - ".github/workflows/test.yaml"
       - "src/**"
       - "tests/**"
       - "pyproject.toml"
   pull_request:
-    paths: *paths
 
 env:
   ZIPLINE_URL: http://localhost:3000/
@@ -28,7 +27,6 @@ jobs:
   test3:
     name: "Test V3"
     timeout-minutes: 5
-    if: ${{ !contains(github.event.head_commit.message, '#notest') }}
     needs: [build]
     strategy:
       fail-fast: false
@@ -105,7 +103,6 @@ jobs:
   test4:
     name: "Test V4"
     timeout-minutes: 5
-    if: ${{ !contains(github.event.head_commit.message, '#notest') }}
     needs: [build]
     strategy:
       fail-fast: false

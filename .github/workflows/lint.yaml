@@ -6,8 +6,9 @@ on:
     branches: [master]
     paths-ignore:
       - ".gitignore"
+      - ".prettierignore"
+      - "build.ps1"
       - "pyproject.toml"
-      - "requirements.txt"
   pull_request:
 
 concurrency:

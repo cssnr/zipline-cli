@@ -28,14 +28,15 @@
 - [Support](#Support)
 - [Contributing](#Contributing)
 
-Python 3 CLI Uploader for [Zipline](https://github.com/diced/zipline) v3/v4 and [Django Files](https://github.com/django-files/django-files).
-
-Please open a [Feature Request](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
-for new features and submit an [Issue](https://github.com/cssnr/zipline-cli/issues/new)
-for any bugs you find.
+Python 3 CLI Uploader File Uploader for [Zipline](https://github.com/diced/zipline) v3/v4 Upload Server and [Django Files](https://github.com/django-files/django-files).
 
 - Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
 - Django Files: [https://django-files.github.io/](https://django-files.github.io/)
+
+> [!TIP]  
+> If you have any trouble getting started, [support is available](#support).  
+> You can also [request new features](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
+> or report an [issue](https://github.com/cssnr/zipline-cli/issues/new).
 
 ## Quick Start
 
@@ -171,9 +172,9 @@ or [pull requests](https://github.com/cssnr/zipline-cli/discussions) (please sta
 
 More Zipline Projects:
 
-- [Zipline CLI](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
-- [Zipline Web Extension](https://github.com/cssnr/zipline-extension?tab=readme-ov-file#readme)
-- [Zipline Android Application](https://github.com/cssnr/zipline-android?tab=readme-ov-file#readme)
+- [Zipline CLI](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme) - _This Project_
+- [Zipline Web Extension](https://github.com/cssnr/zipline-extension?tab=readme-ov-file#readme) - [Website](https://zipline-extension.cssnr.com/)
+- [Zipline Android Application](https://github.com/cssnr/zipline-android?tab=readme-ov-file#readme) - [Website](https://zipline-android.cssnr.com/)
 
 Please consider making a donation to support the development of this project
 and [additional](https://cssnr.com/) open source projects.

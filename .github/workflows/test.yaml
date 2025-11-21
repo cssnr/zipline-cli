@@ -98,7 +98,7 @@ jobs:
 
       - name: "Test ${{ matrix.version }}"
         run: |
-          export ZIPLINE_TOKEN=$(python3 get_test_token.py)
+          export ZIPLINE_TOKEN=$(python3 tests/get_test_token.py)
           echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
           zipline README.md
 
@@ -175,6 +175,6 @@ jobs:
 
       - name: "Test ${{ matrix.version }}"
         run: |
-          export ZIPLINE_TOKEN=$(python3 get_token_v4.py)
+          export ZIPLINE_TOKEN=$(python3 tests/get_token_v4.py)
           echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
           zipline README.md

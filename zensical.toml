@@ -1,0 +1,196 @@
+[project]
+site_name = "Zipline CLI"
+site_description = "Python 3 CLI File Uploader for Diced/Zipline v3/v4 Upload Server and Django Files."
+site_author = "Shane"
+
+repo_name = "cssnr/zipline-cli"
+repo_url = "https://github.com/cssnr/zipline-cli"
+edit_uri = "blob/master/docs/"
+
+# https://zensical.org/docs/setup/basics/#site_url
+site_url = "https://zipline-cli.cssnr.com/"
+
+# https://zensical.org/docs/setup/basics/#copyright
+copyright = """
+<a href="https://github.com/cssnr/zipline-cli" target="_blank">Zipline CLI</a>
+<br>
+Built with <a href="https://github.com/zensical/zensical" target="_blank">Zensical</a>
+"""
+
+# https://zensical.org/docs/setup/navigation/
+nav = [
+    {"Get Started" = "index.md"},
+    {"Reference" = "reference.md"},
+    {"Support" = "support.md"},
+]
+
+# https://zensical.org/docs/customization/#additional-css
+#extra_css = ["assets/stylesheets/extra.css"]
+
+# https://zensical.org/docs/customization/#additional-javascript
+#extra_javascript = ["assets/javascript/extra.js"]
+
+# ----------------------------------------------------------------------------
+# Section for configuring theme options
+# ----------------------------------------------------------------------------
+
+[project.theme]
+# https://zensical.org/docs/setup/basics/?h=theme#theme-variant
+#variant = "classic"
+
+# https://zensical.org/docs/customization/#extending-the-theme
+custom_dir = "docs/overrides"
+
+favicon = "assets/images/logo.png"
+logo = "assets/images/logo.png"
+
+# https://zensical.org/docs/setup/language/
+language = "en"
+
+features = [
+    # https://zensical.org/docs/setup/header/#announcement-bar
+    "announce.dismiss",
+    # https://zensical.org/docs/setup/repository/#code-actions
+    "content.action.edit",
+    # https://zensical.org/docs/setup/repository/#code-actions
+    #"content.action.view",
+    # https://zensical.org/docs/authoring/code-blocks/#code-annotations
+    "content.code.annotate",
+    # https://zensical.org/docs/authoring/code-blocks/#code-copy-button
+    "content.code.copy",
+    # https://zensical.org/docs/authoring/code-blocks/#code-selection-button
+    #"content.code.select",
+    # https://zensical.org/docs/authoring/footnotes/#footnote-tooltips
+    "content.footnote.tooltips",
+    # https://zensical.org/docs/authoring/content-tabs/#linked-content-tabs
+    "content.tabs.link",
+    # https://zensical.org/docs/authoring/tooltips/#improved-tooltips
+    "content.tooltips",
+    # https://zensical.org/docs/setup/header/#automatic-hiding
+    #"header.autohide",
+    # https://zensical.org/docs/setup/navigation/#navigation-expansion
+    #"navigation.expand",
+    # https://zensical.org/docs/setup/footer/#navigation
+    "navigation.footer",
+    # https://zensical.org/docs/setup/navigation/#section-index-pages
+    "navigation.indexes",
+    # https://zensical.org/docs/setup/navigation/#instant-navigation
+    "navigation.instant",
+    # https://zensical.org/docs/setup/navigation/#instant-prefetching
+    "navigation.instant.prefetch",
+    # https://zensical.org/docs/setup/navigation/#progress-indicator
+    #"navigation.instant.progress",
+    # https://zensical.org/docs/setup/navigation/#navigation-path
+    "navigation.path",
+    # https://zensical.org/docs/setup/navigation/#navigation-pruning
+    #"navigation.prune",
+    # https://zensical.org/docs/setup/navigation/#navigation-sections
+    "navigation.sections",
+    # https://zensical.org/docs/setup/navigation/#navigation-tabs
+    #"navigation.tabs",
+    # https://zensical.org/docs/setup/navigation/#sticky-navigation-tabs
+    #"navigation.tabs.sticky",
+    # https://zensical.org/docs/setup/navigation/#back-to-top-button
+    "navigation.top",
+    # https://zensical.org/docs/setup/navigation/#anchor-tracking
+    "navigation.tracking",
+    # https://zensical.org/docs/setup/search/#search-highlighting
+    "search.highlight",
+    # https://zensical.org/docs/setup/navigation/#anchor-following
+    #"toc.follow",
+    # https://zensical.org/docs/setup/navigation/#navigation-integration
+    "toc.integrate",
+]
+
+# ----------------------------------------------------------------------------
+# In the "palette" subsection you can configure options for the color scheme.
+# You can configure different color # schemes, e.g., to turn on dark mode,
+# that the user can switch between. Each color scheme can be further
+# customized.
+#
+# Read more:
+# - https://zensical.org/docs/setup/colors/
+# ----------------------------------------------------------------------------
+# Palette toggle for automatic mode
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+# Palette toggle for light mode
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary  = "pink"
+accent = "purple"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+# Palette toggle for dark mode
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary  = "purple"
+accent = "deep orange"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+# ----------------------------------------------------------------------------
+# In the "font" subsection you can configure the fonts used. By default, fonts
+# are loaded from Google Fonts, giving you a wide range of choices from a set
+# of suitably licensed fonts. There are options for a normal text font and for
+# a monospaced font used in code blocks.
+# ----------------------------------------------------------------------------
+#[project.theme.font]
+#text = "Inter"
+#code = "Jetbrains Mono"
+
+# ----------------------------------------------------------------------------
+# Read more:
+# - https://zensical.org/docs/setup/logo-and-icons
+# - https://zensical.org/docs/authoring/icons-emojis/#search
+# ----------------------------------------------------------------------------
+[project.theme.icon]
+repo = "fontawesome/brands/github"
+
+#[project.theme.icon.admonition]
+#note = "simple/githubactions"
+
+# ----------------------------------------------------------------------------
+# The "extra" section contains miscellaneous settings.
+# ----------------------------------------------------------------------------
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/cssnr/zipline-cli"
+name = "GitHub Repo"
+[[project.extra.social]]
+icon = "simple/python"
+link = "https://pypi.org/p/zipline-cli"
+name = "PyPi Package"
+[[project.extra.social]]
+icon = "fontawesome/solid/globe"
+link = "https://zipline-extension.cssnr.com/"
+name = "Zipline Web Extension"
+[[project.extra.social]]
+icon = "simple/android"
+link = "https://zipline-android.cssnr.com/"
+name = "Zipline Android Application"
+[[project.extra.social]]
+icon = "fontawesome/solid/house-laptop"
+link = "https://cssnr.github.io/"
+name = "Website"
+[[project.extra.social]]
+icon = "fontawesome/brands/discord"
+link = "https://discord.gg/wXy6m2X8wY"
+name = "Discord"
+[[project.extra.social]]
+icon = "simple/kofi"
+link = "https://ko-fi.com/cssnr"
+name = "Ko-fi"
+
+[project.extra]
+generator = false
+
+#[project.markdown_extensions.toc]
+#permalink =  true

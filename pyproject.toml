@@ -2,7 +2,7 @@
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 [project]
 name = "zipline-cli"
-description = "Python 3 CLI Uploader File Uploader for Zipline v3/v4 Upload Server and Django Files."
+description = "Python 3 CLI File Uploader for Diced/Zipline v3/v4 Upload Server and Django Files."
 authors = [{ name="Shane" }]
 readme = "README.md"
 dynamic = ["version"]
@@ -50,7 +50,7 @@ zipline = "zipline.zipline:main"
 
 [project.urls]
 Homepage = "https://cssnr.com/"
-#Documentation = "https://zipline-cli.cssnr.com/"
+Documentation = "https://zipline-cli.cssnr.com/"
 Source = "https://github.com/cssnr/zipline-cli"
 Issues = "https://github.com/cssnr/zipline-cli/issues"
 Funding = "https://ko-fi.com/cssnr"

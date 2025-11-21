@@ -124,7 +124,7 @@ jobs:
       zipline:
         image: ghcr.io/diced/zipline:v4
         env:
-          DEBUG: true
+          DEBUG: zipline
           CORE_PORT: 3000
           CORE_RETURN_HTTPS: false
           CORE_SECRET: NasMA3ByEXw5P65Gcx8BZOB9QhJN5qom

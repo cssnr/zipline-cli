@@ -18,7 +18,7 @@
 [![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&label=org%20stars)](https://cssnr.github.io/)
 [![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=discord&color=7289da)](https://discord.gg/wXy6m2X8wY)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-72a5f2?logo=kofi&label=support)](https://ko-fi.com/cssnr)
-[![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
+[![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://zipline-cli.cssnr.com/)
 
 # Zipline CLI
 
@@ -38,7 +38,7 @@ Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline)
 > [!TIP]  
 > If you have any trouble getting started, [support is available](#support).  
 > You can also [request new features](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
-> or report an [issue](https://github.com/cssnr/zipline-cli/issues/new).
+> or report any [issues](https://github.com/cssnr/zipline-cli/issues/new).
 
 ## Quick Start
 
@@ -46,6 +46,8 @@ Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline)
 python3 -m pip install zipline-cli
 zipline --setup
 ```
+
+Documentation: https://zipline-cli.cssnr.com/
 
 ## Install
 
@@ -75,6 +77,9 @@ python3 -m pip uninstall zipline-cli
 ```
 
 ## Usage
+
+> [!TIP]  
+> View the [Getting Started](https://zipline-cli.cssnr.com/) guide online.
 
 Setup Zipline URL and Token:
 

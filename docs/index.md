@@ -25,7 +25,7 @@ Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline)
 - Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
 - Django Files: [https://django-files.github.io/](https://django-files.github.io/)
 
-**To get started [install](#install) the cli and view the [usage](#usage).**
+**To get started [Install](#install) the cli and view the [Usage](#usage).**
 
 If you run into any issues, [support](support.md) is available.
 
@@ -36,7 +36,7 @@ python3 -m pip install zipline-cli
 zipline --setup
 ```
 
-Next, review the [usage](#usage) and [Environment Variables](reference.md#environment-variables) reference.
+Next, review the [Usage](#usage) and [Environment Variables](reference.md#environment-variables) reference.
 
 ## Install
 

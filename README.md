@@ -178,6 +178,8 @@ All contributions are welcome including [bug reports](https://github.com/cssnr/z
 [feature requests](https://github.com/cssnr/zipline-cli/discussions/categories/feature-requests),
 or [pull requests](https://github.com/cssnr/zipline-cli/discussions) (please start a discussion).
 
+See the [CONTRIBUTING.md](#contributing-ov-file) for more details.
+
 More Zipline Projects:
 
 - [Zipline CLI](https://zipline-cli.cssnr.com/) - [Source Code](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)

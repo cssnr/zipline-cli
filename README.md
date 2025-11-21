@@ -3,9 +3,11 @@
 [![TOML Python Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcssnr%2Fzipline-cli%2Frefs%2Fheads%2Fmaster%2Fpyproject.toml&query=%24.project.requires-python&logo=python&logoColor=white&label=python)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/zipline-cli?logo=pypi&logoColor=white)](https://pypistats.org/packages/zipline-cli)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_zipline-cli&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_zipline-cli)
-[![Workflow Release](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/release.yaml?logo=cachet&label=release)](https://github.com/cssnr/zipline-cli/actions/workflows/release.yaml)
-[![Workflow Lint](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/lint.yaml?logo=cachet&label=lint)](https://github.com/cssnr/zipline-cli/actions/workflows/lint.yaml)
 [![Workflow Test](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/test.yaml?logo=cachet&label=test)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
+[![Workflow Lint](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/lint.yaml?logo=cachet&label=lint)](https://github.com/cssnr/zipline-cli/actions/workflows/lint.yaml)
+[![Workflow Release](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/release.yaml?logo=cachet&label=release)](https://github.com/cssnr/zipline-cli/actions/workflows/release.yaml)
+[![GitHub Deployments](https://img.shields.io/github/deployments/cssnr/zipline-cli/pypi?logo=pypi&logoColor=white&label=pypi)](https://pypi.org/project/zipline-cli/)
+[![GitHub Deployments](https://img.shields.io/github/deployments/cssnr/zipline-cli/docs?logo=materialformkdocs&logoColor=white&label=docs)](https://zipline-cli.cssnr.com/)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/zipline-cli?logo=github&label=updated)](https://github.com/cssnr/zipline-cli/graphs/commit-activity)
 [![GitHub Repo Size](https://img.shields.io/github/repo-size/cssnr/zipline-cli?logo=bookstack&logoColor=white&label=repo%20size)](https://github.com/cssnr/zipline-cli)
 [![GitHub Top Language](https://img.shields.io/github/languages/top/cssnr/zipline-cli?logo=htmx&logoColor=white)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
@@ -28,7 +30,7 @@
 - [Support](#Support)
 - [Contributing](#Contributing)
 
-Python 3 CLI Uploader File Uploader for [Zipline](https://github.com/diced/zipline) v3/v4 Upload Server and [Django Files](https://github.com/django-files/django-files).
+Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline) v3/v4 Upload Server and [Django Files](https://github.com/django-files/django-files).
 
 - Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
 - Django Files: [https://django-files.github.io/](https://django-files.github.io/)
@@ -63,7 +65,7 @@ From Source using pip.
 
 ```shell
 git clone https://github.com/cssnr/zipline-cli.git
-python3 -m pip install -e zipline-cli
+python3 -m pip install zipline-cli
 ```
 
 Uninstall.
@@ -111,19 +113,22 @@ Environment Variables are stored in the `.zipline` file in your home directory.
 
 - Location: `~/.zipline` or `$HOME/.zipline`
 
-| Variable       | Description                                                                                       |
-| -------------- | ------------------------------------------------------------------------------------------------- |
-| ZIPLINE_URL    | URL to your Zipline Instance                                                                      |
-| ZIPLINE_TOKEN  | Authorization Token from Zipline                                                                  |
-| ZIPLINE_EMBED  | Set this enable Embed on your uploads                                                             |
-| ZIPLINE_FORMAT | Output Format after upload. Variables: `{filename}`, `{url}` and `{raw_url}`                      |
-| ZIPLINE_EXPIRE | Zipline: https://zipline.diced.tech/docs/guides/upload-options#image-expiration                   |
-| ZIPLINE_EXPIRE | Django Files: https://github.com/onegreyonewhite/pytimeparse2#pytimeparse2-time-expression-parser |
+| Variable         | Description                                                                                                                                                                                        |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ZIPLINE_URL`    | URL to your Zipline Instance                                                                                                                                                                       |
+| `ZIPLINE_TOKEN`  | Authorization Token from Zipline                                                                                                                                                                   |
+| `ZIPLINE_EMBED`  | Set this enable Embed on your uploads                                                                                                                                                              |
+| `ZIPLINE_FORMAT` | Output Format. Variables: `{filename}`, `{url}` and `{raw_url}`                                                                                                                                    |
+| `ZIPLINE_EXPIRE` | Reference: [Zipline](https://zipline.diced.tech/docs/guides/upload-options#image-expiration) / [Django Files](https://github.com/onegreyonewhite/pytimeparse2#pytimeparse2-time-expression-parser) |
 
 See [.zipline.example](.zipline.example) for an example `.zipline` file.
 
 You may override them by exporting the variables in your current environment
-or using the corresponding command line arguments. Use `zipline -h` for more info.
+or using the corresponding command line arguments.
+
+```shell
+zipline -h
+```
 
 ## API Reference
 
@@ -170,9 +175,9 @@ or [pull requests](https://github.com/cssnr/zipline-cli/discussions) (please sta
 
 More Zipline Projects:
 
-- [Zipline CLI](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme) - _This Project_
-- [Zipline Web Extension](https://github.com/cssnr/zipline-extension?tab=readme-ov-file#readme) - [Website](https://zipline-extension.cssnr.com/)
-- [Zipline Android Application](https://github.com/cssnr/zipline-android?tab=readme-ov-file#readme) - [Website](https://zipline-android.cssnr.com/)
+- [Zipline CLI](https://zipline-cli.cssnr.com/) - [Source Code](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
+- [Zipline Web Extension](https://zipline-extension.cssnr.com/) - [Source Code](https://github.com/cssnr/zipline-extension?tab=readme-ov-file#readme)
+- [Zipline Android Application](https://zipline-android.cssnr.com/) - [Source Code](https://github.com/cssnr/zipline-android?tab=readme-ov-file#readme)
 
 Please consider making a donation to support the development of this project
 and [additional](https://cssnr.com/) open source projects.

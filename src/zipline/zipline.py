@@ -99,7 +99,9 @@ class Zipline(object):
         :return: str: File URL
         """
         url = self.base_url + "/api/upload"
-        mime_type, _ = mimetypes.guess_type(file_name)
+        # Deprecated since version 3.13: Passing a file path instead of URL is soft deprecated. Use guess_file_type() for this.
+        # https://docs.python.org/3/library/mimetypes.html#mimetypes.guess_type
+        mime_type, _ = mimetypes.guess_type(file_name, strict=False)
         files = {"file": (file_name, file_object, mime_type or "application/octet-stream")}
         headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)  # nosec

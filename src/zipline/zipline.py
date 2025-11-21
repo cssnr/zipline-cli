@@ -100,7 +100,7 @@ class Zipline(object):
         """
         url = self.base_url + "/api/upload"
         mime_type, _ = mimetypes.guess_type(file_name)
-        files = {"file": (file_name, file_object, mime_type)}
+        files = {"file": (file_name, file_object, mime_type or "application/octet-stream")}
         headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)  # nosec
         r.raise_for_status()

@@ -1,8 +1,8 @@
 import argparse
 import io
 import os
-import random
 import re
+import secrets
 import string
 import sys
 from pathlib import Path
@@ -91,6 +91,7 @@ class Zipline(object):
     def send_file(self, file_name: str, file_object: IO, overrides: Optional[dict] = None) -> ZipURL:
         """
         Send File to Zipline
+        TO-DO: Add timeout option to requests
         :param file_name: str: Name of File for files tuple
         :param file_object: TextIO: File to Upload
         :param overrides: dict: Header Overrides
@@ -99,7 +100,7 @@ class Zipline(object):
         url = self.base_url + "/api/upload"
         files = {"file": (file_name, file_object)}
         headers = self._headers | overrides if overrides else self._headers
-        r = requests.post(url, headers=headers, files=files)
+        r = requests.post(url, headers=headers, files=files)  # nosec
         r.raise_for_status()
         data = r.json()["files"][0]
         if isinstance(data, dict):
@@ -137,8 +138,8 @@ def gen_rand(length: int = 4) -> str:
     :param length: int: Length of Random String
     :return: str: Random String
     """
-    res: int = length if length >= 0 else 4
-    return "".join(random.choice(string.ascii_letters) for _ in range(res))
+    r = "".join(secrets.choice(string.ascii_letters) for _ in range(length))
+    return "".join(r)
 
 
 def get_default(

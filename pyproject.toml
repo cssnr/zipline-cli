@@ -33,6 +33,7 @@ dev = [
     "build",
     "isort",
     "mypy",
+    "python-dotenv",
     "python-decouple-typed",
     "psycopg2",
     "ruff",

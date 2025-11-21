@@ -1,9 +1,11 @@
 import os
 import re
-from typing import Optional
 
 
-Zipline: Optional[type] = None
+try:
+    from .zipline import Zipline
+except ImportError:
+    Zipline = None  # type: ignore
 
 
 def get_version() -> str:
@@ -11,12 +13,6 @@ def get_version() -> str:
     pattern = r"^\d+\.\d+\.\d+(?:[abc]\d*)?$"
     match = re.match(pattern, version)
     return version if match else "0.0.1"
-
-
-try:
-    from .zipline import Zipline
-except ImportError:
-    Zipline = None
 
 
 __version__ = get_version()

@@ -8,6 +8,7 @@ on:
       - ".gitignore"
       - ".prettierignore"
       - "build.ps1"
+      - "MANIFEST.in"
       - "pyproject.toml"
   pull_request:
 

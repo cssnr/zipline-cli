@@ -34,7 +34,7 @@ if (Test-Path ".\build") {
     Remove-Item -Force -Recurse ".\build"
 }
 if ($c) {
-    Write-Host -ForegroundColor Red "Clean Only. Not Building or Installing!"
+    Write-Host -ForegroundColor Yellow "Clean Only. Not Building or Installing!"
     exit
 }
 

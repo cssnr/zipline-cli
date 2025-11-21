@@ -1,5 +1,6 @@
 import argparse
 import io
+import mimetypes
 import os
 import re
 import secrets
@@ -98,7 +99,8 @@ class Zipline(object):
         :return: str: File URL
         """
         url = self.base_url + "/api/upload"
-        files = {"file": (file_name, file_object)}
+        mime_type, _ = mimetypes.guess_type(file_name)
+        files = {"file": (file_name, file_object, mime_type)}
         headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)  # nosec
         r.raise_for_status()

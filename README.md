@@ -1,16 +1,22 @@
-[![Release](https://github.com/cssnr/zipline-cli/actions/workflows/release.yaml/badge.svg)](https://github.com/cssnr/zipline-cli/actions/workflows/release.yaml)
-[![Test](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml/badge.svg)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
-[![Lint](https://github.com/cssnr/zipline-cli/actions/workflows/lint.yaml/badge.svg)](https://github.com/cssnr/zipline-cli/actions/workflows/lint.yaml)
-[![Codacy](https://img.shields.io/codacy/grade/1eee626c47fa4e6fb8b1ed3efdd3e518?logo=codacy&logoColor=white&label=Codacy&color=31c754)](https://app.codacy.com/gh/cssnr/zipline-cli/dashboard)
-[![Issues](https://img.shields.io/github/issues-raw/cssnr/zipline-cli?logo=github&logoColor=white&label=Issues&color=31c754)](https://github.com/cssnr/zipline-cli/issues)
-[![PyPI](https://img.shields.io/pypi/v/zipline-cli?logo=python&logoColor=white&label=PyPI)](https://pypi.org/project/zipline-cli/)
-[![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/zipline-cli?logo=github)](https://github.com/cssnr/zipline-cli/releases/latest)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/zipline-cli?logo=github&logoColor=white&label=updated)](https://github.com/cssnr/zipline-cli/graphs/commit-activity)
-[![GitHub Top Language](https://img.shields.io/github/languages/top/cssnr/zipline-cli?logo=htmx&logoColor=white)](https://github.com/cssnr/zipline-cli)
-[![GitHub Repo Stars](https://img.shields.io/github/stars/cssnr/zipline-cli?style=flat&logo=github&logoColor=white)](https://github.com/cssnr/zipline-cli/stargazers)
-[![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&logoColor=white&label=org%20stars)](https://cssnr.github.io/)
+[![PyPI Version](https://img.shields.io/pypi/v/zipline-cli?logo=pypi&logoColor=white&label=pypi)](https://pypi.org/project/zipline-cli/)
+[![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/zipline-cli?logo=github)](https://github.com/cssnr/zipline-cli/releases)
+[![TOML Python Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcssnr%2Fzipline-cli%2Frefs%2Fheads%2Fmaster%2Fpyproject.toml&query=%24.project.requires-python&logo=python&logoColor=white&label=python)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/zipline-cli?logo=pypi&logoColor=white)](https://pypistats.org/packages/zipline-cli)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_zipline-cli&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_zipline-cli)
+[![Workflow Release](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/release.yaml?logo=cachet&label=release)](https://github.com/cssnr/zipline-cli/actions/workflows/release.yaml)
+[![Workflow Lint](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/lint.yaml?logo=cachet&label=lint)](https://github.com/cssnr/zipline-cli/actions/workflows/lint.yaml)
+[![Workflow Test](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/test.yaml?logo=cachet&label=test)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/zipline-cli?logo=github&label=updated)](https://github.com/cssnr/zipline-cli/graphs/commit-activity)
+[![GitHub Repo Size](https://img.shields.io/github/repo-size/cssnr/zipline-cli?logo=bookstack&logoColor=white&label=repo%20size)](https://github.com/cssnr/zipline-cli)
+[![GitHub Top Language](https://img.shields.io/github/languages/top/cssnr/zipline-cli?logo=htmx&logoColor=white)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
+[![GitHub Contributors](https://img.shields.io/github/contributors-anon/cssnr/zipline-cli?logo=github)](https://github.com/cssnr/zipline-cli/graphs/contributors)
+[![GitHub Discussions](https://img.shields.io/github/discussions/cssnr/cloudflare-purge-cache-action?logo=github)](https://github.com/cssnr/cloudflare-purge-cache-action/discussions)
+[![GitHub Forks](https://img.shields.io/github/forks/cssnr/zipline-cli?style=flat&logo=github)](https://github.com/cssnr/zipline-cli/forks)
+[![GitHub Repo Stars](https://img.shields.io/github/stars/cssnr/zipline-cli?style=flat&logo=github)](https://github.com/cssnr/zipline-cli/stargazers)
+[![GitHub Org Stars](https://img.shields.io/github/stars/cssnr?style=flat&logo=github&label=org%20stars)](https://cssnr.github.io/)
 [![Discord](https://img.shields.io/discord/899171661457293343?logo=discord&logoColor=white&label=discord&color=7289da)](https://discord.gg/wXy6m2X8wY)
-[![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://github.com/cssnr/zipline-cli/tree/update?tab=readme-ov-file#readme)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-72a5f2?logo=kofi&label=support)](https://ko-fi.com/cssnr)
+[![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
 
 # Zipline CLI
 
@@ -20,24 +26,17 @@
 - [Environment Variables](#Environment-Variables)
 - [API Reference](#API-Reference)
 - [Support](#Support)
+- [Contributing](#Contributing)
 
-Python 3 CLI Uploader for Zipline v3 and Django Files.
-Zipline CLI is currently functional and **Under Active Development**.  
-Please open a [Feature Request](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
-for new features and submit an [Issue](https://github.com/cssnr/zipline-cli/issues/new)
-for any bugs you find.
+Python 3 CLI Uploader File Uploader for [Zipline](https://github.com/diced/zipline) v3/v4 Upload Server and [Django Files](https://github.com/django-files/django-files).
 
 - Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
 - Django Files: [https://django-files.github.io/](https://django-files.github.io/)
 
-> [!IMPORTANT]  
-> An update for Zipline v4 is currently in progress.  
-> Zipline-CLI v1 "should" work with both Zipline v3 and v4.
-
-```python
-# v4: Add url to line 104: ["url"]
-return ZipURL(r.json()["files"][0]["url"])
-```
+> [!TIP]  
+> If you have any trouble getting started, [support is available](#support).  
+> You can also [request new features](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
+> or report an [issue](https://github.com/cssnr/zipline-cli/issues/new).
 
 ## Quick Start
 
@@ -65,14 +64,6 @@ From Source using pip:
 ```shell
 git clone https://github.com/cssnr/zipline-cli.git
 python3 -m pip install -e zipline-cli
-```
-
-From Source using setuptools:
-
-```shell
-git clone https://github.com/cssnr/zipline-cli.git
-cd zipline-cli
-python3 setup.py install
 ```
 
 ### Uninstall
@@ -165,10 +156,29 @@ For general help or to request a feature, see:
 
 - Q&A Discussion: https://github.com/cssnr/zipline-cli/discussions/categories/q-a
 - Request a Feature: https://github.com/cssnr/zipline-cli/discussions/categories/feature-requests
+- Chat with us on Discord: https://discord.gg/wXy6m2X8wY
 
 If you are experiencing an issue/bug or getting unexpected results, you can:
 
 - Report an Issue: https://github.com/cssnr/zipline-cli/issues
+- Provide General Feedback: [https://cssnr.github.io/feedback/](https://cssnr.github.io/feedback/?app=zipline-cli)
 - Chat with us on Discord: https://discord.gg/wXy6m2X8wY
-- Provide General
-  Feedback: [https://cssnr.github.io/feedback/](https://cssnr.github.io/feedback/?app=Portainer%20Zipline%20CLI)
+
+# Contributing
+
+All contributions are welcome including [bug reports](https://github.com/cssnr/zipline-cli/issues),
+[feature requests](https://github.com/cssnr/zipline-cli/discussions/categories/feature-requests),
+or [pull requests](https://github.com/cssnr/zipline-cli/discussions) (please start a discussion).
+
+More Zipline Projects:
+
+- [Zipline CLI](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme) - _This Project_
+- [Zipline Web Extension](https://github.com/cssnr/zipline-extension?tab=readme-ov-file#readme) - [Website](https://zipline-extension.cssnr.com/)
+- [Zipline Android Application](https://github.com/cssnr/zipline-android?tab=readme-ov-file#readme) - [Website](https://zipline-android.cssnr.com/)
+
+Please consider making a donation to support the development of this project
+and [additional](https://cssnr.com/) open source projects.
+
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/cssnr)
+
+For a full list of current projects visit: [https://cssnr.github.io/](https://cssnr.github.io/)

@@ -2,12 +2,11 @@
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 [project]
 name = "zipline-cli"
-description = "Python 3 CLI for Zipline"
+description = "Python 3 CLI Uploader File Uploader for Zipline v3/v4 Upload Server and Django Files."
 authors = [{ name="Shane" }]
 readme = "README.md"
 dynamic = ["version"]
 requires-python = ">=3.9"
-dependencies = ["requests", "python-decouple", "python-dotenv"]
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
@@ -21,16 +20,45 @@ classifiers = [
 license = { text = "MIT License" }
 #license = { file = "LICENSE" }
 
+dependencies = [
+    "python-decouple",
+    "python-dotenv",
+    "requests",
+]
+
+[dependency-groups]
+dev = [
+    "bandit",
+    "black",
+    "build",
+    "isort",
+    "mypy",
+    "python-dotenv",
+    "python-decouple-typed",
+    "psycopg2",
+    "ruff",
+    "setuptools",
+    "twine",
+    "ty",
+    "types-psycopg2",
+    "types-requests",
+    "wheel",
+]
+
 [project.scripts]
 zipline = "zipline.zipline:main"
 
 [project.urls]
 Homepage = "https://cssnr.com/"
+#Documentation = "https://zipline-cli.cssnr.com/"
 Source = "https://github.com/cssnr/zipline-cli"
 Issues = "https://github.com/cssnr/zipline-cli/issues"
+Funding = "https://ko-fi.com/cssnr"
 
 # Setup Tools
 # https://setuptools.pypa.io/en/latest/
+#[tool.setuptools.package-data]
+#actions = ["py.typed"]
 [tool.setuptools.dynamic]
 version = { attr = "zipline.__version__" }
 #version = {file = "version.txt"}
@@ -42,22 +70,28 @@ include-package-data = true
 [tool.setuptools.packages.find]
 where = ["src"]
 
+# Build System
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = ["setuptools>=61.0", "wheel"]
+
+# Bandit
+# https://bandit.readthedocs.io/en/latest/config.html
+[tool.bandit]
+exclude_dirs = ["venv"]
+skips = ["B105", "B107"]
 
 # Black
 # https://black.readthedocs.io/en/stable/usage_and_configuration/
 [tool.black]
 line-length = 119
-extend-exclude = "(\\.github)"
+extend-exclude = '(\.github)'
 
 # Coverage
 # https://coverage.readthedocs.io/en/latest/
 [tool.coverage.run]
 omit = ["*.egg-info/*", ".github/*"]
 source = ["src"]
-#source = ["zipline.py"]
 
 # Isort
 # https://pycqa.github.io/isort/docs/configuration/options.html
@@ -65,19 +99,20 @@ source = ["src"]
 profile = "black"
 lines_after_imports = 2
 src_paths = ["src", "test"]
-skip = [".github"]
+skip = ["venv", ".github"]
 
 # Mypy
 # https://mypy.readthedocs.io/en/stable/config_file.html
-#[tool.mypy]
+[tool.mypy]
 #ignore_missing_imports = true
+exclude = ["venv"]
 
 # Ruff
 # https://docs.astral.sh/ruff/configuration/
 [tool.ruff]
 line-length = 119
 target-version = "py313"
-exclude = [".github"]
+extend-exclude = [".github"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "B", "Q"]

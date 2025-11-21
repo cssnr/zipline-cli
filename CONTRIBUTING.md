@@ -29,7 +29,7 @@ Clone the repository, change into the directory and run:
 
 ```shell
 python -m pip install -U pip
-python -m pip install -Ur requirements.txt
+python -m pip install --group dev
 ```
 
 Prettier is used to format yaml, json and md.
@@ -42,9 +42,7 @@ npm install -g prettier
 
 First [Setup](#Setup) the project, then run:
 
-```shell
-pytest -v
-```
+WIP: See [.github/workflows/test.yaml](.github/workflows/test.yaml)
 
 ## Building
 
@@ -52,7 +50,7 @@ Build the project locally:
 
 ```shell
 python -m pip install -U pip
-python -m pip install -Ur requirements.txt
+python -m pip install --group dev
 python -m build
 ```
 

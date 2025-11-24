@@ -30,23 +30,18 @@ jobs:
         uses: actions/checkout@v5
 
       - name: "Debug event.json"
-        if: ${{ !github.event.act }}
         continue-on-error: true
-        run: |
-          cat "${GITHUB_EVENT_PATH}"
+        run: cat "${GITHUB_EVENT_PATH}"
 
       - name: "Debug CTX github"
-        if: ${{ !github.event.act }}
         continue-on-error: true
         env:
           GITHUB_CTX: ${{ toJSON(github) }}
         run: echo "$GITHUB_CTX"
 
       - name: "Debug Environment"
-        if: ${{ !github.event.act }}
         continue-on-error: true
-        run: |
-          env
+        run: env
 
       #- name: "Check Changed Files"
       #  id: changed
@@ -72,7 +67,6 @@ jobs:
           python -m pip list
 
       - name: "Debug"
-        if: ${{ !github.event.act }}
         continue-on-error: true
         run: |
           python -V
@@ -143,6 +137,20 @@ jobs:
           "${RUNNER_TEMP}/actionlint" --version
           echo "::endgroup::"
           "${RUNNER_TEMP}/actionlint" -color -verbose -shellcheck= -pyflakes=
+
+      #- name: "pytest"
+      #  if: ${{ !cancelled() }}
+      #  id: coverage
+      #  run: |
+      #    coverage run -m pytest
+      #    coverage xml
+      #    coverage report -m
+
+      #- name: "codecov"
+      #  if: ${{ !cancelled() && steps.coverage.outcome == 'success' }}
+      #  uses: codecov/codecov-action@v5
+      #  with:
+      #    token: ${{ secrets.CODECOV_TOKEN }}
 
       #- name: "hadolint"
       #  if: ${{ !cancelled() }}

@@ -1,3 +1,4 @@
+# Generic
 .idea/
 *.iml
 .vscode/
@@ -5,11 +6,14 @@
 venv/
 __pycache__/
 *.egg-info/
+build/
 dist/
 *.log
 *.pyc
 .coverage
 coverage.xml
+# Zensical
 site/
 .cache/
+# App
 .zipline*

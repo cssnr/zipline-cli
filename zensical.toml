@@ -177,10 +177,6 @@ icon = "simple/android"
 link = "https://zipline-android.cssnr.com/"
 name = "Zipline Android Application"
 [[project.extra.social]]
-icon = "fontawesome/solid/house-laptop"
-link = "https://cssnr.github.io/"
-name = "Website"
-[[project.extra.social]]
 icon = "fontawesome/brands/discord"
 link = "https://discord.gg/wXy6m2X8wY"
 name = "Discord"
@@ -188,6 +184,10 @@ name = "Discord"
 icon = "simple/kofi"
 link = "https://ko-fi.com/cssnr"
 name = "Ko-fi"
+[[project.extra.social]]
+icon = "fontawesome/solid/house-laptop"
+link = "https://cssnr.github.io/"
+name = "Website"
 
 [project.extra]
 generator = false

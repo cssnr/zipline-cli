@@ -4,12 +4,13 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
-    paths:
+    paths: &paths
       - ".github/workflows/test.yaml"
       - "src/**"
       - "tests/**"
       - "pyproject.toml"
   pull_request:
+    paths: *paths
 
 env:
   ZIPLINE_URL: http://localhost:3000/
@@ -17,10 +18,8 @@ env:
 jobs:
   build:
     name: "Build"
-    uses: ./.github/workflows/build.yaml
     if: ${{ !contains(github.event.head_commit.message, '#notest') }}
-    permissions:
-      contents: write
+    uses: ./.github/workflows/build.yaml
     with:
       name: test
 
@@ -72,6 +71,11 @@ jobs:
           GITHUB_CTX: ${{ toJSON(github) }}
         run: echo "$GITHUB_CTX"
 
+      - name: "Debug Environment"
+        if: ${{ !github.event.act }}
+        continue-on-error: true
+        run: env
+
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
         with:
@@ -96,7 +100,7 @@ jobs:
 
       - name: "Test ${{ matrix.version }}"
         run: |
-          export ZIPLINE_TOKEN=$(python3 tests/get_test_token.py)
+          export ZIPLINE_TOKEN=$(python tests/get_token_v3.py)
           echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
           zipline README.md
 
@@ -172,6 +176,6 @@ jobs:
 
       - name: "Test ${{ matrix.version }}"
         run: |
-          export ZIPLINE_TOKEN=$(python3 tests/get_token_v4.py)
+          export ZIPLINE_TOKEN=$(python tests/get_token_v4.py)
           echo "ZIPLINE_TOKEN: ${ZIPLINE_TOKEN}"
           zipline README.md

@@ -9,10 +9,11 @@ icon: lucide/rocket
 [![PyPI Version](https://img.shields.io/pypi/v/zipline-cli?logo=pypi&logoColor=white&label=pypi)](https://pypi.org/project/zipline-cli/)
 [![TOML Python Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcssnr%2Fzipline-cli%2Frefs%2Fheads%2Fmaster%2Fpyproject.toml&query=%24.project.requires-python&logo=python&logoColor=white&label=python)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/zipline-cli?logo=pypi&logoColor=white)](https://pypistats.org/packages/zipline-cli)
+[![Pepy Total Downloads](https://img.shields.io/pepy/dt/zipline-cli?logo=pypi&logoColor=white&label=total)](https://clickpy.clickhouse.com/dashboard/zipline-cli)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_zipline-cli&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_zipline-cli)
 [![Workflow Test](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/test.yaml?logo=cachet&label=test)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
-[![GitHub Repo Size](https://img.shields.io/github/repo-size/cssnr/zipline-cli?logo=bookstack&logoColor=white&label=repo%20size)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/zipline-cli?logo=github&label=updated)](https://github.com/cssnr/zipline-cli/pulse)
-[![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/cssnr/zipline-cli?logo=github)](https://github.com/cssnr/zipline-cli/issues)
+[![GitHub Issues](https://img.shields.io/github/issues/cssnr/zipline-cli?logo=github)](https://github.com/cssnr/zipline-cli/issues)
 [![GitHub Discussions](https://img.shields.io/github/discussions/cssnr/zipline-cli?logo=github)](https://github.com/cssnr/zipline-cli/discussions)
 [![GitHub Forks](https://img.shields.io/github/forks/cssnr/zipline-cli?style=flat&logo=github)](https://github.com/cssnr/zipline-cli/forks)
 [![GitHub Repo Stars](https://img.shields.io/github/stars/cssnr/zipline-cli?style=flat&logo=github)](https://github.com/cssnr/zipline-cli/stargazers)
@@ -32,7 +33,7 @@ If you run into any issues, [support](support.md) is available.
 ## Quick Start
 
 ```shell
-python3 -m pip install zipline-cli
+python -m pip install zipline-cli
 zipline --setup
 ```
 
@@ -69,20 +70,20 @@ From PyPI: https://pypi.org/p/zipline-cli
 From GitHub using pip.
 
 ```shell
-python3 -m pip install git+https://github.com/cssnr/zipline-cli.git
+python -m pip install git+https://github.com/cssnr/zipline-cli.git
 ```
 
 From Source using pip.
 
 ```shell
 git clone https://github.com/cssnr/zipline-cli.git
-python3 -m pip install zipline-cli
+python -m pip install zipline-cli
 ```
 
 Uninstall.
 
 ```shell
-python3 -m pip uninstall zipline-cli
+python -m pip uninstall zipline-cli
 ```
 
 ## Usage

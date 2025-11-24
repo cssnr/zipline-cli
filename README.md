@@ -2,12 +2,13 @@
 [![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/zipline-cli?logo=github)](https://github.com/cssnr/zipline-cli/releases)
 [![TOML Python Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcssnr%2Fzipline-cli%2Frefs%2Fheads%2Fmaster%2Fpyproject.toml&query=%24.project.requires-python&logo=python&logoColor=white&label=python)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/zipline-cli?logo=pypi&logoColor=white)](https://pypistats.org/packages/zipline-cli)
+[![Pepy Total Downloads](https://img.shields.io/pepy/dt/zipline-cli?logo=pypi&logoColor=white&label=total)](https://clickpy.clickhouse.com/dashboard/zipline-cli)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_zipline-cli&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_zipline-cli)
 [![Workflow Test](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/test.yaml?logo=cachet&label=test)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
 [![Workflow Lint](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/lint.yaml?logo=cachet&label=lint)](https://github.com/cssnr/zipline-cli/actions/workflows/lint.yaml)
 [![Workflow Release](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/release.yaml?logo=cachet&label=release)](https://github.com/cssnr/zipline-cli/actions/workflows/release.yaml)
-[![GitHub Deployments](https://img.shields.io/github/deployments/cssnr/zipline-cli/pypi?logo=pypi&logoColor=white&label=pypi)](https://pypi.org/project/zipline-cli/)
-[![GitHub Deployments](https://img.shields.io/github/deployments/cssnr/zipline-cli/docs?logo=materialformkdocs&logoColor=white&label=docs)](https://zipline-cli.cssnr.com/)
+[![Deployment PyPi](https://img.shields.io/github/deployments/cssnr/zipline-cli/pypi?logo=pypi&logoColor=white&label=pypi)](https://pypi.org/project/zipline-cli/)
+[![Deployment Docs](https://img.shields.io/github/deployments/cssnr/zipline-cli/docs?logo=materialformkdocs&logoColor=white&label=docs)](https://zipline-cli.cssnr.com/)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/zipline-cli?logo=github&label=updated)](https://github.com/cssnr/zipline-cli/graphs/commit-activity)
 [![GitHub Repo Size](https://img.shields.io/github/repo-size/cssnr/zipline-cli?logo=bookstack&logoColor=white&label=repo%20size)](https://github.com/cssnr/zipline-cli)
 [![GitHub Top Language](https://img.shields.io/github/languages/top/cssnr/zipline-cli?logo=htmx&logoColor=white)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
@@ -21,6 +22,9 @@
 [![](https://repository-images.githubusercontent.com/661201286/8dfadbc8-94c0-4eaa-88bd-7ee351859510)](https://zipline-cli.cssnr.com/)
 
 # Zipline CLI
+
+<a title="Zipline CLI" href="https://zipline-cli.cssnr.com/" target="_blank">
+<img alt="Zipline CLI" align="right" width="128" height="auto" src="https://raw.githubusercontent.com/smashedr/repo-images/refs/heads/master/zipline/cli/logo128.png"></a>
 
 - [Quick Start](#Quick-Start)
 - [Install](#Install)
@@ -43,7 +47,7 @@ Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline)
 ## Quick Start
 
 ```shell
-python3 -m pip install zipline-cli
+python -m pip install zipline-cli
 zipline --setup
 ```
 
@@ -54,26 +58,26 @@ Documentation: https://zipline-cli.cssnr.com/
 From PyPI: https://pypi.org/p/zipline-cli
 
 ```shell
-python3 -m pip install zipline-cli
+python -m pip install zipline-cli
 ```
 
 From GitHub using pip.
 
 ```shell
-python3 -m pip install git+https://github.com/cssnr/zipline-cli.git
+python -m pip install git+https://github.com/cssnr/zipline-cli.git
 ```
 
 From Source using pip.
 
 ```shell
 git clone https://github.com/cssnr/zipline-cli.git
-python3 -m pip install zipline-cli
+python -m pip install zipline-cli
 ```
 
 Uninstall.
 
 ```shell
-python3 -m pip uninstall zipline-cli
+python -m pip uninstall zipline-cli
 ```
 
 ## Usage

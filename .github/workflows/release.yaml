@@ -31,19 +31,26 @@ jobs:
       url: ${{ env.url }}
 
     steps:
+      - name: "Debug event.json"
+        continue-on-error: true
+        run: cat "${GITHUB_EVENT_PATH}"
+
+      - name: "Debug CTX github"
+        continue-on-error: true
+        env:
+          GITHUB_CTX: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CTX"
+
+      #- name: "Debug Environment"
+      #  continue-on-error: true
+      #  run: env
+
       - name: "Debug"
         run: |
           echo "github.ref_name: ${{ github.ref_name }}"
           echo "name: ${{ github.event.release.prerelease && 'test' || 'pypi' }}"
           echo "env.url: ${{ env.url }}"
           echo "env.repository-url: ${{ env.repository-url }}"
-
-      - name: "Debug CTX github"
-        if: ${{ !github.event.act }}
-        continue-on-error: true
-        env:
-          GITHUB_CTX: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CTX"
 
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
@@ -108,17 +115,18 @@ jobs:
           echo "github.event.release.prerelease: ${{ github.event.release.prerelease }}"
 
       - name: "Debug event.json"
-        if: ${{ !github.event.act }}
         continue-on-error: true
-        run: |
-          cat "${GITHUB_EVENT_PATH}"
+        run: cat "${GITHUB_EVENT_PATH}"
 
       - name: "Debug CTX github"
-        if: ${{ !github.event.act }}
         continue-on-error: true
         env:
           GITHUB_CTX: ${{ toJSON(github) }}
         run: echo "$GITHUB_CTX"
+
+      #- name: "Debug Environment"
+      #  continue-on-error: true
+      #  run: env
 
       #- name: "Update Latest Tag"
       #  if: ${{ !github.event.release.prerelease }}

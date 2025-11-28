@@ -246,13 +246,13 @@ def run() -> None:
         return
 
     if args.info:
-        print(f"Zipline Version:  {version("zipline-cli")}")
+        print(f"Zipline Version:  {version('zipline-cli')}")
         print(f"Config File:      {env_file.absolute()}")
-        print(f"Server URL:       {config("ZIPLINE_URL", "")}")
-        print(f"Token (ends in):  {config("ZIPLINE_TOKEN", "")[-12:]}")
-        print(f"Expire:           {config("ZIPLINE_EXPIRE", "")}")
-        print(f"Embed:            {config("ZIPLINE_EMBED", "")}")
-        print(f"URL Format::\n{config("ZIPLINE_FORMAT", "")}")
+        print(f"Server URL:       {config('ZIPLINE_URL', '')}")
+        print(f"Token (ends in):  {config('ZIPLINE_TOKEN', '')[-12:]}")
+        print(f"Expire:           {config('ZIPLINE_EXPIRE', '')}")
+        print(f"Embed:            {config('ZIPLINE_EMBED', '')}")
+        print(f"URL Format::\n{config('ZIPLINE_FORMAT', '')}")
         return
 
     if args.setup:

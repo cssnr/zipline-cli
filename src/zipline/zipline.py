@@ -252,7 +252,8 @@ def run() -> None:
         print(f"Token (ends in):  {config('ZIPLINE_TOKEN', '')[-10:]}")
         print(f"Expire:           {config('ZIPLINE_EXPIRE', '')}")
         print(f"Embed:            {config('ZIPLINE_EMBED', '')}")
-        print(f"URL Format::\n{config('ZIPLINE_FORMAT', '{url}\n{raw_url}')}")
+        zipline_format = config("ZIPLINE_FORMAT", "{url}\n{raw_url}")
+        print(f"URL Format::\n{zipline_format}")
         return
 
     if args.setup:

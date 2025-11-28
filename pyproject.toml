@@ -21,6 +21,7 @@ license = { text = "MIT License" }
 #license = { file = "LICENSE" }
 
 dependencies = [
+    "binaryornot",
     "python-decouple",
     "python-dotenv",
     "requests",
@@ -33,13 +34,13 @@ dev = [
     "build",
     "isort",
     "mypy",
-    "python-dotenv",
     "python-decouple-typed",
     "psycopg2",
     "ruff",
     "setuptools",
     "twine",
     "ty",
+    "types-binaryornot",
     "types-psycopg2",
     "types-requests",
     "wheel",

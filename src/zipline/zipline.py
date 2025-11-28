@@ -6,17 +6,18 @@ import re
 import secrets
 import string
 import sys
+from importlib.metadata import version
 from pathlib import Path
 from typing import IO, Any, Dict, List, Literal, Optional, TextIO
 
 import requests
+from binaryornot.check import is_binary
 from decouple import config
 from dotenv import find_dotenv, load_dotenv
 
 
 class ZipURL(object):
     """
-    TODO: Need to use a variable route
     Zipline URL Object
     :param file_url: str: Zipline File Display URL
     """
@@ -38,7 +39,7 @@ class ZipURL(object):
         try:
             s = url.split("/", 4)
             return f"{s[0]}//{s[2]}/r/{s[4]}"
-        except Exception:
+        except Exception:  # noqa
             return ""
 
 
@@ -49,6 +50,7 @@ class Zipline(object):
     :param kwargs: Zipline Headers
     """
 
+    # noinspection SpellCheckingInspection
     allowed_headers = [
         # zipline v3
         "format",
@@ -99,10 +101,13 @@ class Zipline(object):
         :return: str: File URL
         """
         url = self.base_url + "/api/upload"
-        # Deprecated since version 3.13: Passing a file path instead of URL is soft deprecated. Use guess_file_type() for this.
-        # https://docs.python.org/3/library/mimetypes.html#mimetypes.guess_type
-        mime_type, _ = mimetypes.guess_type(file_name, strict=False)
-        files = {"file": (file_name, file_object, mime_type or "application/octet-stream")}
+
+        path = Path(file_name)
+        if not path.is_file():
+            raise ValueError(f"Not a File: {path.resolve()}")
+
+        mime_type = get_type(file_name)
+        files = {"file": (file_name, file_object, mime_type)}
         headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)  # nosec
         r.raise_for_status()
@@ -113,6 +118,15 @@ class Zipline(object):
             return ZipURL(data[0])
         else:
             return ZipURL(data)
+
+
+def get_type(file_name: str) -> str:
+    # Deprecated since version 3.13: Passing a file path instead of URL is soft deprecated. Use guess_file_type() for this.
+    # https://docs.python.org/3/library/mimetypes.html#mimetypes.guess_type
+    mime_type, _ = mimetypes.guess_type(file_name, strict=False)
+    if mime_type:
+        return mime_type
+    return "application/octet-stream" if is_binary(file_name) else "text/plain"
 
 
 def get_mode(file_path: str, blocksize: int = 512) -> Literal["r", "rb"]:
@@ -200,7 +214,10 @@ def run() -> None:
 
     parser = argparse.ArgumentParser(description="Zipline CLI.")
     parser.add_argument("files", metavar="Files", type=str, nargs="*", help="Files to Upload.")
-    parser.add_argument("-u", "--url", type=str, default=get_default(["url"]), help="Zipline URL.")
+    parser.add_argument("-s", "--setup", action="store_true", default=False, help="run the interactive setup")
+    parser.add_argument("-i", "--info", action="store_true", help="show application information")
+    parser.add_argument("-V", "--version", action="store_true", help="show the installed version")
+    parser.add_argument("-u", "--url", type=str, default=get_default(["url"]), help="Zipline URL")
     parser.add_argument(
         "-a",
         "-t",
@@ -208,7 +225,7 @@ def run() -> None:
         "--token",
         type=str,
         default=get_default(["token", "authorization"]),
-        help="Zipline Access Token for Authorization or ZIPLINE_TOKEN.",
+        help="Zipline Access Token for Authorization or ZIPLINE_TOKEN",
     )
     parser.add_argument(
         "-e",
@@ -222,10 +239,21 @@ def run() -> None:
     parser.add_argument(
         "--embed", action="store_true", default=get_default(["embed"], False, bool), help="Enable Embeds on Uploads."
     )
-    parser.add_argument(
-        "-s", "--setup", action="store_true", default=False, help="Automatic Setup of Environment Variables."
-    )
     args = parser.parse_args()
+
+    if args.version:
+        print(version("zipline-cli"))
+        return
+
+    if args.info:
+        print(f"Zipline Version:  {version("zipline-cli")}")
+        print(f"Config File:      {env_file.absolute()}")
+        print(f"Server URL:       {config("ZIPLINE_URL", "")}")
+        print(f"Token (ends in):  {config("ZIPLINE_TOKEN", "")[-12:]}")
+        print(f"Expire:           {config("ZIPLINE_EXPIRE", "")}")
+        print(f"Embed:            {config("ZIPLINE_EMBED", "")}")
+        print(f"URL Format::\n{config("ZIPLINE_FORMAT", "")}")
+        return
 
     if args.setup:
         setup(env_file)

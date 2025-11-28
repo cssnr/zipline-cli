@@ -35,6 +35,8 @@ jobs:
       - name: "Zensical Action"
         id: zensical
         uses: cssnr/zensical-action@master
+        with:
+          prepare: 'sed -i "s/>Zensical<\/a>/>Zensical<\/a> v${ZENSICAL_VERSION}/" zensical.toml'
 
       - name: "Purge Cache"
         if: ${{ env.purge-domain != '' }}

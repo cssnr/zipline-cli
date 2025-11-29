@@ -23,7 +23,7 @@ icon: lucide/rocket
 
 Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline) v3/v4 Upload Server and [Django Files](https://github.com/django-files/django-files).
 
-- Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
+- Zipline: [https://zipline.diced.sh/](https://zipline.diced.sh/)
 - Django Files: [https://django-files.github.io/](https://django-files.github.io/)
 
 **To get started [Install](#install) the cli and view the [Usage](#usage).**

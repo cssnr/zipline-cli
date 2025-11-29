@@ -36,7 +36,7 @@
 
 Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline) v3/v4 Upload Server and [Django Files](https://github.com/django-files/django-files).
 
-- Zipline: [https://zipline.diced.tech/](https://zipline.diced.tech/)
+- Zipline: [https://zipline.diced.sh/](https://zipline.diced.sh/)
 - Django Files: [https://django-files.github.io/](https://django-files.github.io/)
 
 > [!TIP]  
@@ -122,13 +122,13 @@ Environment Variables are stored in the `.zipline` file in your home directory.
 
 - Location: `~/.zipline` or `$HOME/.zipline`
 
-| Variable         | Description                                                                                                                                                                                        |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ZIPLINE_URL`    | URL to your Zipline Instance                                                                                                                                                                       |
-| `ZIPLINE_TOKEN`  | Authorization Token from Zipline                                                                                                                                                                   |
-| `ZIPLINE_EMBED`  | Set this enable Embed on your uploads                                                                                                                                                              |
-| `ZIPLINE_FORMAT` | Output Format. Variables: `{filename}`, `{url}` and `{raw_url}`                                                                                                                                    |
-| `ZIPLINE_EXPIRE` | Reference: [Zipline](https://zipline.diced.tech/docs/guides/upload-options#image-expiration) / [Django Files](https://github.com/onegreyonewhite/pytimeparse2#pytimeparse2-time-expression-parser) |
+| Variable         | Description                                                                                                                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ZIPLINE_URL`    | URL to your Zipline Instance                                                                                                                                                                     |
+| `ZIPLINE_TOKEN`  | Authorization Token from Zipline                                                                                                                                                                 |
+| `ZIPLINE_EMBED`  | Set this enable Embed on your uploads                                                                                                                                                            |
+| `ZIPLINE_FORMAT` | Output Format. Variables: `{filename}`, `{url}` and `{raw_url}`                                                                                                                                  |
+| `ZIPLINE_EXPIRE` | Reference: [Zipline](https://zipline.diced.sh/docs/guides/upload-options#image-expiration) / [Django Files](https://github.com/onegreyonewhite/pytimeparse2#pytimeparse2-time-expression-parser) |
 
 See [.zipline.example](.zipline.example) for an example `.zipline` file.
 

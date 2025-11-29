@@ -234,7 +234,7 @@ def run() -> None:
         "--expire",
         type=str,
         default=get_default(["expire", "expire_at"]),
-        help="Ex: 1d, 2w. See: https://zipline.diced.tech/docs/guides/upload-options#image-expiration",
+        help="Ex: 1d, 2w. See: https://zipline.diced.sh/docs/guides/upload-options#image-expiration",
     )
     parser.add_argument(
         "--embed", action="store_true", default=get_default(["embed"], False, bool), help="Enable Embeds on Uploads."

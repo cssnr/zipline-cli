@@ -54,7 +54,11 @@ Homepage = "https://cssnr.com/"
 Documentation = "https://zipline-cli.cssnr.com/"
 Source = "https://github.com/cssnr/zipline-cli"
 Issues = "https://github.com/cssnr/zipline-cli/issues"
+Changelog = "https://github.com/cssnr/zipline-cli/releases"
 Funding = "https://ko-fi.com/cssnr"
+Discord = "https://discord.gg/wXy6m2X8wY"
+
+Test = "https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml"
 
 # Setup Tools
 # https://setuptools.pypa.io/en/latest/

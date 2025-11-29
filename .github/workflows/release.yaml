@@ -156,9 +156,12 @@ jobs:
 
       - name: "Update Release Notes Action"
         continue-on-error: true
-        uses: smashedr/update-release-notes-action@master
+        uses: smashedr/update-release-notes-action@updates # TODO: Testing
         with:
           location: tail
+          pypi: |
+            name: zipline-cli
+            prerelease: ${{ github.event.release.prerelease }}
 
       - name: "Send Failure Notification"
         if: ${{ failure() }}

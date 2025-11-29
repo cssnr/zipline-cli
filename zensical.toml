@@ -12,9 +12,9 @@ site_url = "https://zipline-cli.cssnr.com/"
 
 # https://zensical.org/docs/setup/basics/#copyright
 copyright = """
-<a href="https://github.com/cssnr/zipline-cli" target="_blank">Zipline CLI</a>
+<a href="https://github.com/cssnr/zipline-cli">Zipline CLI</a>
 <br>
-Built with <a href="https://github.com/zensical/zensical" target="_blank">Zensical</a>
+Built with <a href="https://github.com/zensical/zensical">Zensical</a>
 """
 
 # https://zensical.org/docs/setup/navigation/

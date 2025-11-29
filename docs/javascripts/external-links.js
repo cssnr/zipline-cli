@@ -4,7 +4,7 @@
 document$.subscribe(function () {
     // console.log('processing:', window.location)
     for (const el of document.querySelectorAll('a')) {
-        if (el.host !== window.location.host) {
+        if (el.host !== globalThis.location.host) {
             el.target = '_blank'
             el.rel = 'noopener'
         }

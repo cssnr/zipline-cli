@@ -81,7 +81,7 @@ See [src/actions/\_\_init\_\_.py](src/zipline/__init__.py) for more details.
 
 ## Publishing
 
-Create a pre-release on GitHub to publish to [test.pypi.org](https://test.pypi.org/).
+Create a pre-release on GitHub to publish to: https://test.pypi.org/p/zipline-cli
 
 To install from the test index, use the following command.
 
@@ -89,7 +89,7 @@ To install from the test index, use the following command.
 python -m pip install --pre -U --extra-index-url https://test.pypi.org/simple/ zipline-cli
 ```
 
-- https://test.pypi.org/p/zipline-cli
+Create a latest release to publish to PyPi.
 
 ## Documentation
 

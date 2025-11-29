@@ -79,6 +79,18 @@ The default version is `0.0.1` unless you set the environment variable `GITHUB_R
 
 See [src/actions/\_\_init\_\_.py](src/zipline/__init__.py) for more details.
 
+## Publishing
+
+Create a pre-release on GitHub to publish to [test.pypi.org](https://test.pypi.org/).
+
+To install from the test index, use the following command.
+
+```shell
+python -m pip install --pre -U --extra-index-url https://test.pypi.org/simple/ zipline-cli
+```
+
+- https://test.pypi.org/p/zipline-cli
+
 ## Documentation
 
 The docs are built with Zensical.

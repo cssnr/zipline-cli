@@ -52,7 +52,7 @@ python -m pip install zipline-cli
 zipline --setup
 ```
 
-Documentation: https://zipline-cli.cssnr.com/
+[![View Documentation](https://img.shields.io/badge/view_documentation-blue?style=for-the-badge&logo=googledocs&logoColor=white)](https://zipline-cli.cssnr.com/)
 
 ## Install<a id="install"></a>
 

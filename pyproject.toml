@@ -8,14 +8,15 @@ readme = "README.md"
 dynamic = ["version"]
 requires-python = ">=3.9"
 classifiers = [
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Natural Language :: English",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Intended Audience :: Developers",
-    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Typing :: Typed",
+    "Topic :: Communications :: File Sharing",
+    "Topic :: Terminals",
 ]
 license = { text = "MIT License" }
 #license = { file = "LICENSE" }
@@ -48,15 +49,14 @@ dev = [
 zipline = "zipline.zipline:main"
 
 [project.urls]
-Homepage = "https://cssnr.com/"
-Documentation = "https://zipline-cli.cssnr.com/"
-Source = "https://github.com/cssnr/zipline-cli"
+Repository = "https://github.com/cssnr/zipline-cli"
 Issues = "https://github.com/cssnr/zipline-cli/issues"
 Changelog = "https://github.com/cssnr/zipline-cli/releases"
+Documentation = "https://zipline-cli.cssnr.com/"
+
+Homepage = "https://cssnr.com/"
 Funding = "https://ko-fi.com/cssnr"
 Discord = "https://discord.gg/wXy6m2X8wY"
-
-Tests = "https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml"
 
 # Setup Tools
 # https://setuptools.pypa.io/en/latest/

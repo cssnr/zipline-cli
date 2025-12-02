@@ -49,7 +49,7 @@ dev = [
 zipline = "zipline.zipline:main"
 
 [project.urls]
-Repository = "https://github.com/cssnr/zipline-cli"
+GitHub = "https://github.com/cssnr/zipline-cli"
 Issues = "https://github.com/cssnr/zipline-cli/issues"
 Changelog = "https://github.com/cssnr/zipline-cli/releases"
 Documentation = "https://zipline-cli.cssnr.com/"

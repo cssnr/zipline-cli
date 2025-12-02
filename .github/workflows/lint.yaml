@@ -7,9 +7,7 @@ on:
     paths-ignore:
       - ".gitignore"
       - ".prettierignore"
-      - "build.ps1"
       - "MANIFEST.in"
-      - "pyproject.toml"
   pull_request:
 
 concurrency:
@@ -27,7 +25,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: "Debug event.json"
         continue-on-error: true
@@ -103,6 +101,11 @@ jobs:
         if: ${{ !cancelled() }}
         run: |
           bandit -c pyproject.toml -r src
+
+      - name: "validate-pyproject"
+        if: ${{ !cancelled() }}
+        run: |
+          validate-pyproject pyproject.toml
 
       - name: "prettier"
         if: ${{ !cancelled() }}

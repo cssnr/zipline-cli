@@ -8,10 +8,9 @@ import string
 import sys
 from importlib.metadata import version
 from pathlib import Path
-from typing import IO, Any, Dict, List, Literal, Optional, TextIO
+from typing import IO, Any, Dict, List, Optional, TextIO
 
 import requests
-from binaryornot.check import is_binary
 from decouple import config
 from dotenv import find_dotenv, load_dotenv
 
@@ -107,6 +106,7 @@ class Zipline(object):
             raise ValueError(f"Not a File: {path.resolve()}")
 
         mime_type = get_type(file_name)
+        # print(f"mime_type: {mime_type}")
         files = {"file": (file_name, file_object, mime_type)}
         headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)  # nosec
@@ -126,17 +126,47 @@ def get_type(file_name: str) -> str:
     mime_type, _ = mimetypes.guess_type(file_name, strict=False)
     if mime_type:
         return mime_type
-    return "application/octet-stream" if is_binary(file_name) else "text/plain"
+    return magic_type(file_name)
 
 
-def get_mode(file_path: str, blocksize: int = 512) -> Literal["r", "rb"]:
+def magic_type(file_path: str) -> str:  # NOSONAR
     try:
         with open(file_path, "rb") as file:
-            chunk = file.read(blocksize)
+            chunk = file.read(512)
+        # print(chunk)
+        if chunk[0:3] == b"\xff\xd8\xff" or chunk[6:10] in (b"JFIF", b"Exif"):
+            return "image/jpeg"
+        elif chunk.startswith(b"\x89\x50\x4e\x47\x0d\x0a\x1a\x0a"):
+            return "image/png"
+        elif chunk.startswith(b"RIFF") and chunk[8:12] == b"WEBP":
+            return "image/webp"
+        elif chunk.startswith((b"\x47\x49\x46\x38\x37\x61", b"\x47\x49\x46\x38\x39\x61")):
+            return "image/gif"
+        elif chunk.startswith(b"\x66\x74\x79\x70\x68\x65\x69\x63\x66\x74\79\70\6d"):
+            return "image/heic"
+        elif chunk.startswith(b"\x00\x00\x01\x00"):
+            return "image/ico"
+
+        elif chunk[3:11] in (b"\x66\x74\x79\x70\x4d\x53\x4e\x56", b"\x66\x74\x79\x70\x69\x73\x6f\x6d"):
+            return "video/mp4"
+        elif chunk[4:12] == b"ftypisom" or chunk[4:12] == b"ftypMSNV" or chunk[4:12] == b"ftypmp42":
+            return "video/mp4"
+        elif chunk.startswith(b"\x1a\x45\xdf\xa3"):
+            return "video/x-matroska"
+        elif chunk.startswith(b"\x6d\x6f\x6f\x76"):
+            return "video/quicktime"
+
+        elif chunk.startswith((b"\xff\xfb", b"\xff\xfb", b"\xff\xfb", b"\x49\x44\x33")):
+            return "audio/mp3"
+        elif chunk.startswith(b"RIFF") and chunk[8:12] == b"WAVE":
+            return "audio/wav"
+        elif chunk.startswith(b"OggS"):
+            return "application/ogg"
+
         chunk.decode("utf-8")
     except UnicodeDecodeError:
-        return "rb"
-    return "r"
+        return "application/octet-stream"
+    return "text/plain"
 
 
 def format_output(filename: str, url: ZipURL) -> str:
@@ -294,8 +324,8 @@ def run() -> None:
         if not os.path.isfile(name):
             print(f"Warning: File Not Found: {name}")
             continue
-        mode: Literal["r", "rb"] = get_mode(name)
-        with open(name, mode) as f:
+        # mode: Literal["r", "rb"] = get_mode(name)
+        with open(name, "rb") as f:
             # name, ext = os.path.splitext(os.path.basename(filename))
             # ext = f'.{ext}' if ext else ''
             # name = f'{name}-{gen_rand(8)}{ext}'

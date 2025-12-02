@@ -21,7 +21,6 @@ license = { text = "MIT License" }
 #license = { file = "LICENSE" }
 
 dependencies = [
-    "binaryornot",
     "python-decouple",
     "python-dotenv",
     "requests",
@@ -40,9 +39,9 @@ dev = [
     "setuptools",
     "twine",
     "ty",
-    "types-binaryornot",
     "types-psycopg2",
     "types-requests",
+    "validate-pyproject[all]",
     "wheel",
 ]
 
@@ -58,7 +57,7 @@ Changelog = "https://github.com/cssnr/zipline-cli/releases"
 Funding = "https://ko-fi.com/cssnr"
 Discord = "https://discord.gg/wXy6m2X8wY"
 
-Test = "https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml"
+Tests = "https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml"
 
 # Setup Tools
 # https://setuptools.pypa.io/en/latest/

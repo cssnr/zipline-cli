@@ -5,6 +5,7 @@ on:
     types: [published]
 
 env:
+  name: "zipline-cli"
   url: "https://${{ github.event.release.prerelease && 'test.' || '' }}pypi.org/p/zipline-cli"
   repository-url: "https://${{ github.event.release.prerelease && 'test' || 'upload' }}.pypi.org/legacy/"
 
@@ -15,6 +16,9 @@ jobs:
     secrets: inherit
     with:
       name: "release"
+
+    permissions:
+      contents: read
 
   publish:
     name: "Publish"
@@ -107,6 +111,9 @@ jobs:
     timeout-minutes: 5
     needs: [publish]
 
+    permissions:
+      contents: write
+
     steps:
       - name: "Debug"
         continue-on-error: true
@@ -142,7 +149,7 @@ jobs:
         uses: actions/download-artifact@v6
         with:
           name: "release"
-          path: dist
+          path: "dist"
 
       - name: "List Artifacts"
         run: |
@@ -156,11 +163,11 @@ jobs:
 
       - name: "Update Release Notes Action"
         continue-on-error: true
-        uses: smashedr/update-release-notes-action@updates # TODO: Testing
+        uses: smashedr/update-release-notes-action@master
         with:
           location: tail
           pypi: |
-            name: zipline-cli
+            name: ${{ env.name }}
             prerelease: ${{ github.event.release.prerelease }}
 
       - name: "Send Failure Notification"

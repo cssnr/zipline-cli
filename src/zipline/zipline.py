@@ -8,10 +8,9 @@ import string
 import sys
 from importlib.metadata import version
 from pathlib import Path
-from typing import IO, Any, Dict, List, Literal, Optional, TextIO
+from typing import IO, Any, Dict, List, Optional, TextIO
 
 import requests
-from binaryornot.check import is_binary
 from decouple import config
 from dotenv import find_dotenv, load_dotenv
 
@@ -19,7 +18,7 @@ from dotenv import find_dotenv, load_dotenv
 class ZipURL(object):
     """
     Zipline URL Object
-    :param file_url: str: Zipline File Display URL
+    :param file_url: Zipline File Display URL
     """
 
     __slots__ = ["url", "raw"]
@@ -46,7 +45,7 @@ class ZipURL(object):
 class Zipline(object):
     """
     Zipline Python API
-    :param base_url: str: Zipline URL
+    :param base_url: Zipline URL
     :param kwargs: Zipline Headers
     """
 
@@ -93,12 +92,11 @@ class Zipline(object):
 
     def send_file(self, file_name: str, file_object: IO, overrides: Optional[dict] = None) -> ZipURL:
         """
-        Send File to Zipline
-        TO-DO: Add timeout option to requests
-        :param file_name: str: Name of File for files tuple
-        :param file_object: TextIO: File to Upload
-        :param overrides: dict: Header Overrides
-        :return: str: File URL
+        Upload File to Zipline
+        :param file_name: Name of File for files tuple
+        :param file_object: File to Upload
+        :param overrides: Header Overrides
+        :return: File URL
         """
         url = self.base_url + "/api/upload"
 
@@ -106,7 +104,8 @@ class Zipline(object):
         if not path.is_file():
             raise ValueError(f"Not a File: {path.resolve()}")
 
-        mime_type = get_type(file_name)
+        mime_type = get_type(path)
+        # print(f"mime_type: {mime_type}")
         files = {"file": (file_name, file_object, mime_type)}
         headers = self._headers | overrides if overrides else self._headers
         r = requests.post(url, headers=headers, files=files)  # nosec
@@ -120,31 +119,61 @@ class Zipline(object):
             return ZipURL(data)
 
 
-def get_type(file_name: str) -> str:
+def get_type(file_path: Path) -> str:
     # Deprecated since version 3.13: Passing a file path instead of URL is soft deprecated. Use guess_file_type() for this.
     # https://docs.python.org/3/library/mimetypes.html#mimetypes.guess_type
-    mime_type, _ = mimetypes.guess_type(file_name, strict=False)
+    mime_type, _ = mimetypes.guess_type(file_path, strict=False)
     if mime_type:
         return mime_type
-    return "application/octet-stream" if is_binary(file_name) else "text/plain"
+    return magic_type(file_path)
 
 
-def get_mode(file_path: str, blocksize: int = 512) -> Literal["r", "rb"]:
+def magic_type(file_path: Path) -> str:  # NOSONAR
     try:
         with open(file_path, "rb") as file:
-            chunk = file.read(blocksize)
+            chunk = file.read(512)
+        # print(chunk)
+        if chunk[0:3] == b"\xff\xd8\xff" or chunk[6:10] in (b"JFIF", b"Exif"):
+            return "image/jpeg"
+        elif chunk.startswith(b"\x89\x50\x4e\x47\x0d\x0a\x1a\x0a"):
+            return "image/png"
+        elif chunk.startswith(b"RIFF") and chunk[8:12] == b"WEBP":
+            return "image/webp"
+        elif chunk.startswith((b"\x47\x49\x46\x38\x37\x61", b"\x47\x49\x46\x38\x39\x61")):
+            return "image/gif"
+        elif chunk.startswith(b"\x66\x74\x79\x70\x68\x65\x69\x63\x66\x74\79\70\6d"):
+            return "image/heic"
+        elif chunk.startswith(b"\x00\x00\x01\x00"):
+            return "image/ico"
+
+        elif chunk[3:11] in (b"\x66\x74\x79\x70\x4d\x53\x4e\x56", b"\x66\x74\x79\x70\x69\x73\x6f\x6d"):
+            return "video/mp4"
+        elif chunk[4:12] == b"ftypisom" or chunk[4:12] == b"ftypMSNV" or chunk[4:12] == b"ftypmp42":
+            return "video/mp4"
+        elif chunk.startswith(b"\x1a\x45\xdf\xa3"):
+            return "video/x-matroska"
+        elif chunk.startswith(b"\x6d\x6f\x6f\x76"):
+            return "video/quicktime"
+
+        elif chunk.startswith((b"\xff\xfb", b"\xff\xfb", b"\xff\xfb", b"\x49\x44\x33")):
+            return "audio/mp3"
+        elif chunk.startswith(b"RIFF") and chunk[8:12] == b"WAVE":
+            return "audio/wav"
+        elif chunk.startswith(b"OggS"):
+            return "application/ogg"
+
         chunk.decode("utf-8")
+        return "text/plain"
     except UnicodeDecodeError:
-        return "rb"
-    return "r"
+        return "application/octet-stream"
 
 
 def format_output(filename: str, url: ZipURL) -> str:
     """
     Format URL Output
-    :param filename: str: Original or File Name
-    :param url: ZipURL: ZipURL to Format
-    :return: str: Formatted Output
+    :param filename: Original or File Name
+    :param url: ZipURL to Format
+    :return: Formatted Output
     """
     zipline_format = config("ZIPLINE_FORMAT", "{filename}\n{url}\n{raw_url}")
     return zipline_format.format(filename=filename, url=url, raw_url=url.raw)
@@ -152,9 +181,9 @@ def format_output(filename: str, url: ZipURL) -> str:
 
 def gen_rand(length: int = 4) -> str:
     """
-    Generate Random Streng at Given length
-    :param length: int: Length of Random String
-    :return: str: Random String
+    Generate Random Streng
+    :param length: Length of String
+    :return: Random String
     """
     r = "".join(secrets.choice(string.ascii_letters) for _ in range(length))
     return "".join(r)
@@ -169,12 +198,12 @@ def get_default(
 ) -> Optional[str]:
     """
     Get Default Environment Variable from List of values
-    :param values: list: List of Values to Check
-    :param default: any: Default Value if None
-    :param cast: type: Type to Cast Value
-    :param pre: str: Environment Variable Prefix
-    :param suf: str: Environment Variable Suffix
-    :return: str: Environment Variable or None
+    :param values: List of Values to Check
+    :param default: Default Value if None
+    :param cast: Type to Cast Value
+    :param pre: Environment Variable Prefix
+    :param suf: Environment Variable Suffix
+    :return: Environment Variable or None
     """
     for value in values:
         result = config(f"{pre}{value.upper()}{suf}", "", cast)
@@ -294,8 +323,8 @@ def run() -> None:
         if not os.path.isfile(name):
             print(f"Warning: File Not Found: {name}")
             continue
-        mode: Literal["r", "rb"] = get_mode(name)
-        with open(name, mode) as f:
+        # mode: Literal["r", "rb"] = get_mode(name)
+        with open(name, "rb") as f:
             # name, ext = os.path.splitext(os.path.basename(filename))
             # ext = f'.{ext}' if ext else ''
             # name = f'{name}-{gen_rand(8)}{ext}'

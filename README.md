@@ -3,6 +3,7 @@
 [![TOML Python Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcssnr%2Fzipline-cli%2Frefs%2Fheads%2Fmaster%2Fpyproject.toml&query=%24.project.requires-python&logo=python&logoColor=white&label=python)](https://github.com/cssnr/zipline-cli?tab=readme-ov-file#readme)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/zipline-cli?logo=pypi&logoColor=white)](https://pypistats.org/packages/zipline-cli)
 [![Pepy Total Downloads](https://img.shields.io/pepy/dt/zipline-cli?logo=pypi&logoColor=white&label=total)](https://clickpy.clickhouse.com/dashboard/zipline-cli)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1eee626c47fa4e6fb8b1ed3efdd3e518)](https://app.codacy.com/gh/cssnr/zipline-cli/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cssnr_zipline-cli&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cssnr_zipline-cli)
 [![Workflow Test](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/test.yaml?logo=cachet&label=test)](https://github.com/cssnr/zipline-cli/actions/workflows/test.yaml)
 [![Workflow Lint](https://img.shields.io/github/actions/workflow/status/cssnr/zipline-cli/lint.yaml?logo=cachet&label=lint)](https://github.com/cssnr/zipline-cli/actions/workflows/lint.yaml)
@@ -26,13 +27,13 @@
 <a title="Zipline CLI" href="https://zipline-cli.cssnr.com/" target="_blank">
 <img alt="Zipline CLI" align="right" width="128" height="auto" src="https://raw.githubusercontent.com/smashedr/repo-images/refs/heads/master/zipline/cli/logo128.png"></a>
 
-- [Quick Start](#Quick-Start)
-- [Install](#Install)
-- [Usage](#Usage)
-- [Environment Variables](#Environment-Variables)
-- [API Reference](#API-Reference)
-- [Support](#Support)
-- [Contributing](#Contributing)
+- [Quick Start](#quick-start)
+- [Install](#install)
+- [Usage](#usage)
+- [Environment Variables](#environment-variables)
+- [API Reference](#api-reference)
+- [Support](#support)
+- [Contributing](#contributing)
 
 Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline) v3/v4 Upload Server and [Django Files](https://github.com/django-files/django-files).
 
@@ -44,7 +45,7 @@ Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline)
 > You can also [request new features](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
 > or report any [issues](https://github.com/cssnr/zipline-cli/issues/new).
 
-## Quick Start
+## Quick Start<a id="quick-start"></a>
 
 ```shell
 python -m pip install zipline-cli
@@ -53,7 +54,7 @@ zipline --setup
 
 Documentation: https://zipline-cli.cssnr.com/
 
-## Install
+## Install<a id="install"></a>
 
 From PyPI: https://pypi.org/p/zipline-cli
 
@@ -80,7 +81,7 @@ Uninstall.
 python -m pip uninstall zipline-cli
 ```
 
-## Usage
+## Usage<a id="usage"></a>
 
 > [!TIP]  
 > View the [Getting Started](https://zipline-cli.cssnr.com/) guide online.
@@ -116,7 +117,7 @@ zipline
 # Paste or Type contents, followed by a newline, then Ctrl+D (Ctrl+Z on Windows)
 ```
 
-## Environment Variables
+## Environment Variables<a id="environment-variables"></a>
 
 Environment Variables are stored in the `.zipline` file in your home directory.
 
@@ -139,7 +140,7 @@ or using the corresponding command line arguments.
 zipline -h
 ```
 
-## API Reference
+## API Reference<a id="api-reference"></a>
 
 Initialize the class with your Zipline URL.
 Everything else is a header passed as a kwarg.
@@ -162,7 +163,7 @@ with open('text.txt') as f:
 print(url)
 ```
 
-# Support
+# Support<a id="support"></a>
 
 For general help or to request a feature, see:
 
@@ -176,7 +177,7 @@ If you are experiencing an issue/bug or getting unexpected results, you can:
 - Provide General Feedback: [https://cssnr.github.io/feedback/](https://cssnr.github.io/feedback/?app=zipline-cli)
 - Chat with us on Discord: https://discord.gg/wXy6m2X8wY
 
-# Contributing
+# Contributing<a id="contributing"></a>
 
 All contributions are welcome including [bug reports](https://github.com/cssnr/zipline-cli/issues),
 [feature requests](https://github.com/cssnr/zipline-cli/discussions/categories/feature-requests),

@@ -18,7 +18,7 @@ from dotenv import find_dotenv, load_dotenv
 class ZipURL(object):
     """
     Zipline URL Object
-    :param file_url: str: Zipline File Display URL
+    :param file_url: Zipline File Display URL
     """
 
     __slots__ = ["url", "raw"]
@@ -45,7 +45,7 @@ class ZipURL(object):
 class Zipline(object):
     """
     Zipline Python API
-    :param base_url: str: Zipline URL
+    :param base_url: Zipline URL
     :param kwargs: Zipline Headers
     """
 
@@ -92,12 +92,11 @@ class Zipline(object):
 
     def send_file(self, file_name: str, file_object: IO, overrides: Optional[dict] = None) -> ZipURL:
         """
-        Send File to Zipline
-        TO-DO: Add timeout option to requests
-        :param file_name: str: Name of File for files tuple
-        :param file_object: TextIO: File to Upload
-        :param overrides: dict: Header Overrides
-        :return: str: File URL
+        Upload File to Zipline
+        :param file_name: Name of File for files tuple
+        :param file_object: File to Upload
+        :param overrides: Header Overrides
+        :return: File URL
         """
         url = self.base_url + "/api/upload"
 
@@ -164,17 +163,17 @@ def magic_type(file_path: Path) -> str:  # NOSONAR
             return "application/ogg"
 
         chunk.decode("utf-8")
+        return "text/plain"
     except UnicodeDecodeError:
         return "application/octet-stream"
-    return "text/plain"
 
 
 def format_output(filename: str, url: ZipURL) -> str:
     """
     Format URL Output
-    :param filename: str: Original or File Name
-    :param url: ZipURL: ZipURL to Format
-    :return: str: Formatted Output
+    :param filename: Original or File Name
+    :param url: ZipURL to Format
+    :return: Formatted Output
     """
     zipline_format = config("ZIPLINE_FORMAT", "{filename}\n{url}\n{raw_url}")
     return zipline_format.format(filename=filename, url=url, raw_url=url.raw)
@@ -182,9 +181,9 @@ def format_output(filename: str, url: ZipURL) -> str:
 
 def gen_rand(length: int = 4) -> str:
     """
-    Generate Random Streng at Given length
-    :param length: int: Length of Random String
-    :return: str: Random String
+    Generate Random Streng
+    :param length: Length of String
+    :return: Random String
     """
     r = "".join(secrets.choice(string.ascii_letters) for _ in range(length))
     return "".join(r)
@@ -199,12 +198,12 @@ def get_default(
 ) -> Optional[str]:
     """
     Get Default Environment Variable from List of values
-    :param values: list: List of Values to Check
-    :param default: any: Default Value if None
-    :param cast: type: Type to Cast Value
-    :param pre: str: Environment Variable Prefix
-    :param suf: str: Environment Variable Suffix
-    :return: str: Environment Variable or None
+    :param values: List of Values to Check
+    :param default: Default Value if None
+    :param cast: Type to Cast Value
+    :param pre: Environment Variable Prefix
+    :param suf: Environment Variable Suffix
+    :return: Environment Variable or None
     """
     for value in values:
         result = config(f"{pre}{value.upper()}{suf}", "", cast)

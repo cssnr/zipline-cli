@@ -37,7 +37,6 @@ dev = [
     "psycopg2",
     "ruff",
     "setuptools",
-    "twine",
     "ty",
     "types-psycopg2",
     "types-requests",

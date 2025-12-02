@@ -105,7 +105,7 @@ class Zipline(object):
         if not path.is_file():
             raise ValueError(f"Not a File: {path.resolve()}")
 
-        mime_type = get_type(file_name)
+        mime_type = get_type(path)
         # print(f"mime_type: {mime_type}")
         files = {"file": (file_name, file_object, mime_type)}
         headers = self._headers | overrides if overrides else self._headers
@@ -120,16 +120,16 @@ class Zipline(object):
             return ZipURL(data)
 
 
-def get_type(file_name: str) -> str:
+def get_type(file_path: Path) -> str:
     # Deprecated since version 3.13: Passing a file path instead of URL is soft deprecated. Use guess_file_type() for this.
     # https://docs.python.org/3/library/mimetypes.html#mimetypes.guess_type
-    mime_type, _ = mimetypes.guess_type(file_name, strict=False)
+    mime_type, _ = mimetypes.guess_type(file_path, strict=False)
     if mime_type:
         return mime_type
-    return magic_type(file_name)
+    return magic_type(file_path)
 
 
-def magic_type(file_path: str) -> str:  # NOSONAR
+def magic_type(file_path: Path) -> str:  # NOSONAR
     try:
         with open(file_path, "rb") as file:
             chunk = file.read(512)

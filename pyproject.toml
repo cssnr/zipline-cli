@@ -52,6 +52,7 @@ dev = [
   "requests",
   "ruff",
   "setuptools",
+  "tombi",
   "ty",
   "types-psycopg2",
   "types-requests",

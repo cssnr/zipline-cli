@@ -71,7 +71,7 @@ jobs:
           results="$(ls -lAh "${path}"/* | awk '{print $9" - "$5}')"
           md="Artifacts:\n\`\`\`text\n${results}\n\`\`\`"
           echo -e "${md}" >> "$GITHUB_STEP_SUMMARY"
-          ls "${path}" | grep -- "-${tag}-" > /dev/null
+          find "${path}" -type f | grep -- "-${tag}-" > /dev/null
 
       - name: "Publish to PyPI"
         id: publish
@@ -94,7 +94,7 @@ jobs:
             markdown="⛔ Error Publishing Version: \`${tag}\`\n\n"
           fi
           markdown+="Repository URL: \`${repository-url}\`"
-          echo -e "${markdown}" >> $GITHUB_STEP_SUMMARY
+          echo -e "${markdown}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: "Send Notification"
         if: ${{ !cancelled() }}
@@ -152,9 +152,11 @@ jobs:
           path: "dist"
 
       - name: "List Artifacts"
+        env:
+          path: "dist"
         run: |
-          ls -lAh dist
-          ls dist | grep -- "-${{ github.ref_name }}-" > /dev/null
+          ls -lAh "${path}"
+          find "${path}" | grep -- "-${{ github.ref_name }}-" > /dev/null
 
       - name: "Upload Release"
         uses: cssnr/upload-release-action@latest

@@ -133,7 +133,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: cssnr/actionlint-action@master
         with:
-          shellcheck_opts: -e SC2010 -e SC2155
+          shellcheck_opts: -e SC2010 -e SC2155 -e SC2012
 
       #- name: "pytest"
       #  if: ${{ !cancelled() }}

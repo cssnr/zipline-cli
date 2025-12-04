@@ -20,7 +20,7 @@ nav = [
   { "Support" = "support.md" },
 ]
 # https://zensical.org/docs/customization/#additional-css
-# extra_css = ["assets/stylesheets/extra.css"]
+# extra_css = ["assets/css/extra.css"]
 # https://zensical.org/docs/customization/#additional-javascript
 extra_javascript = ["assets/js/external-links.js"]
 
@@ -33,7 +33,7 @@ extra_javascript = ["assets/js/external-links.js"]
 # variant = "classic"
 
 # https://zensical.org/docs/customization/#extending-the-theme
-custom_dir = "docs/overrides"
+custom_dir = "docs/template"
 favicon = "assets/images/logo.png"
 logo = "assets/images/logo.png"
 # https://zensical.org/docs/setup/language/

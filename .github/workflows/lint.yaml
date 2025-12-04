@@ -132,6 +132,8 @@ jobs:
       - name: "Actionlint"
         if: ${{ !cancelled() }}
         uses: cssnr/actionlint-action@master
+        with:
+          shellcheck_opts: -e SC2010 -e SC2155
 
       #- name: "pytest"
       #  if: ${{ !cancelled() }}

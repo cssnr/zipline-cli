@@ -67,11 +67,11 @@ jobs:
           path: "dist"
           tag: ${{ github.ref_name }}
         run: |
-          ls -lAh ${path}/*
-          results="$(ls -lAh ${path}/* | awk '{print $9" - "$5}')"
-          markdown='Artifacts:\n```text\n'"${results}"'\n```'
-          echo -e "${markdown}" >> $GITHUB_STEP_SUMMARY
-          ls ${path} | grep -- "-${tag}-" > /dev/null
+          ls -lAh "${path}"/*
+          results="$(ls -lAh "${path}"/* | awk '{print $9" - "$5}')"
+          md="Artifacts:\n\`\`\`text\n${results}\n\`\`\`"
+          echo -e "${md}" >> "$GITHUB_STEP_SUMMARY"
+          ls "${path}" | grep -- "-${tag}-" > /dev/null
 
       - name: "Publish to PyPI"
         id: publish

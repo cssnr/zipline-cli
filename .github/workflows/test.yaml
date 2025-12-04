@@ -13,6 +13,8 @@ on:
     paths: *paths
 
 env:
+  name: test
+  path: dist
   ZIPLINE_URL: http://localhost:3000/
 
 concurrency:
@@ -24,8 +26,9 @@ jobs:
     name: "Build"
     if: ${{ !contains(github.event.head_commit.message, '#notest') }}
     uses: ./.github/workflows/build.yaml
+    secrets: inherit
     with:
-      name: test
+      name: ${{ env.name }}
 
   test3:
     name: "Test V3"
@@ -83,8 +86,8 @@ jobs:
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
         with:
-          name: test
-          path: dist
+          name: ${{ env.name }}
+          path: ${{ env.path }}
 
       - name: "Setup Python ${{ matrix.version }}"
         uses: actions/setup-python@v6
@@ -96,7 +99,7 @@ jobs:
         run: |
           python -V
           python -m pip install -U pip psycopg2
-          python -m pip install dist/*.whl
+          python -m pip install "${{ env.path }}"/*.whl
 
       #- name: "Debug ${{ matrix.version }}"
       #  run: |
@@ -161,8 +164,8 @@ jobs:
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
         with:
-          name: test
-          path: dist
+          name: ${{ env.name }}
+          path: ${{ env.path }}
 
       - name: "Setup Python ${{ matrix.version }}"
         uses: actions/setup-python@v6
@@ -174,7 +177,7 @@ jobs:
         run: |
           python -V
           python -m pip install -U pip psycopg2
-          python -m pip install dist/*.whl
+          python -m pip install "${{ env.path }}"/*.whl
 
       #- name: "Debug ${{ matrix.version }}"
       #  run: |

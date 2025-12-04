@@ -10,7 +10,7 @@ on:
       path:
         description: "Build Path"
         type: string
-        default: dist
+        default: "dist"
 
 jobs:
   build:

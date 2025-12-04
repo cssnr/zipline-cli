@@ -15,6 +15,10 @@ on:
 env:
   ZIPLINE_URL: http://localhost:3000/
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: "Build"

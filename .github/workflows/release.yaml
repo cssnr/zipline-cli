@@ -67,7 +67,6 @@ jobs:
           path: "dist"
           tag: ${{ github.ref_name }}
         run: |
-          # shellcheck disable=SC2012
           ls -lAh "${path}"/*
           results="$(ls -lAh "${path}"/* | awk '{print $9" - "$5}')"
           md="Artifacts:\n\`\`\`text\n${results}\n\`\`\`"

@@ -22,7 +22,7 @@ nav = [
 # https://zensical.org/docs/customization/#additional-css
 # extra_css = ["assets/stylesheets/extra.css"]
 # https://zensical.org/docs/customization/#additional-javascript
-extra_javascript = ["javascripts/external-links.js"]
+extra_javascript = ["assets/js/external-links.js"]
 
 # ----------------------------------------------------------------------------
 # Section for configuring theme options

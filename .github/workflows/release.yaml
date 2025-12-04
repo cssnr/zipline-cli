@@ -67,7 +67,8 @@ jobs:
           path: "dist"
           tag: ${{ github.ref_name }}
         run: |
-          ls -lAh "${path}"/*  # shellcheck disable=SC2012
+          # shellcheck disable=SC2012
+          ls -lAh "${path}"/*
           results="$(ls -lAh "${path}"/* | awk '{print $9" - "$5}')"
           md="Artifacts:\n\`\`\`text\n${results}\n\`\`\`"
           echo -e "${md}" >> "$GITHUB_STEP_SUMMARY"

@@ -117,7 +117,7 @@ include-package-data = true
 zipline = ["py.typed"]
 
 [tool.setuptools.dynamic]
-version = { attr = "zipline.__version__" }
+version = { attr = "zipline._version.__version__" }
 # version = {file = "version.txt"}
 
 [tool.setuptools.packages.find]

@@ -3,18 +3,6 @@ name: "Publish"
 on:
   workflow_call:
     inputs:
-      env-name:
-        description: "Environment Name"
-        type: string
-        default: "pypi"
-      env-url:
-        description: "Environment URL"
-        type: string
-        default: ""
-      repository-url:
-        description: "Build Path"
-        type: string
-        default: "https://upload.pypi.org/legacy/"
       package-name:
         description: "Package Name"
         type: string
@@ -27,6 +15,18 @@ on:
         description: "Build Path"
         type: string
         default: "dist"
+      env-name:
+        description: "Environment Name"
+        type: string
+        default: "pypi"
+      env-url:
+        description: "Environment URL"
+        type: string
+        default: ""
+      repository-url:
+        description: "PyPi Repo Upload URL"
+        type: string
+        default: "https://upload.pypi.org/legacy/"
 
 env:
   url: ${{ inputs.env-url || format('https://pypi.org/p/{0}', inputs.name) }}
@@ -49,13 +49,13 @@ jobs:
       - name: "Debug"
         run: |
           echo "github.ref_name: ${{ github.ref_name }}"
-          echo "inputs.repository-url: ${{ inputs.repository-url }}"
           echo "inputs.package-name: ${{ inputs.package-name }}"
-          echo "inputs.env-name: ${{ inputs.env-name }}"
-          echo "inputs.env-url: ${{ inputs.env-url }}"
-          echo "url: ${{ env.url }}"
           echo "inputs.name: ${{ inputs.name }}"
           echo "inputs.path: ${{ inputs.path }}"
+          echo "inputs.env-name: ${{ inputs.env-name }}"
+          echo "inputs.env-url: ${{ inputs.env-url }}"
+          echo "inputs.repository-url: ${{ inputs.repository-url }}"
+          echo "final env-url: ${{ env.url }}"
 
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
@@ -63,7 +63,7 @@ jobs:
           name: ${{ inputs.name }}
           path: ${{ inputs.path }}
 
-      - name: "Verify Artifacts"
+      - name: "Verify Artifact"
         env:
           path: ${{ inputs.path }}
           tag: ${{ github.ref_name }}

@@ -1,3 +1,6 @@
+$PackageName = "zipline-cli"
+$PackageFile = $PackageName -replace '-', '_'
+
 param (
     [switch]$c,
     [switch]$i,
@@ -12,7 +15,7 @@ write-output "Uninstall:  $u"
 
 if ($u) {
     Write-Host -ForegroundColor Red "Uninstalling..."
-    python -m pip uninstall -y zipline-cli
+    python -m pip uninstall -y $PackageName
 }
 
 $egg_dir = ".\src\*.egg-info"
@@ -42,7 +45,7 @@ python -m build
 
 if ($args[0] -eq "i") {
     Write-Host -ForegroundColor Green "Installing..."
-    python -m pip install .\dist\zipline_cli-0.0.1-py3-none-any.whl
+    python -m pip install .\dist\${PackageFile}-0.0.1-py3-none-any.whl
 }
 
 Write-Output "Success."

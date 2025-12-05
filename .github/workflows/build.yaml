@@ -10,7 +10,7 @@ on:
       path:
         description: "Build Path"
         type: string
-        default: dist
+        default: "dist"
 
 jobs:
   build:
@@ -61,8 +61,8 @@ jobs:
           echo "::group::results"
           echo "${results}"
           echo "::endgroup::"
-          markdown='Artifacts: `${{ inputs.path }}`\n```text\n'"${results}"'\n```'
-          echo -e "${markdown}" >> $GITHUB_STEP_SUMMARY
+          md="Artifacts: \`${{ inputs.path }}\`\n\`\`\`text\n${results}\n\`\`\`"
+          echo -e "${md}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: "Upload to Actions"
         uses: actions/upload-artifact@v5

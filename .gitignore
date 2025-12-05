@@ -17,4 +17,4 @@ site/
 .cache/
 # App
 .zipline*
-test*.*
+files/

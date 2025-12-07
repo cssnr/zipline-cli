@@ -6,31 +6,83 @@ on:
 
 env:
   name: "zipline-cli"
-  url: "https://${{ github.event.release.prerelease && 'test.' || '' }}pypi.org/p/zipline-cli"
-  repository-url: "https://${{ github.event.release.prerelease && 'test' || 'upload' }}.pypi.org/legacy/"
 
 jobs:
   build:
     name: "Build"
     uses: ./.github/workflows/build.yaml
     secrets: inherit
-    with:
-      name: "release"
 
     permissions:
       contents: read
 
   publish:
     name: "Publish"
-    uses: ./.github/workflows/publish.yaml
-    secrets: inherit
-    with:
-      name: "release"
-      package-name: "zipline-cli"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [build]
 
     permissions:
       contents: write
       id-token: write
+
+    environment:
+      name: "pypi"
+      url: "https://pypi.org/p/npmstat"
+
+    steps:
+      - name: "Debug"
+        run: |
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "env.name: ${{ env.name }}"
+
+      - name: "Download Artifact"
+        uses: actions/download-artifact@v6
+        with:
+          name: "dist"
+          path: "dist"
+
+      - name: "Verify Artifact"
+        env:
+          path: "dist"
+          name: ${{ env.name }}
+          tag: ${{ github.ref_name }}
+        run: |
+          ls -lAh "${path}"/*
+          results="$(ls -lAh "${path}"/* | awk '{print $9" - "$5}')"
+          md="Artifacts:\n\`\`\`text\n${results}\n\`\`\`"
+          echo -e "${md}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Verification String: '${name/-/_}-${tag}-'"
+          find "${path}" -type f | grep -- "${name/-/_}-${tag}-" > /dev/null
+
+      - name: "Publish to PyPI"
+        id: publish
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
+          #attestations: false
+
+      - name: "Summary"
+        if: ${{ always() }}
+        env:
+          tag: ${{ github.ref_name }}
+          url: ${{ env.url }}
+        run: |
+          if [ "${{ steps.publish.outcome }}" == "success" ];then
+            md="🎉 Published Version: \`${tag}\`\n\n[${url}](${url})\n\n"
+          else
+            md="⛔ Error Publishing Version: \`${tag}\`\n\n"
+          fi
+          echo -e "${md}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: "Send Notification"
+        if: ${{ !cancelled() }}
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          description: |
+            - ${{ format('https://pypi.org/p/{0}/{1}', env.name, github.ref_name) }}
+            - ${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}
 
   release:
     name: "Release"
@@ -58,14 +110,14 @@ jobs:
           GITHUB_CTX: ${{ toJSON(github) }}
         run: echo "$GITHUB_CTX"
 
-      #- name: "Debug Environment"
-      #  continue-on-error: true
-      #  run: env
+      - name: "Debug Environment"
+        continue-on-error: true
+        run: env
 
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
         with:
-          name: "release"
+          name: "dist"
           path: "dist"
 
       - name: "List Artifacts"

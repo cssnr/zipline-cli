@@ -25,8 +25,6 @@ jobs:
     if: ${{ !contains(github.event.head_commit.message, '#notest') }}
     uses: ./.github/workflows/build.yaml
     secrets: inherit
-    with:
-      name: test
 
   test3:
     name: "Test V3"
@@ -84,7 +82,7 @@ jobs:
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
         with:
-          name: test
+          name: dist
           path: dist
 
       - name: "Setup Python ${{ matrix.version }}"
@@ -162,7 +160,7 @@ jobs:
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
         with:
-          name: test
+          name: dist
           path: dist
 
       - name: "Setup Python ${{ matrix.version }}"

@@ -1,24 +1,30 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block site_meta %} {{ super() }}
 
-{% block site_meta %}
-  {{ super() }}
+<link rel="icon" type="image/png" href="/assets/images/logo.png" />
+<link rel="apple-touch-icon" href="/assets/images/logo.png" />
 
-  <link rel="icon" type="image/png" href="/assets/images/logo.png">
-  <link rel="apple-touch-icon" href="/assets/images/logo.png">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Zipline v3/v4 CLI Uploader" />
+<meta property="og:title" content="Zipline CLI" />
+<meta
+  property="og:description"
+  content="Python 3 CLI File Uploader for Diced/Zipline v3/v4 Upload Server and Django Files."
+/>
+<meta property="og:image" content="/assets/images/logo.png" />
+<meta property="og:image:alt" content="Zipline CLI" />
 
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Zipline v3/v4 CLI Uploader">
-  <meta property="og:title" content="Zipline CLI">
-  <meta property="og:description" content="Python 3 CLI File Uploader for Diced/Zipline v3/v4 Upload Server and Django Files.">
-  <meta property="og:image" content="/assets/images/logo.png">
-  <meta property="og:image:alt" content="Zipline CLI">
+<meta property="twitter:card" content="summary" />
+<meta
+  property="twitter:site"
+  content="Python 3 CLI File Uploader for Diced/Zipline v3/v4 Upload Server and Django Files."
+/>
+<meta property="twitter:title" content="Zipline CLI" />
+<meta
+  property="twitter:description"
+  content="Python 3 CLI File Uploader for Diced/Zipline v3/v4 Upload Server and Django Files."
+/>
+<meta property="twitter:image" content="/assets/images/logo.png" />
+<meta property="twitter:image:alt" content="Zipline CLI" />
 
-  <meta property="twitter:card" content="summary">
-  <meta property="twitter:site" content="Python 3 CLI File Uploader for Diced/Zipline v3/v4 Upload Server and Django Files.">
-  <meta property="twitter:title" content="Zipline CLI">
-  <meta property="twitter:description" content="Python 3 CLI File Uploader for Diced/Zipline v3/v4 Upload Server and Django Files.">
-  <meta property="twitter:image" content="/assets/images/logo.png">
-  <meta property="twitter:image:alt" content="Zipline CLI">
-
-  <meta name="darkreader-lock">
+<meta name="darkreader-lock" />
 {% endblock %}

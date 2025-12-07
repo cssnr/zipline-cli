@@ -36,7 +36,7 @@ Homepage = "https://cssnr.com/"
 Issues = "https://github.com/cssnr/zipline-cli/issues"
 
 [project.scripts]
-zipline = "zipline.zipline:main"
+zipline = "zipline.cli:main"
 
 [dependency-groups]
 dev = [

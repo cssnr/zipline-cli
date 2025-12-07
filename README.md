@@ -25,7 +25,7 @@
 # Zipline CLI
 
 <a title="Zipline CLI" href="https://zipline-cli.cssnr.com/" target="_blank">
-<img alt="Zipline CLI" align="right" width="128" height="auto" src="https://raw.githubusercontent.com/smashedr/repo-images/refs/heads/master/zipline/cli/logo128.png"></a>
+<img alt="Zipline CLI" align="right" width="128" height="auto" src="https://zipline-cli.cssnr.com/assets/images/logo.png"></a>
 
 - [Quick Start](#quick-start)
 - [Install](#install)

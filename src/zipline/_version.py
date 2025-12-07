@@ -3,7 +3,7 @@ import re
 
 
 def get_version() -> str:
-    version = os.environ.get("GITHUB_REF_NAME")
+    version = os.environ.get("GITHUB_REF_NAME", "")
     pattern = r"^\d+\.\d+\.\d+(?:[abc]\d*)?$"
     match = re.match(pattern, version)
     return version if match else "0.0.1"

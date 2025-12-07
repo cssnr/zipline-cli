@@ -14,6 +14,8 @@ import requests
 from decouple import config
 from dotenv import find_dotenv, load_dotenv
 
+from . import __doc__ as package_doc
+
 
 class ZipURL(object):
     """
@@ -232,7 +234,6 @@ def setup(env_file: Path) -> None:
     with open(env_file, "w") as f:
         f.write(output)
     print(f"Setup Complete. Variables Saved to: {env_file}")
-    sys.exit(0)
 
 
 def run() -> None:
@@ -241,12 +242,10 @@ def run() -> None:
     dotenv_path = env_file if os.path.isfile(env_file) else find_dotenv(filename=zipline_file)
     env = load_dotenv(dotenv_path=dotenv_path)
 
-    parser = argparse.ArgumentParser(description="Zipline CLI.")
-    parser.add_argument("files", metavar="Files", type=str, nargs="*", help="Files to Upload.")
+    parser = argparse.ArgumentParser(description="Zipline CLI.", epilog="Docs: https://zipline-cli.cssnr.com/")
+    parser.add_argument("files", metavar="file(s)", type=str, nargs="*", help="file(s) to upload")
     parser.add_argument("-s", "--setup", action="store_true", default=False, help="run the interactive setup")
-    parser.add_argument("-i", "--info", action="store_true", help="show application information")
-    parser.add_argument("-V", "--version", action="store_true", help="show the installed version")
-    parser.add_argument("-u", "--url", type=str, default=get_default(["url"]), help="Zipline URL")
+    parser.add_argument("-u", "--url", type=str, default=get_default(["url"]), help="Zipline server url")
     parser.add_argument(
         "-a",
         "-t",
@@ -254,7 +253,7 @@ def run() -> None:
         "--token",
         type=str,
         default=get_default(["token", "authorization"]),
-        help="Zipline Access Token for Authorization or ZIPLINE_TOKEN",
+        help="Zipline access token or ZIPLINE_TOKEN",
     )
     parser.add_argument(
         "-e",
@@ -263,14 +262,21 @@ def run() -> None:
         "--expire",
         type=str,
         default=get_default(["expire", "expire_at"]),
-        help="Ex: 1d, 2w. See: https://zipline.diced.sh/docs/guides/upload-options#image-expiration",
+        help="1d, 2w, etc. See: https://zipline.diced.sh/docs/guides/ms",
     )
     parser.add_argument(
-        "--embed", action="store_true", default=get_default(["embed"], False, bool), help="Enable Embeds on Uploads."
+        "-E",
+        "--embed",
+        action="store_true",
+        default=get_default(["embed"], False, bool),
+        help="enable embeds on uploads",
     )
+    parser.add_argument("-i", "--info", action="store_true", help="show application information")
+    parser.add_argument("-V", "--version", action="store_true", help="show the installed version")
     args = parser.parse_args()
 
     if args.version:
+        print(package_doc, file=sys.stderr)
         print(version("zipline-cli"))
         return
 
@@ -287,6 +293,7 @@ def run() -> None:
 
     if args.setup:
         setup(env_file)
+        return
 
     if not env and not args.url and not args.authorization and not os.path.isfile(env_file):
         env_file.touch()

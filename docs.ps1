@@ -28,5 +28,6 @@ if ($b) {
     Write-Host -ForegroundColor Green "Building Docs..."
     zensical build
 } else {
+    Start-Process "http://localhost:8000/"
     zensical serve
 }

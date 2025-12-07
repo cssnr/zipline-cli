@@ -6,16 +6,12 @@ on:
 
 env:
   name: "zipline-cli"
-  url: "https://${{ github.event.release.prerelease && 'test.' || '' }}pypi.org/p/zipline-cli"
-  repository-url: "https://${{ github.event.release.prerelease && 'test' || 'upload' }}.pypi.org/legacy/"
 
 jobs:
   build:
     name: "Build"
     uses: ./.github/workflows/build.yaml
     secrets: inherit
-    with:
-      name: "release"
 
     permissions:
       contents: read
@@ -31,54 +27,39 @@ jobs:
       id-token: write
 
     environment:
-      name: ${{ github.event.release.prerelease && 'test' || 'pypi' }}
-      url: ${{ env.url }}
+      name: "pypi"
+      url: "https://pypi.org/p/npmstat"
 
     steps:
-      - name: "Debug event.json"
-        continue-on-error: true
-        run: cat "${GITHUB_EVENT_PATH}"
-
-      - name: "Debug CTX github"
-        continue-on-error: true
-        env:
-          GITHUB_CTX: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CTX"
-
-      #- name: "Debug Environment"
-      #  continue-on-error: true
-      #  run: env
-
       - name: "Debug"
         run: |
           echo "github.ref_name: ${{ github.ref_name }}"
-          echo "name: ${{ github.event.release.prerelease && 'test' || 'pypi' }}"
-          echo "env.url: ${{ env.url }}"
-          echo "env.repository-url: ${{ env.repository-url }}"
+          echo "env.name: ${{ env.name }}"
 
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
         with:
-          name: "release"
+          name: "dist"
           path: "dist"
 
-      - name: "Verify Artifacts"
+      - name: "Verify Artifact"
         env:
           path: "dist"
+          name: ${{ env.name }}
           tag: ${{ github.ref_name }}
         run: |
-          ls -lAh ${path}/*
-          results="$(ls -lAh ${path}/* | awk '{print $9" - "$5}')"
-          markdown='Artifacts:\n```text\n'"${results}"'\n```'
-          echo -e "${markdown}" >> $GITHUB_STEP_SUMMARY
-          ls ${path} | grep -- "-${tag}-" > /dev/null
+          ls -lAh "${path}"/*
+          results="$(ls -lAh "${path}"/* | awk '{print $9" - "$5}')"
+          md="Artifacts:\n\`\`\`text\n${results}\n\`\`\`"
+          echo -e "${md}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Verification String: '${name/-/_}-${tag}-'"
+          find "${path}" -type f | grep -- "${name/-/_}-${tag}-" > /dev/null
 
       - name: "Publish to PyPI"
         id: publish
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           verbose: true
-          repository-url: ${{ env.repository-url }}
           #attestations: false
 
       - name: "Summary"
@@ -86,15 +67,13 @@ jobs:
         env:
           tag: ${{ github.ref_name }}
           url: ${{ env.url }}
-          repository-url: ${{ env.repository-url }}
         run: |
           if [ "${{ steps.publish.outcome }}" == "success" ];then
-            markdown="🎉 Published Version: \`${tag}\`\n\n[${url}](${url})\n\n"
+            md="🎉 Published Version: \`${tag}\`\n\n[${url}](${url})\n\n"
           else
-            markdown="⛔ Error Publishing Version: \`${tag}\`\n\n"
+            md="⛔ Error Publishing Version: \`${tag}\`\n\n"
           fi
-          markdown+="Repository URL: \`${repository-url}\`"
-          echo -e "${markdown}" >> $GITHUB_STEP_SUMMARY
+          echo -e "${md}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: "Send Notification"
         if: ${{ !cancelled() }}
@@ -102,8 +81,8 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           description: |
-            ${{ env.url }}
-            ${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}
+            - ${{ format('https://pypi.org/p/{0}/{1}', env.name, github.ref_name) }}
+            - ${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}
 
   release:
     name: "Release"
@@ -131,30 +110,23 @@ jobs:
           GITHUB_CTX: ${{ toJSON(github) }}
         run: echo "$GITHUB_CTX"
 
-      #- name: "Debug Environment"
-      #  continue-on-error: true
-      #  run: env
-
-      #- name: "Update Latest Tag"
-      #  if: ${{ !github.event.release.prerelease }}
-      #  uses: cssnr/update-version-tags-action@latest
-      #  continue-on-error: true
-      #  with:
-      #    major: false
-      #    minor: false
-      #    tags: latest
-      #    #tag: ${{ github.ref_name }}
+      - name: "Debug Environment"
+        continue-on-error: true
+        run: env
 
       - name: "Download Artifact"
         uses: actions/download-artifact@v6
         with:
-          name: "release"
+          name: "dist"
           path: "dist"
 
       - name: "List Artifacts"
+        env:
+          path: "dist"
+          tag: ${{ github.ref_name }}
         run: |
-          ls -lAh dist
-          ls dist | grep -- "-${{ github.ref_name }}-" > /dev/null
+          ls -lAh "${path}"
+          find "${path}" | grep -- "-${tag}-" > /dev/null
 
       - name: "Upload Release"
         uses: cssnr/upload-release-action@latest

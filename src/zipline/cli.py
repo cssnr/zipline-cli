@@ -34,13 +34,19 @@ def get_env(file_name: str = ".zipline-test") -> Path:
     return env_file
 
 
-def get_config(values: List[str], arg: Any, req: bool = False, cast: type = str):
+def get_config(values: List[str], arg: Any = None, req: bool = False, default: Optional[Any] = None, cast: type = str):
     if arg or arg == 0 or arg is False:
         return arg
     for value in values:
-        result = os.environ.get(f"ZIPLINE_{value.upper()}", "")
-        if result:
+        result = os.environ.get(f"ZIPLINE_{value.upper()}", None)
+        if result is not None:
+            if cast == bool:
+                if result.lower().strip() in ["true", "yes", "on"]:
+                    return True
+                return False
             return cast(result)
+    if default is not None:
+        return default
     if req:
         error = f"Missing required argument: --{values[0]} (see also --help and --setup)"
         raise ClickException(error)
@@ -60,21 +66,21 @@ def format_output(filename: str, url: ZipURL) -> str:
 def run_setup(env_file: Path) -> None:
     # NOTE: Overhaul and update to typer/click/rich methods...
     env_file.touch()
-    print("Setting up Environment File...")
-    url = input("Zipline URL: ").strip()
-    token = input("Zipline Authorization Token: ").strip()
+    print(f"Setting up Environment File: [bold cyan]{env_file.absolute()}")
+    _url = get_config(["url"])  # duplication
+    url = typer.prompt("Zipline URL", default=_url).strip()
+    token = typer.prompt("Zipline Authorization Token").strip()
     if not url or not token:
         raise ValueError("Missing URL or Token.")
     output = f"ZIPLINE_URL={url}\nZIPLINE_TOKEN={token}\n"
-    embed = input("Enabled Embed? [Yes]/No: ").strip()
-    if not embed or embed.lower() not in ["n", "o", "no", "noo"]:
-        output += "ZIPLINE_EMBED=true\n"
-    expire = input("Default Expire? [Blank for None]: ").strip().lower()
+    embed = typer.confirm("Enabled Embed?", default=True)
+    output += f"ZIPLINE_EMBED={embed}\n"
+    expire = typer.prompt("Default Expire?", default="").strip().lower()
     if expire:
         output += f"ZIPLINE_EXPIRE={expire}\n"
     with open(env_file, "w") as f:
         f.write(output)
-    print(f"Setup Complete. Variables Saved to: {env_file.absolute()}")
+    print(f"Setup Complete. Variables Saved to: [bold green]{env_file.absolute()}")
 
 
 def opt_info(value: bool):
@@ -147,7 +153,7 @@ def main(
     print("--------------------")
 
     if _setup or (not url and not token):
-        print("Missing --url or --token, Entering Setup.")
+        print("[bold red]Error![/bold red] Missing --url or --token, Entering Setup.")
         run_setup(env_file)
         raise typer.Exit()
 

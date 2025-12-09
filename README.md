@@ -47,7 +47,7 @@ Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline)
 
 > [!WARNING]  
 > This branch contains the latest changes for [pre-releases](https://github.com/cssnr/zipline-cli/releases).  
-> For the current version see [Tag 0.2.3](https://github.com/cssnr/zipline-cli/tree/0.2.3).
+> For the current version see this [README.md](https://github.com/cssnr/zipline-cli/tree/0.2.3).
 
 ## Quick Start<a id="quick-start"></a>
 

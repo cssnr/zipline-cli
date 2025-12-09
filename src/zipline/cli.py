@@ -131,11 +131,6 @@ def main(
     print(f"_setup: {_setup}")
     env_file = get_env()
     print(f"env_file: {env_file}")
-    if _setup or not env_file.is_file():
-        print("First Run Detected, Entering Setup.")
-        run_setup(env_file)
-        # TODO: Consider proceeding here...
-        raise typer.Exit()
     env = load_dotenv(dotenv_path=env_file)
     print(f"env: {env}")
     print("--------------------")
@@ -150,6 +145,11 @@ def main(
     embed = get_config(["expire", "expire_at"], _embed, cast=bool)
     print(f"embed: {embed}")
     print("--------------------")
+
+    if _setup or (not url and not token):
+        print("First Run Detected, Entering Setup.")
+        run_setup(env_file)
+        raise typer.Exit()
 
     zipline = Zipline(url, authorization=token)
 

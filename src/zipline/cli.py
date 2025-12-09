@@ -23,7 +23,7 @@ app = typer.Typer(pretty_exceptions_show_locals=False, rich_markup_mode="rich")
 
 
 def get_env(file_name: str = ".zipline-test") -> Path:
-    # TODO: Remove `find_dotenv` and use central config file...
+    # NOTE: Remove `find_dotenv` and use central config file...
     env_file = Path(os.path.expanduser("~")) / file_name
     if os.path.isfile(env_file):
         return env_file
@@ -58,7 +58,7 @@ def format_output(filename: str, url: ZipURL) -> str:
 
 
 def run_setup(env_file: Path) -> None:
-    # TODO: Overhaul and update to typer/click/rich methods...
+    # NOTE: Overhaul and update to typer/click/rich methods...
     env_file.touch()
     print("Setting up Environment File...")
     url = input("Zipline URL: ").strip()

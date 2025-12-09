@@ -91,8 +91,8 @@ class Zipline(object):
         url = self.base_url + "/api/upload"
 
         path = Path(file_name)
-        if not path.is_file():
-            raise ValueError(f"Not a File: {path.resolve()}")
+        # if not path.is_file():
+        #     raise ValueError(f"Not a File: {path.resolve()}")
 
         mime_type = get_type(path)
         # print(f"mime_type: {mime_type}")

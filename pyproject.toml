@@ -21,6 +21,7 @@ classifiers = [
 dependencies = [
   "python-dotenv",
   "requests>=2,<3",
+  "typer",
 ]
 dynamic = ["version"]
 # license = { file = "LICENSE" }

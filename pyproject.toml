@@ -19,9 +19,8 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-  "python-decouple",
   "python-dotenv",
-  "requests",
+  "requests>=2,<3",
 ]
 dynamic = ["version"]
 # license = { file = "LICENSE" }
@@ -36,7 +35,7 @@ Homepage = "https://cssnr.com/"
 Issues = "https://github.com/cssnr/zipline-cli/issues"
 
 [project.scripts]
-zipline = "zipline.cli:main"
+zipline = "zipline.cli:app"
 
 [dependency-groups]
 dev = [
@@ -46,8 +45,6 @@ dev = [
   "isort",
   "mypy",
   "psycopg2",
-  "python-decouple",
-  "python-decouple-typed",
   "python-dotenv",
   "requests",
   "ruff",

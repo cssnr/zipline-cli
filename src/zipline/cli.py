@@ -1,7 +1,5 @@
-import argparse
 import io
 import os
-import re
 import secrets
 import string
 import sys
@@ -9,125 +7,59 @@ from importlib.metadata import version
 from pathlib import Path
 from typing import Any, List, Optional, TextIO
 
-from decouple import config
+import typer
+from click import ClickException
 from dotenv import find_dotenv, load_dotenv
-
-from zipline.zipline import Zipline, ZipURL
+from rich import print
+from rich.console import Console
+from rich.table import Table
+from typing_extensions import Annotated
 
 from . import __doc__ as package_doc
+from .zipline import Zipline, ZipURL
 
 
-def run() -> None:
-    zipline_file = ".zipline"
-    env_file = Path(os.path.expanduser("~")) / zipline_file
-    dotenv_path = env_file if os.path.isfile(env_file) else find_dotenv(filename=zipline_file)
-    env = load_dotenv(dotenv_path=dotenv_path)
-
-    parser = argparse.ArgumentParser(description="Zipline CLI.", epilog="Docs: https://zipline-cli.cssnr.com/")
-    parser.add_argument("files", metavar="file(s)", type=str, nargs="*", help="file(s) to upload")
-    parser.add_argument("-s", "--setup", action="store_true", default=False, help="run the interactive setup")
-    parser.add_argument(
-        "-u", "--url", metavar="ZIPLINE_URL", type=str, default=get_default(["url"]), help="Zipline server url"
-    )
-    parser.add_argument(
-        "-a",
-        "-t",
-        "--authorization",
-        "--token",
-        metavar="ZIPLINE_TOKEN",
-        type=str,
-        default=get_default(["token", "authorization"]),
-        help="Zipline access token or ZIPLINE_TOKEN",
-    )
-    parser.add_argument(
-        "-e",
-        "-x",
-        "--expires_at",
-        "--expire",
-        type=str,
-        default=get_default(["expire", "expire_at"]),
-        help="1d, 2w, etc. See: https://zipline.diced.sh/docs/guides/ms",
-    )
-    parser.add_argument(
-        "-E",
-        "--embed",
-        action="store_true",
-        default=get_default(["embed"], False, bool),
-        help="enable embeds on uploads",
-    )
-    parser.add_argument("-i", "--info", action="store_true", help="show application information")
-    parser.add_argument("-V", "--version", action="store_true", help="show the installed version")
-    args = parser.parse_args()
-
-    if args.version:
-        print(package_doc, file=sys.stderr)
-        print(version("zipline-cli"))
-        return
-
-    if args.info:
-        print(f"Zipline Version:  {version('zipline-cli')}")
-        print(f"Config File:      {env_file.absolute()}")
-        print(f"Server URL:       {config('ZIPLINE_URL', '')}")
-        print(f"Token (ends in):  {config('ZIPLINE_TOKEN', '')[-10:]}")
-        print(f"Expire:           {config('ZIPLINE_EXPIRE', '')}")
-        print(f"Embed:            {config('ZIPLINE_EMBED', '')}")
-        zipline_format = config("ZIPLINE_FORMAT", "{url}\n{raw_url}")
-        print(f"URL Format::\n{zipline_format}")
-        return
-
-    if args.setup:
-        setup(env_file)
-        return
-
-    if not env and not args.url and not args.authorization and not os.path.isfile(env_file):
-        env_file.touch()
-        print("First Run Detected, Entering Setup.")
-        setup(env_file)
-        return
-
-    if not args.url:
-        parser.print_help()
-        exit_error(parser, "Missing URL. Use --setup or specify --url")
-
-    if not args.authorization:
-        parser.print_help()
-        exit_error(parser, "Missing Token. Use --setup or specify --token")
-
-    if args.expires_at:
-        args.expires_at = args.expires_at.strip().lower()
-        match = re.search(r"^(\d+)(?:ms|s|m|h|d|w|y)$", args.expires_at)
-        if not match:
-            parser.print_help()
-            exit_error(parser, f"Invalid Expire Format: {args.expires_at}.")
-
-    zipline = Zipline(**vars(args))
-
-    if not args.files:
-        content: str = sys.stdin.read().rstrip("\n") + "\n"
-        text_f: TextIO = io.StringIO(content)
-        name = f"{gen_rand(8)}.txt"
-        url: ZipURL = zipline.send_file(name, text_f)
-        print(format_output(name, url))
-        return
-
-    exit_code = 1
-    for name in args.files:
-        if not os.path.isfile(name):
-            print(f"Warning: File Not Found: {name}")
-            continue
-        # mode: Literal["r", "rb"] = get_mode(name)
-        with open(name, "rb") as f:
-            # name, ext = os.path.splitext(os.path.basename(filename))
-            # ext = f'.{ext}' if ext else ''
-            # name = f'{name}-{gen_rand(8)}{ext}'
-            # url: str = zipline.send_file(name, f)
-            zip_url: ZipURL = zipline.send_file(name, f)
-            print(format_output(name, zip_url))
-            exit_code = 0
-    sys.exit(exit_code)
+app = typer.Typer(pretty_exceptions_show_locals=False, rich_markup_mode="rich")
 
 
-def setup(env_file: Path) -> None:
+def get_env(file_name: str = ".zipline-test") -> Path:
+    # TODO: Remove `find_dotenv` and use central config file...
+    env_file = Path(os.path.expanduser("~")) / file_name
+    if os.path.isfile(env_file):
+        return env_file
+    dotenv_file = find_dotenv(filename=file_name)
+    if dotenv_file:
+        dotenv_path = Path(dotenv_file)
+        return dotenv_path
+    return env_file
+
+
+def get_config(values: List[str], arg: Any, req: bool = False, cast: Optional[type] = str):
+    if arg or arg == 0 or arg == False:
+        return arg
+    for value in values:
+        result = os.environ.get(f"ZIPLINE_{value.upper()}", "")
+        if result:
+            return cast(result)
+    if req:
+        error = f"Missing required argument: --{values[0]} (see also --help and --setup)"
+        raise ClickException(error)
+    return None
+
+
+def gen_rand(length: int = 4) -> str:
+    r = "".join(secrets.choice(string.ascii_letters) for _ in range(length))
+    return "".join(r)
+
+
+def format_output(filename: str, url: ZipURL) -> str:
+    zipline_format = os.environ.get("ZIPLINE_FORMAT", "{filename}\n{url}\n{raw_url}")
+    return zipline_format.format(filename=filename, url=url, raw_url=url.raw)
+
+
+def run_setup(env_file: Path) -> None:
+    # TODO: Overhaul and update to typer/click/rich methods...
+    env_file.touch()
     print("Setting up Environment File...")
     url = input("Zipline URL: ").strip()
     token = input("Zipline Authorization Token: ").strip()
@@ -139,77 +71,109 @@ def setup(env_file: Path) -> None:
         output += "ZIPLINE_EMBED=true\n"
     expire = input("Default Expire? [Blank for None]: ").strip().lower()
     if expire:
-        match = re.search(r"^(\d+)(?:ms|s|m|h|d|w|y)$", expire)
-        if not match:
-            print(f"Warning: invalid expire format: {expire}. See --help")
-        else:
-            output += f"ZIPLINE_EXPIRE={expire}\n"
+        output += f"ZIPLINE_EXPIRE={expire}\n"
     with open(env_file, "w") as f:
         f.write(output)
-    print(f"Setup Complete. Variables Saved to: {env_file}")
+    print(f"Setup Complete. Variables Saved to: {env_file.absolute()}")
 
 
-def get_default(
-    values: List[str],
-    default: Optional[Any] = None,
-    cast: type = str,
-    pre: str = "ZIPLINE_",
-    suf: str = "",
-) -> Optional[str]:
-    """
-    Get Default Environment Variable from List of values
-    :param values: List of Values to Check
-    :param default: Default Value if None
-    :param cast: Type to Cast Value
-    :param pre: Environment Variable Prefix
-    :param suf: Environment Variable Suffix
-    :return: Environment Variable or None
-    """
-    for value in values:
-        result = config(f"{pre}{value.upper()}{suf}", "", cast)
-        if result:
-            return result
-    return default
+def opt_info(value: bool):
+    if value:
+        env_file = get_env()
+        env = load_dotenv(dotenv_path=env_file)
+        table = Table(title="App Information")
+        # Head
+        table.add_column("Item", style="bold magenta", no_wrap=True)
+        table.add_column("Value", style="bold cyan")
+        # Body
+        table.add_row("Zipline Version", version("zipline-cli")),
+        table.add_row("Config File", str(env_file.absolute())),
+        table.add_row("Config Loaded", str(env)),
+        table.add_row("Server URL", os.environ.get("ZIPLINE_URL", "")),
+        table.add_row("Token (ends in)", os.environ.get("ZIPLINE_TOKEN", "")[-10:]),
+        table.add_row("Expire", os.environ.get("ZIPLINE_EXPIRE", "")),
+        table.add_row("Embed", os.environ.get("ZIPLINE_EMBED", "")),
+        table.add_row("Results Format", repr(os.environ.get("ZIPLINE_FORMAT", "{url}\n{raw_url}"))[1:-1]),
+        console = Console()
+        console.print(table)
+        raise typer.Exit()
 
 
-def format_output(filename: str, url: ZipURL) -> str:
-    """
-    Format URL Output
-    :param filename: Original or File Name
-    :param url: ZipURL to Format
-    :return: Formatted Output
-    """
-    zipline_format = config("ZIPLINE_FORMAT", "{filename}\n{url}\n{raw_url}")
-    return zipline_format.format(filename=filename, url=url, raw_url=url.raw)
+def opt_version(value: bool):
+    if value:
+        print(package_doc, file=sys.stderr)
+        print(version("zipline-cli"))
+        raise typer.Exit()
 
 
-def gen_rand(length: int = 4) -> str:
-    """
-    Generate Random Streng
-    :param length: Length of String
-    :return: Random String
-    """
-    r = "".join(secrets.choice(string.ascii_letters) for _ in range(length))
-    return "".join(r)
+@app.command(epilog="Docs: https://zipline-cli.cssnr.com/")
+def main(
+    files: Annotated[Optional[List[str]], typer.Argument(help="AI is RETARDED")] = None,
+    _embed: Annotated[Optional[bool], typer.Option("-E", "--embed", help="Enable Embed.")] = False,
+    _expire: Annotated[str, typer.Option("-e", "-x", "--expire", "--expires_at", help="File Expiration.")] = "",
+    _url: Annotated[str, typer.Option("-u", "--url", help="Zipline URL.")] = "",
+    _token: Annotated[str, typer.Option("-t", "-a", "--token", "--authorization", help="Zipline token.")] = "",
+    _setup: Annotated[Optional[bool], typer.Option("-S", "--setup", help="Run interactive setup.")] = None,
+    _info: Annotated[
+        Optional[bool], typer.Option("-I", "--info", callback=opt_info, help="Show saved information.")
+    ] = None,
+    _version: Annotated[
+        Optional[bool], typer.Option("-V", "--version", callback=opt_version, help="Show installed version.")
+    ] = None,
+):
+    """Zipline CLI"""
+    # App Directory
+    # app_dir = typer.get_app_dir('zipline-cli')
+    # print(f"app_dir: {app_dir}")
+    # Launch App
+    # typer.launch("https://zipline-cli.cssnr.com/")
 
+    print(f"_setup: {_setup}")
+    env_file = get_env()
+    print(f"env_file: {env_file}")
+    if _setup or not env_file.is_file():
+        print("First Run Detected, Entering Setup.")
+        run_setup(env_file)
+        # TODO: Consider proceeding here...
+        raise typer.Exit()
+    env = load_dotenv(dotenv_path=env_file)
+    print(f"env: {env}")
+    print("--------------------")
 
-def exit_error(arg_parser: argparse.ArgumentParser, message: str, print_help=True):
-    # print(f"\033[31;1merror: \033[33;1m{message}\033[0m", file=sys.stderr, end="\n\n")
-    print(f"error: {message}", file=sys.stderr, end="\n\n")
-    if print_help:
-        arg_parser.print_help(sys.stderr)
-    sys.exit(1)
+    # print(f"_token: {_token}")
+    url = get_config(["url"], _url, True)
+    print(f"url: {url}")
+    token = get_config(["token", "authorization"], _token, True)
+    print(f"token: {token}")
+    expire = get_config(["expire", "expire_at"], _expire)
+    print(f"expire: {expire}")
+    embed = get_config(["expire", "expire_at"], _embed, cast=bool)
+    print(f"embed: {embed}")
+    print("--------------------")
 
+    zipline = Zipline(url, authorization=token)
 
-def main() -> None:
-    try:
-        run()
-    except KeyboardInterrupt:
-        sys.exit(1)
-    except Exception as error:
-        print("\nError: {}".format(str(error)))
-        sys.exit(1)
+    print(f"files: {files}")
+
+    if not files:
+        content: str = sys.stdin.read().rstrip("\n") + "\n"
+        text_f: TextIO = io.StringIO(content)
+        name = f"{gen_rand(8)}.txt"
+        zip_url: ZipURL = zipline.send_file(name, text_f)
+        print(format_output(name, zip_url))
+        raise typer.Exit()
+
+    exit_code = 1
+    for name in files:
+        if not os.path.isfile(name):
+            print(f"Warning: File Not Found: {name}")
+            continue
+        with open(name, "rb") as f:
+            zip_url: ZipURL = zipline.send_file(name, f)
+            print(format_output(name, zip_url))
+            exit_code = 0
+    sys.exit(exit_code)
 
 
 if __name__ == "__main__":
-    main()
+    app()

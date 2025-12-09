@@ -51,6 +51,7 @@ dev = [
   "setuptools",
   "tombi",
   "ty",
+  "typer",
   "types-psycopg2",
   "types-requests",
   "validate-pyproject[all]",

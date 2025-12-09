@@ -34,8 +34,8 @@ def get_env(file_name: str = ".zipline-test") -> Path:
     return env_file
 
 
-def get_config(values: List[str], arg: Any, req: bool = False, cast: Optional[type] = str):
-    if arg or arg == 0 or arg == False:
+def get_config(values: List[str], arg: Any, req: bool = False, cast: type = str):
+    if arg or arg == 0 or arg is False:
         return arg
     for value in values:
         result = os.environ.get(f"ZIPLINE_{value.upper()}", "")
@@ -86,14 +86,14 @@ def opt_info(value: bool):
         table.add_column("Item", style="bold magenta", no_wrap=True)
         table.add_column("Value", style="bold cyan")
         # Body
-        table.add_row("Zipline Version", version("zipline-cli")),
-        table.add_row("Config File", str(env_file.absolute())),
-        table.add_row("Config Loaded", str(env)),
-        table.add_row("Server URL", os.environ.get("ZIPLINE_URL", "")),
-        table.add_row("Token (ends in)", os.environ.get("ZIPLINE_TOKEN", "")[-10:]),
-        table.add_row("Expire", os.environ.get("ZIPLINE_EXPIRE", "")),
-        table.add_row("Embed", os.environ.get("ZIPLINE_EMBED", "")),
-        table.add_row("Results Format", repr(os.environ.get("ZIPLINE_FORMAT", "{url}\n{raw_url}"))[1:-1]),
+        table.add_row("Zipline Version", version("zipline-cli"))
+        table.add_row("Config File", str(env_file.absolute()))
+        table.add_row("Config Loaded", str(env))
+        table.add_row("Server URL", os.environ.get("ZIPLINE_URL", ""))
+        table.add_row("Token (ends in)", os.environ.get("ZIPLINE_TOKEN", "")[-10:])
+        table.add_row("Expire", os.environ.get("ZIPLINE_EXPIRE", ""))
+        table.add_row("Embed", os.environ.get("ZIPLINE_EMBED", ""))
+        table.add_row("Results Format", repr(os.environ.get("ZIPLINE_FORMAT", "{url}\n{raw_url}"))[1:-1])
         console = Console()
         console.print(table)
         raise typer.Exit()
@@ -169,8 +169,8 @@ def main(
             print(f"Warning: File Not Found: {name}")
             continue
         with open(name, "rb") as f:
-            zip_url: ZipURL = zipline.send_file(name, f)
-            print(format_output(name, zip_url))
+            zip_url2: ZipURL = zipline.send_file(name, f)
+            print(format_output(name, zip_url2))
             exit_code = 0
     sys.exit(exit_code)
 

@@ -40,7 +40,7 @@ def get_config(values: List[str], arg: Any = None, req: bool = False, default: O
     for value in values:
         result = os.environ.get(f"ZIPLINE_{value.upper()}", None)
         if result is not None:
-            if cast == bool:
+            if isinstance(cast, bool):
                 if result.lower().strip() in ["true", "yes", "on"]:
                     return True
                 return False
@@ -134,23 +134,13 @@ def main(
     # Launch App
     # typer.launch("https://zipline-cli.cssnr.com/")
 
-    print(f"_setup: {_setup}")
     env_file = get_env()
-    print(f"env_file: {env_file}")
-    env = load_dotenv(dotenv_path=env_file)
-    print(f"env: {env}")
-    print("--------------------")
+    load_dotenv(dotenv_path=env_file)
 
-    # print(f"_token: {_token}")
     url = get_config(["url"], _url)
-    print(f"url: {url}")
     token = get_config(["token", "authorization"], _token)
-    print(f"token: {token}")
-    expire = get_config(["expire", "expire_at"], _expire)
-    print(f"expire: {expire}")
-    embed = get_config(["expire", "expire_at"], _embed, cast=bool)
-    print(f"embed: {embed}")
-    print("--------------------")
+    # expire = get_config(["expire", "expire_at"], _expire)
+    # embed = get_config(["expire", "expire_at"], _embed, cast=bool)
 
     if _setup or (not url and not token):
         print("[bold red]Error![/bold red] Missing --url or --token, Entering Setup.")
@@ -158,8 +148,6 @@ def main(
         raise typer.Exit()
 
     zipline = Zipline(url, authorization=token)
-
-    print(f"files: {files}")
 
     if not files:
         content: str = sys.stdin.read().rstrip("\n") + "\n"

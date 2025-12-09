@@ -136,9 +136,9 @@ def main(
     print("--------------------")
 
     # print(f"_token: {_token}")
-    url = get_config(["url"], _url, True)
+    url = get_config(["url"], _url)
     print(f"url: {url}")
-    token = get_config(["token", "authorization"], _token, True)
+    token = get_config(["token", "authorization"], _token)
     print(f"token: {token}")
     expire = get_config(["expire", "expire_at"], _expire)
     print(f"expire: {expire}")
@@ -147,7 +147,7 @@ def main(
     print("--------------------")
 
     if _setup or (not url and not token):
-        print("First Run Detected, Entering Setup.")
+        print("Missing --url or --token, Entering Setup.")
         run_setup(env_file)
         raise typer.Exit()
 

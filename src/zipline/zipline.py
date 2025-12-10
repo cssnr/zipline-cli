@@ -91,7 +91,7 @@ class Zipline(object):
         """
         url = self.base_url + "/api/upload"
         path = Path(file_name)
-        mime_type = get_type(path, file_object)
+        mime_type = get_type(path)
         # print(f"mime_type: {mime_type}")
         files = {"file": (file_name, file_object, mime_type)}
         headers = self._headers | overrides if overrides else self._headers
@@ -106,7 +106,7 @@ class Zipline(object):
             return ZipURL(data)
 
 
-def get_type(file_path: Path, file_data: Optional[IO] = None) -> str:  # NOSONAR
+def get_type(file_path: Path) -> str:  # NOSONAR
     """
     Get MIME type from guess_type or by reading magic headers
     https://en.wikipedia.org/wiki/List_of_file_signatures
@@ -114,25 +114,22 @@ def get_type(file_path: Path, file_data: Optional[IO] = None) -> str:  # NOSONAR
     Deprecated since version 3.13: Passing a file path instead of URL is soft deprecated. Use guess_file_type() for this.
     https://docs.python.org/3/library/mimetypes.html#mimetypes.guess_type
     """
-    # Attempt guess_type first
     mime_type, _ = mimetypes.guess_type(file_path, strict=False)
     if mime_type:
         return mime_type
 
-    # This condition should never be True
-    if not file_data and not file_path.is_file():  # pragma: no cover
-        warnings.warn("No File Data or File Passed...", stacklevel=2)
+    if not file_path.is_file():
         return "text/plain"
 
-    if file_data:
-        chunk = file_data.read(512)
-    else:
-        with open(file_path, "rb") as file:
-            chunk = file.read(512)
+    with open(file_path, "rb") as file:
+        chunk = file.read(512)
+
     # print(f"chunk: {type(chunk)} - {chunk[:20]}")
-    if isinstance(chunk, str):
-        return "text/plain"
     # print(f"test chunk: {chunk[8:11]}")
+
+    if isinstance(chunk, str):  # pragma: no cover
+        warnings.warn("This condition should not be True...", stacklevel=2)
+        return "text/plain"
 
     # Images
     if chunk[0:3] == b"\xff\xd8\xff" or chunk[6:10] in (b"JFIF", b"Exif"):

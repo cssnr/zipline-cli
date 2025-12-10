@@ -115,6 +115,8 @@ def get_type(file_path: Path) -> str:
 
 
 def magic_type(file_path: Path) -> str:  # NOSONAR
+    if not file_path.is_file():
+        return "text/plain"
     try:
         with open(file_path, "rb") as file:
             chunk = file.read(512)

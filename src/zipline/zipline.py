@@ -1,4 +1,5 @@
 import mimetypes
+import warnings
 from pathlib import Path
 from typing import IO, Dict, Optional
 
@@ -90,7 +91,7 @@ class Zipline(object):
         """
         url = self.base_url + "/api/upload"
         path = Path(file_name)
-        mime_type = get_type(path)
+        mime_type = get_type(path, file_object)
         # print(f"mime_type: {mime_type}")
         files = {"file": (file_name, file_object, mime_type)}
         headers = self._headers | overrides if overrides else self._headers
@@ -105,51 +106,79 @@ class Zipline(object):
             return ZipURL(data)
 
 
-def get_type(file_path: Path) -> str:
-    # Deprecated since version 3.13: Passing a file path instead of URL is soft deprecated. Use guess_file_type() for this.
-    # https://docs.python.org/3/library/mimetypes.html#mimetypes.guess_type
+def get_type(file_path: Path, file_data: Optional[IO] = None) -> str:  # NOSONAR
+    """
+    Get MIME type from guess_type or by reading magic headers
+    https://en.wikipedia.org/wiki/List_of_file_signatures
+
+    Deprecated since version 3.13: Passing a file path instead of URL is soft deprecated. Use guess_file_type() for this.
+    https://docs.python.org/3/library/mimetypes.html#mimetypes.guess_type
+    """
+    # Attempt guess_type first
     mime_type, _ = mimetypes.guess_type(file_path, strict=False)
     if mime_type:
         return mime_type
-    return magic_type(file_path)
 
-
-def magic_type(file_path: Path) -> str:  # NOSONAR
-    if not file_path.is_file():
+    # This condition should never be True
+    if not file_data and not file_path.is_file():  # pragma: no cover
+        warnings.warn("No File Data or File Passed...", stacklevel=2)
         return "text/plain"
-    try:
+
+    if file_data:
+        chunk = file_data.read(512)
+    else:
         with open(file_path, "rb") as file:
             chunk = file.read(512)
-        # print(chunk)
-        if chunk[0:3] == b"\xff\xd8\xff" or chunk[6:10] in (b"JFIF", b"Exif"):
-            return "image/jpeg"
-        elif chunk.startswith(b"\x89\x50\x4e\x47\x0d\x0a\x1a\x0a"):
-            return "image/png"
-        elif chunk.startswith(b"RIFF") and chunk[8:12] == b"WEBP":
-            return "image/webp"
-        elif chunk.startswith((b"\x47\x49\x46\x38\x37\x61", b"\x47\x49\x46\x38\x39\x61")):
-            return "image/gif"
-        elif chunk.startswith(b"\x66\x74\x79\x70\x68\x65\x69\x63\x66\x74\79\70\6d"):
-            return "image/heic"
-        elif chunk.startswith(b"\x00\x00\x01\x00"):
-            return "image/ico"
+    # print(f"chunk: {type(chunk)} - {chunk[:20]}")
+    if isinstance(chunk, str):
+        return "text/plain"
+    # print(f"test chunk: {chunk[8:11]}")
 
-        elif chunk[3:11] in (b"\x66\x74\x79\x70\x4d\x53\x4e\x56", b"\x66\x74\x79\x70\x69\x73\x6f\x6d"):
-            return "video/mp4"
-        elif chunk[4:12] == b"ftypisom" or chunk[4:12] == b"ftypMSNV" or chunk[4:12] == b"ftypmp42":
-            return "video/mp4"
-        elif chunk.startswith(b"\x1a\x45\xdf\xa3"):
-            return "video/x-matroska"
-        elif chunk.startswith(b"\x6d\x6f\x6f\x76"):
-            return "video/quicktime"
-
-        elif chunk.startswith((b"\xff\xfb", b"\xff\xfb", b"\xff\xfb", b"\x49\x44\x33")):
-            return "audio/mp3"
-        elif chunk.startswith(b"RIFF") and chunk[8:12] == b"WAVE":
-            return "audio/wav"
-        elif chunk.startswith(b"OggS"):
-            return "application/ogg"
-
+    # Images
+    if chunk[0:3] == b"\xff\xd8\xff" or chunk[6:10] in (b"JFIF", b"Exif"):
+        return "image/jpeg"
+    elif chunk.startswith(b"\x89\x50\x4e\x47\x0d\x0a\x1a\x0a"):
+        return "image/png"
+    elif chunk.startswith(b"RIFF") and chunk[8:12] == b"WEBP":
+        return "image/webp"
+    elif chunk.startswith((b"\x47\x49\x46\x38\x37\x61", b"\x47\x49\x46\x38\x39\x61")):
+        return "image/gif"
+    elif chunk.startswith(b"\x66\x74\x79\x70\x68\x65\x69\x63\x66\x74\79\70\6d") or chunk[4:12] == b"ftypheic":
+        return "image/heic"
+    elif chunk.startswith(b"\x00\x00\x01\x00"):
+        return "image/ico"
+    elif chunk.startswith(b"II*") or chunk.startswith(b"II+") or chunk.startswith(b"MM"):
+        return "image/tiff"
+    elif chunk.startswith(b"BM"):
+        return "image/bmp"
+    elif chunk[4:12] == b"ftypavif":
+        return "image/avif"
+    # Video
+    elif chunk[4:12] == b"ftypisom" or chunk[4:12] == b"ftypMSNV" or chunk[4:12] == b"ftypmp42":
+        return "video/mp4"
+    elif chunk[3:11] in (b"\x66\x74\x79\x70\x4d\x53\x4e\x56", b"\x66\x74\x79\x70\x69\x73\x6f\x6d"):
+        return "video/mp4"
+    elif chunk.startswith(b"\x1a\x45\xdf\xa3"):
+        # https://www.loc.gov/preservation/digital/formats//fdd/fdd000342.shtml
+        # Note: this can also be .aac audio...
+        return "video/x-matroska"
+    elif chunk.startswith(b"RIFF") and chunk[8:11] == b"AVI":
+        return "video/x-msvideo"
+    elif chunk.startswith(b"\x30\x26\xb2\x75\x8e\x66\xcf\x11\xa6\xd9\x00\xaa\x00\x62\xce\x6c"):
+        # https://www.loc.gov/preservation/digital/formats/fdd/fdd000091.shtml
+        return "video/x-ms-asf"
+    elif chunk.startswith(b"\x6d\x6f\x6f\x76") or chunk[4:10] == b"ftypqt":
+        # https://www.file-recovery.com/mov-signature-format.htm
+        return "video/quicktime"
+    # Audio
+    elif chunk.startswith((b"\xff\xfb", b"\xff\xfb", b"\xff\xfb", b"\x49\x44\x33")):
+        return "audio/mp3"
+    elif chunk.startswith(b"RIFF") and chunk[8:12] == b"WAVE":
+        return "audio/wav"
+    elif chunk.startswith(b"OggS"):
+        return "application/ogg"
+    # Fallback
+    try:
         chunk.decode("utf-8")
         return "text/plain"
     except UnicodeDecodeError:

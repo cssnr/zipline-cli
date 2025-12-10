@@ -28,7 +28,7 @@ jobs:
 
     environment:
       name: "pypi"
-      url: "https://pypi.org/p/npmstat"
+      url: "https://pypi.org/p/zipline-cli"
 
     steps:
       - name: "Debug"

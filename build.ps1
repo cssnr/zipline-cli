@@ -10,7 +10,7 @@ write-output "Clean:         $c"
 write-output "Install:       $i"
 write-output "Uninstall:     $u"
 
-$PackageName = "npmstat"
+$PackageName = "zipline-cli"
 $PackageFile = $PackageName -replace '-', '_'
 
 if ($u) {

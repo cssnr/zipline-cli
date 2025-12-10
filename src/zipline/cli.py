@@ -2,7 +2,7 @@ import io
 import os
 import sys
 from importlib.metadata import version
-from typing import List, Optional, TextIO
+from typing import List, Optional
 
 import click
 import typer
@@ -83,7 +83,7 @@ def opt_version(value: bool):
 
 @app.command(epilog="Docs: https://zipline-cli.cssnr.com/")
 def main(
-    files: Annotated[Optional[List[str]], typer.Argument(help="AI is RETARDED")] = None,
+    files: Annotated[Optional[List[str]], typer.Argument(help="Files...")] = None,
     _embed: Annotated[
         Optional[bool], typer.Option("-E", "--embed", help="Enable Embed.", envvar="ZIPLINE_EMBED")
     ] = False,
@@ -125,9 +125,8 @@ def main(
 
     if not files:
         content: str = sys.stdin.read().rstrip("\n") + "\n"
-        text_f: TextIO = io.StringIO(content)
         name = f"{utils.gen_rand(8)}.txt"
-        zip_url: ZipURL = zipline.send_file(name, text_f)
+        zip_url: ZipURL = zipline.send_file(name, io.StringIO(content))
         print(format_output(name, zip_url))
         raise typer.Exit()
 
@@ -137,8 +136,8 @@ def main(
             print(f"Warning: File Not Found: {name}")
             continue
         with open(name, "rb") as f:
-            zip_url2: ZipURL = zipline.send_file(name, f)
-            print(format_output(name, zip_url2))
+            zip_url_: ZipURL = zipline.send_file(name, f)
+            print(format_output(name, zip_url_))
             exit_code = 0
     sys.exit(exit_code)
 

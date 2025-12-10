@@ -121,7 +121,7 @@ def get_type(file_path: Path, file_data: Optional[IO] = None) -> str:  # NOSONAR
 
     # This condition should never be True
     if not file_data and not file_path.is_file():  # pragma: no cover
-        warnings.warn("No File Data or File Passed...")
+        warnings.warn("No File Data or File Passed...", stacklevel=2)
         return "text/plain"
 
     if file_data:

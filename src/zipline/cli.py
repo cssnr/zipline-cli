@@ -2,7 +2,7 @@ import os
 import sys
 from importlib.metadata import version
 from pathlib import Path
-from typing import List, Optional, TextIO
+from typing import List, Optional
 
 import click
 import typer
@@ -140,9 +140,8 @@ def main(
     zipline = Zipline(url, authorization=token)
 
     if not files:
-        content: TextIO = click.get_text_stream("stdin")
         name: str = f"{utils.gen_rand(8)}.txt"
-        zip_url: ZipURL = zipline.send_file(name, content)
+        zip_url: ZipURL = zipline.send_file(name, click.get_text_stream("stdin"))
         print(format_output(name, zip_url))
         raise typer.Exit()
 

@@ -2,6 +2,7 @@ import io
 import os
 import sys
 from importlib.metadata import version
+from pathlib import Path
 from typing import List, Optional
 
 import click
@@ -132,13 +133,17 @@ def main(
 
     exit_code = 1
     for name in files:
-        if not os.path.isfile(name):
-            print(f"Warning: File Not Found: {name}")
+        path = Path(name)
+        vprint(f"Processing: [green bold]{name}[/green bold] - [cyan bold]{path.absolute()}")
+        if not path.is_file():
+            print(f"[yellow bold]Warning[/yellow bold]: Not a File: [cyan bold]{path.absolute()}", file=sys.stderr)
             continue
-        with open(name, "rb") as f:
-            zip_url_: ZipURL = zipline.send_file(name, f)
-            print(format_output(name, zip_url_))
-            exit_code = 0
+        file_name = path.name
+        vprint(f"file_name: {file_name}")
+        with open(path, "rb") as f:
+            zip_url_: ZipURL = zipline.send_file(file_name, f)
+        print(format_output(file_name, zip_url_))
+        exit_code = 0
     sys.exit(exit_code)
 
 

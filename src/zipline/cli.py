@@ -58,7 +58,7 @@ def run_setup(_url: str) -> None:
     print(f"Setup Complete. Variables Saved to: [bold green]{env_file.absolute()}")
 
 
-def opt_info(value: bool):
+def info_callback(value: bool):
     if value:
         table = Table(title="App Information")
         # Head
@@ -78,7 +78,7 @@ def opt_info(value: bool):
         raise typer.Exit()
 
 
-def opt_version(value: bool):
+def version_callback(value: bool):
     if value:
         print(package_doc, file=sys.stderr)
         print(version("zipline-cli"))
@@ -113,10 +113,10 @@ def main(
     _verbose: Annotated[Optional[bool], typer.Option("-v", "--verbose", help="Verbose Output (jq safe).")] = False,
     _setup: Annotated[Optional[bool], typer.Option("-S", "--setup", help="Run interactive setup.")] = None,
     _info: Annotated[
-        Optional[bool], typer.Option("-I", "--info", callback=opt_info, help="Show saved information.")
+        Optional[bool], typer.Option("-I", "--info", callback=info_callback, help="Show saved information.")
     ] = None,
     _version: Annotated[
-        Optional[bool], typer.Option("-V", "--version", callback=opt_version, help="Show installed version.")
+        Optional[bool], typer.Option("-V", "--version", callback=version_callback, help="Show installed version.")
     ] = None,
 ):
     """Zipline CLI"""

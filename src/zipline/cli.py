@@ -123,21 +123,17 @@ def main(
     if _verbose:
         state["verbose"] = _verbose
 
-    url = _url
-    vprint(f"url: {url}")
-    token = _token
-    vprint(f"token: {token[-12:]}")
-    expire = _expire
-    vprint(f"expire: {expire}")
-    embed = _embed
-    vprint(f"embed: {embed}")
+    vprint(f"url: {_url}")
+    vprint(f"token: {_token[-12:]}")
+    vprint(f"expire: {_expire}")
+    vprint(f"embed: {_embed}")
 
-    if _setup or (not url and not token):
+    if _setup or not _url and not _token:
         print("[bold red]Error![/bold red] Missing --url or --token, Entering Setup.")
-        run_setup(url)
+        run_setup(_url)
         raise typer.Exit()
 
-    zipline = Zipline(url, authorization=token)
+    zipline = Zipline(_url, authorization=_token)
 
     if not files:
         name: str = f"{utils.gen_rand(8)}.txt"

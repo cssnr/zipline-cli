@@ -1,9 +1,6 @@
 // Open External Links in New Tab
-
 // noinspection JSUnresolvedReference,JSIgnoredPromiseFromCall
-document$.subscribe(documentLoaded)
-
-function documentLoaded() {
+document$.subscribe(function () {
     // console.log('documentLoaded:', globalThis.location)
     for (const el of document.querySelectorAll('a')) {
         // console.log('el.host:', el.host)
@@ -12,4 +9,4 @@ function documentLoaded() {
             el.rel = 'noopener'
         }
     }
-}
+})

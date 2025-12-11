@@ -20,9 +20,9 @@ nav = [
   { "Support" = "support.md" },
 ]
 # https://zensical.org/docs/customization/#additional-css
-# extra_css = ["assets/css/extra.css"]
+extra_css = ["assets/css/extra.css"]
 # https://zensical.org/docs/customization/#additional-javascript
-extra_javascript = ["assets/js/external-links.js"]
+extra_javascript = ["assets/js/extra.js"]
 
 # ----------------------------------------------------------------------------
 # Section for configuring theme options

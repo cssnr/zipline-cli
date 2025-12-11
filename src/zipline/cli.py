@@ -1,9 +1,8 @@
-import io
 import os
 import sys
 from importlib.metadata import version
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, TextIO
 
 import click
 import typer
@@ -21,7 +20,11 @@ from .zipline import Zipline, ZipURL
 env_file = utils.get_env()
 dotenv_loaded = load_dotenv(dotenv_path=env_file)
 
-app = typer.Typer(pretty_exceptions_show_locals=False, rich_markup_mode="rich")
+app = typer.Typer(
+    context_settings={"help_option_names": ["-h", "--help"]},
+    pretty_exceptions_show_locals=False,
+    rich_markup_mode="rich",
+)
 
 state = {"verbose": False}
 
@@ -84,16 +87,28 @@ def opt_version(value: bool):
 
 @app.command(epilog="Docs: https://zipline-cli.cssnr.com/")
 def main(
-    files: Annotated[Optional[List[str]], typer.Argument(help="Files...")] = None,
+    files: Annotated[Optional[List[Path]], typer.Argument(help="Files...", exists=True, dir_okay=False)] = None,
     _embed: Annotated[
         Optional[bool], typer.Option("-E", "--embed", help="Enable Embed.", envvar="ZIPLINE_EMBED")
     ] = False,
     _expire: Annotated[
-        str, typer.Option("-e", "-x", "--expire", "--expires_at", help="File Expiration.", envvar="ZIPLINE_EXPIRE")
+        str,
+        typer.Option(
+            "-e", "-x", "--expire", "--expires_at", metavar="", help="File Expiration.", envvar="ZIPLINE_EXPIRE"
+        ),
     ] = "",
-    _url: Annotated[str, typer.Option("-u", "--url", help="Zipline URL.", envvar="ZIPLINE_URL")] = "",
+    _url: Annotated[str, typer.Option("-u", "--url", metavar="", help="Zipline URL.", envvar="ZIPLINE_URL")] = "",
     _token: Annotated[
-        str, typer.Option("-t", "-a", "--token", "--authorization", help="Zipline token.", envvar="ZIPLINE_TOKEN")
+        str,
+        typer.Option(
+            "-t",
+            "-a",
+            "--token",
+            "--authorization",
+            metavar="",
+            help="Zipline token.",
+            envvar=["ZIPLINE_TOKEN", "ZIPLINE_AUTHORIZATION"],
+        ),
     ] = "",
     _verbose: Annotated[Optional[bool], typer.Option("-v", "--verbose", help="Verbose Output (jq safe).")] = False,
     _setup: Annotated[Optional[bool], typer.Option("-S", "--setup", help="Run interactive setup.")] = None,
@@ -125,26 +140,22 @@ def main(
     zipline = Zipline(url, authorization=token)
 
     if not files:
-        content: str = sys.stdin.read().rstrip("\n") + "\n"
-        name = f"{utils.gen_rand(8)}.txt"
-        zip_url: ZipURL = zipline.send_file(name, io.StringIO(content))
+        content: TextIO = click.get_text_stream("stdin")
+        name: str = f"{utils.gen_rand(8)}.txt"
+        zip_url: ZipURL = zipline.send_file(name, content)
         print(format_output(name, zip_url))
         raise typer.Exit()
 
     exit_code = 1
-    for name in files:
-        path = Path(name)
-        vprint(f"Processing: [green bold]{name}[/green bold] - [cyan bold]{path.absolute()}")
-        if not path.is_file():
-            print(f"[yellow bold]Warning[/yellow bold]: Not a File: [cyan bold]{path.absolute()}", file=sys.stderr)
-            continue
-        file_name = path.name
-        vprint(f"file_name: {file_name}")
-        with open(path, "rb") as f:
-            zip_url_: ZipURL = zipline.send_file(file_name, f)
-        print(format_output(file_name, zip_url_))
+    for file in files:
+        vprint(
+            f"Uploading: [green bold]{click.format_filename(file.name)}[/green bold] - [cyan bold]{file.absolute()}"
+        )
+        with open(file, "rb") as f:
+            zip_url_: ZipURL = zipline.send_file(file.name, f)
+        print(format_output(file.name, zip_url_))
         exit_code = 0
-    sys.exit(exit_code)
+    raise typer.Exit(exit_code)
 
 
 if __name__ == "__main__":

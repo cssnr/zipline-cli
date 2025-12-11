@@ -150,6 +150,7 @@ def get_type(file_path: Path) -> str:  # NOSONAR
         return "image/bmp"
     elif chunk[4:12] == b"ftypavif":
         return "image/avif"
+
     # Video
     elif chunk[4:12] == b"ftypisom" or chunk[4:12] == b"ftypMSNV" or chunk[4:12] == b"ftypmp42":
         return "video/mp4"
@@ -157,7 +158,6 @@ def get_type(file_path: Path) -> str:  # NOSONAR
         return "video/mp4"
     elif chunk.startswith(b"\x1a\x45\xdf\xa3"):
         # https://www.loc.gov/preservation/digital/formats//fdd/fdd000342.shtml
-        # Note: this can also be .aac audio...
         return "video/x-matroska"
     elif chunk.startswith(b"RIFF") and chunk[8:11] == b"AVI":
         return "video/x-msvideo"
@@ -167,6 +167,7 @@ def get_type(file_path: Path) -> str:  # NOSONAR
     elif chunk.startswith(b"\x6d\x6f\x6f\x76") or chunk[4:10] == b"ftypqt":
         # https://www.file-recovery.com/mov-signature-format.htm
         return "video/quicktime"
+
     # Audio
     elif chunk.startswith((b"\xff\xfb", b"\xff\xfb", b"\xff\xfb", b"\x49\x44\x33")):
         return "audio/mp3"
@@ -174,6 +175,7 @@ def get_type(file_path: Path) -> str:  # NOSONAR
         return "audio/wav"
     elif chunk.startswith(b"OggS"):
         return "application/ogg"
+
     # Fallback
     try:
         chunk.decode("utf-8")

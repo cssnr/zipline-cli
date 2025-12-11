@@ -2,7 +2,7 @@ import os
 import sys
 from importlib.metadata import version
 from pathlib import Path
-from typing import List, Optional
+from typing import Any, List, Optional
 
 import click
 import typer
@@ -29,9 +29,9 @@ app = typer.Typer(
 state = {"verbose": False}
 
 
-def vprint(*objects: str):
+def vprint(*objects: Any, **kwargs):
     if state.get("verbose"):
-        print(*objects, file=sys.stderr)
+        print(*objects, file=sys.stderr, **kwargs)
 
 
 def format_output(filename: str, url: ZipURL) -> str:
@@ -123,10 +123,7 @@ def main(
     if _verbose:
         state["verbose"] = _verbose
 
-    vprint(f"url: {_url}")
-    vprint(f"token: {_token[-12:]}")
-    vprint(f"expire: {_expire}")
-    vprint(f"embed: {_embed}")
+    vprint(f"{_url=}", f"{_token[-12:]=}", f"{_expire=}", f"{_embed=}", sep="\n")
 
     if _setup or not _url and not _token:
         print("[bold red]Error![/bold red] Missing --url or --token, Entering Setup.")

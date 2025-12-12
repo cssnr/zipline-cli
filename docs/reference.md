@@ -26,11 +26,7 @@ See [.zipline.example](https://github.com/cssnr/zipline-cli/blob/master/.zipline
     These options will be restored in a future release.
 
 You may override them by exporting the variables in your current environment
-or using the corresponding command line arguments.
-
-```shell
-zipline -h
-```
+or using the corresponding [command line](#command-line) arguments.
 
 ## API Reference
 
@@ -56,6 +52,34 @@ print(url)
 ```
 
 For more details, view the [src/zipline.py](https://github.com/cssnr/zipline-cli/blob/master/src/zipline/zipline.py) file.
+
+## Command Line
+
+For more details see `zipline -h`.
+
+```text
+ Usage: zipline [OPTIONS] [FILES]...
+
+ Zipline CLI
+
+┌─ Arguments ─────────────────────────────────────────────────────────────────────────────────────────────┐
+│   files      [FILES]...  Files...                                                               │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌─ Options ───────────────────────────────────────────────────────────────────────────────────────────────┐
+│ --name                   -n           File Name (sent with upload).                             │
+│ --url                    -u           Zipline URL. [env var: ZIPLINE_URL]                       │
+│ --token,--authorization  -t,-a        Zipline token.                                            │
+│                                       [env var: ZIPLINE_TOKEN, ZIPLINE_AUTHORIZATION]           │
+│ --verbose                -v           Verbose Output (jq safe). [env var: ZIPLINE_VERBOSE]      │
+│ --setup                  -S           Run interactive setup.                                    │
+│ --info                   -I           Show saved information.                                   │
+│ --version                -V           Show installed version.                                   │
+│ --install-completion                  Install completion for the current shell.                 │
+│ --show-completion                     Show completion for the current shell, to copy it or      │
+│                                       customize the installation.                               │
+│ --help                   -h           Show this message and exit.                               │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 &nbsp;
 

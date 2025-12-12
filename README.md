@@ -45,9 +45,10 @@ Python 3 CLI File Uploader for [Diced/Zipline](https://github.com/diced/zipline)
 > You can also [request new features](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests)
 > or report any [issues](https://github.com/cssnr/zipline-cli/issues/new).
 
-> [!WARNING]  
-> This branch contains the latest changes for [pre-releases](https://github.com/cssnr/zipline-cli/releases).  
-> For the current version see this [README.md](https://github.com/cssnr/zipline-cli/tree/0.2.3).
+> [!IMPORTANT]  
+> A new app is in progress which supports ShareX Configurations.  
+> All new features will be added to this app.  
+> Please [let us know](https://github.com/cssnr/zipline-cli/discussions/new?category=feature-requests) what you want to see...
 
 ## Quick Start<a id="quick-start"></a>
 

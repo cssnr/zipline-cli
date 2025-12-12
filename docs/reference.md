@@ -12,15 +12,18 @@ Environment Variables are stored in the `.zipline` file in your home directory.
 
 - Location: `~/.zipline` or `$HOME/.zipline`
 
-| Variable         | Description                                                                                                                                                                                      |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ZIPLINE_URL`    | URL to your Zipline Instance                                                                                                                                                                     |
-| `ZIPLINE_TOKEN`  | Authorization Token from Zipline                                                                                                                                                                 |
-| `ZIPLINE_EMBED`  | Set this enable Embed on your uploads                                                                                                                                                            |
-| `ZIPLINE_FORMAT` | Output Format. Variables: `{filename}`, `{url}` and `{raw_url}`                                                                                                                                  |
-| `ZIPLINE_EXPIRE` | Reference: [Zipline](https://zipline.diced.sh/docs/guides/upload-options#image-expiration) / [Django Files](https://github.com/onegreyonewhite/pytimeparse2#pytimeparse2-time-expression-parser) |
+| Variable         | Description                                                     |
+| ---------------- | --------------------------------------------------------------- |
+| `ZIPLINE_URL`    | URL to your Zipline Instance                                    |
+| `ZIPLINE_TOKEN`  | Authorization Token from Zipline                                |
+| `ZIPLINE_FORMAT` | Output Format. Variables: `{filename}`, `{url}` and `{raw_url}` |
 
 See [.zipline.example](https://github.com/cssnr/zipline-cli/blob/master/.zipline.example) for an example `.zipline` file.
+
+!!! danger "Deprecated Variables"
+
+    Both `ZIPLINE_EXPIRE` and `ZIPLINE_EMBED` have been deprecated.
+    These options will be restored in a future release.
 
 You may override them by exporting the variables in your current environment
 or using the corresponding command line arguments.

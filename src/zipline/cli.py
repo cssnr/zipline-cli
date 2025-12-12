@@ -9,6 +9,7 @@ import typer
 from dotenv import load_dotenv
 from rich import print
 from rich.console import Console
+from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 from typing_extensions import Annotated
 
@@ -80,23 +81,27 @@ def info_callback(value: bool):
 
 def version_callback(value: bool):
     if value:
-        print(package_doc, file=sys.stderr)
-        print(version("zipline-cli"))
+        print(f"[magenta bold]{package_doc}", file=sys.stderr)
+        version_string = version("zipline-cli")
+        print(f"[white bold]{version_string}")
         raise typer.Exit()
 
 
 @app.command(epilog="Docs: https://zipline-cli.cssnr.com/")
 def main(
     files: Annotated[Optional[List[Path]], typer.Argument(help="Files...", exists=True, dir_okay=False)] = None,
-    _embed: Annotated[
-        Optional[bool], typer.Option("-E", "--embed", help="Enable Embed.", envvar="ZIPLINE_EMBED")
-    ] = False,
-    _expire: Annotated[
-        str,
-        typer.Option(
-            "-e", "-x", "--expire", "--expires_at", metavar="", help="File Expiration.", envvar="ZIPLINE_EXPIRE"
-        ),
-    ] = "",
+    _name: Annotated[
+        Optional[str], typer.Option("-n", "--name", metavar="", help="File Name (sent with upload).")
+    ] = None,
+    # _embed: Annotated[
+    #     Optional[bool], typer.Option("-E", "--embed", help="Enable Embed.", envvar="ZIPLINE_EMBED")
+    # ] = False,
+    # _expire: Annotated[
+    #     str,
+    #     typer.Option(
+    #         "-e", "-x", "--expire", "--expires_at", metavar="", help="File Expiration.", envvar="ZIPLINE_EXPIRE"
+    #     ),
+    # ] = "",
     _url: Annotated[str, typer.Option("-u", "--url", metavar="", help="Zipline URL.", envvar="ZIPLINE_URL")] = "",
     _token: Annotated[
         str,
@@ -110,8 +115,10 @@ def main(
             envvar=["ZIPLINE_TOKEN", "ZIPLINE_AUTHORIZATION"],
         ),
     ] = "",
-    _verbose: Annotated[Optional[bool], typer.Option("-v", "--verbose", help="Verbose Output (jq safe).")] = False,
-    _setup: Annotated[Optional[bool], typer.Option("-S", "--setup", help="Run interactive setup.")] = None,
+    _verbose: Annotated[
+        bool, typer.Option("-v", "--verbose", help="Verbose Output (jq safe).", envvar="ZIPLINE_VERBOSE")
+    ] = False,
+    _setup: Annotated[bool, typer.Option("-S", "--setup", help="Run interactive setup.")] = False,
     _info: Annotated[
         Optional[bool], typer.Option("-I", "--info", callback=info_callback, help="Show saved information.")
     ] = None,
@@ -123,7 +130,8 @@ def main(
     if _verbose:
         state["verbose"] = _verbose
 
-    vprint(f"{_url=}", f"{_token[-12:]=}", f"{_expire=}", f"{_embed=}", sep="\n")
+    vprint(f"{_url=}", f"{_token[-12:]=}", sep="\n")
+    # vprint(f"{_expire=}", f"{_embed=}", sep="\n")
 
     if _setup or not _url and not _token:
         print("[bold red]Error![/bold red] Missing --url or --token, Entering Setup.")
@@ -133,20 +141,23 @@ def main(
     zipline = Zipline(_url, authorization=_token)
 
     if not files:
-        name: str = f"{utils.gen_rand(8)}.txt"
-        zip_url: ZipURL = zipline.send_file(name, click.get_text_stream("stdin"))
-        print(format_output(name, zip_url))
+        file_name: str = _name or f"{utils.gen_rand(8)}.txt"
+        zip_url: ZipURL = zipline.send_file(file_name, click.get_text_stream("stdin"))
+        print(format_output(file_name, zip_url))
         raise typer.Exit()
 
     exit_code = 1
-    for file in files:
-        vprint(
-            f"Uploading: [green bold]{click.format_filename(file.name)}[/green bold] - [cyan bold]{file.absolute()}"
-        )
-        with open(file, "rb") as f:
-            zip_url_: ZipURL = zipline.send_file(file.name, f)
-        print(format_output(file.name, zip_url_))
-        exit_code = 0
+    for i, file in enumerate(files, 1):
+        size = utils.bytes_to_human(file.stat().st_size)
+        text_format = f"Uploading {i}/{len(files)}: " + "[progress.description]{task.description}"
+        with Progress(SpinnerColumn(), TextColumn(text_format), transient=True) as progress:
+            description = f"[green bold]{click.format_filename(file.name)}[/green bold] - [yellow bold]{size}"
+            progress.add_task(description=description, total=None)
+            file_name = _name if _name and len(files) == 1 else file.name
+            with open(file, "rb") as f:
+                zip_url_: ZipURL = zipline.send_file(file_name, f)
+            print(format_output(file.name, zip_url_))
+            exit_code = 0
     raise typer.Exit(exit_code)
 
 

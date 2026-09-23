@@ -3,7 +3,6 @@ import time
 
 import requests
 
-
 zip_data = {
     "username": "administrator",
     "password": "password",

@@ -17,7 +17,6 @@ from . import __doc__ as package_doc
 from . import _utils as utils
 from .zipline import Zipline, ZipURL
 
-
 env_file = utils.get_env()
 dotenv_loaded = load_dotenv(dotenv_path=env_file)
 
@@ -142,7 +141,7 @@ def main(
 
     if not files:
         file_name: str = _name or f"{utils.gen_rand(8)}.txt"
-        zip_url: ZipURL = zipline.send_file(file_name, click.get_text_stream("stdin"))
+        zip_url: ZipURL = zipline.send_file(file_name, sys.stdin)
         print(format_output(file_name, zip_url))
         raise typer.Exit()
 

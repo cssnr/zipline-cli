@@ -48,6 +48,7 @@ jobs:
           name: ${{ env.name }}
           tag: ${{ github.ref_name }}
         run: |
+          tag="$(echo "${tag}" | sed -E 's/^v//; s/-alpha\./a/; s/-beta\./b/; s/-rc\./rc/')"
           ls -lAh "${path}"/*
           results="$(ls -lAh "${path}"/* | awk '{print $9" - "$5}')"
           md="Artifacts:\n\`\`\`text\n${results}\n\`\`\`"
@@ -121,10 +122,12 @@ jobs:
           path: "dist"
 
       - name: "List Artifacts"
+        continue-on-error: true
         env:
           path: "dist"
           tag: ${{ github.ref_name }}
         run: |
+          tag="$(echo "${tag}" | sed -E 's/^v//; s/-alpha\./a/; s/-beta\./b/; s/-rc\./rc/')"
           ls -lAh "${path}"
           find "${path}" | grep -- "-${tag}-" > /dev/null
 

@@ -1,18 +1,19 @@
 import os
 import re
 
-SUFFIXES = {"alpha": "a", "beta": "b", "rc": "rc"}
-
 
 def get_version() -> str:
     version = os.environ.get("GITHUB_REF_NAME", "")
-    match = re.match(r"^v?(\d+\.\d+\.\d+)-(alpha|beta|rc)\.(\d+)$", version)
+    suffixes = {"alpha": "a", "beta": "b", "rc": "rc"}
+    names = "|".join(suffixes)
+    match = re.match(rf"^v?(\d+\.\d+\.\d+)-({names})\.(\d+)$", version)
     if match:
         base, suffix, number = match.groups()
-        version = f"{base}{SUFFIXES[suffix]}{number}"
+        version = f"{base}{suffixes[suffix]}{number}"
     elif version.startswith("v"):
         version = version[1:]
-    if re.match(r"^\d+\.\d+\.\d+(?:(?:[abc]|rc)\d*)?$", version):
+    letters = "|".join([*suffixes.values(), "c"])
+    if re.match(rf"^\d+\.\d+\.\d+(?:({letters})\d*)?$", version):
         return version
     return "0.0.1"
 

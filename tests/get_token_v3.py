@@ -4,7 +4,6 @@ import sys
 import psycopg2
 import requests
 
-
 pg_data = {
     "host": "localhost",
     "database": "postgres",

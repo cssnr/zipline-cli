@@ -140,11 +140,11 @@ def get_type(file_path: Path) -> str:  # NOSONAR
         return "image/webp"
     elif chunk.startswith((b"\x47\x49\x46\x38\x37\x61", b"\x47\x49\x46\x38\x39\x61")):
         return "image/gif"
-    elif chunk.startswith(b"\x66\x74\x79\x70\x68\x65\x69\x63\x66\x74\79\70\6d") or chunk[4:12] == b"ftypheic":
+    elif chunk[4:12] == b"ftypheic":
         return "image/heic"
     elif chunk.startswith(b"\x00\x00\x01\x00"):
         return "image/ico"
-    elif chunk.startswith(b"II*") or chunk.startswith(b"II+") or chunk.startswith(b"MM"):
+    elif chunk.startswith((b"II*", b"II+", b"MM")):
         return "image/tiff"
     elif chunk.startswith(b"BM"):
         return "image/bmp"

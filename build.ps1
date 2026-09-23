@@ -6,9 +6,9 @@ param (
 
 $ErrorActionPreference = "Stop"
 
-write-output "Clean:         $c"
-write-output "Install:       $i"
-write-output "Uninstall:     $u"
+Write-Output "Clean:         $c"
+Write-Output "Install:       $i"
+Write-Output "Uninstall:     $u"
 
 $PackageName = "zipline-cli"
 $PackageFile = $PackageName -replace '-', '_'
@@ -42,9 +42,10 @@ if ($c) {
 
 python -m build
 
-if ($args[0] -eq "i") {
+if ($i) {
     Write-Host -ForegroundColor Green "Installing..."
-    python -m pip install .\dist\${PackageFile}-0.0.1-py3-none-any.whl
+    $wheel = Get-ChildItem ".\dist" -Filter "${PackageFile}-*.whl" | Select-Object -First 1
+    python -m pip install $wheel.FullName
 }
 
 Write-Output "Success."

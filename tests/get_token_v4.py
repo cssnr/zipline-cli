@@ -3,11 +3,9 @@ import time
 
 import requests
 
-
 zip_data = {
     "username": "administrator",
     "password": "password",
-    "code": None,
 }
 
 zip_uri = os.environ.get("ZIPLINE_URL", "http://localhost:3000").rstrip("/")

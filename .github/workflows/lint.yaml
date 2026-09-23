@@ -5,6 +5,7 @@ on:
   push:
     branches: [master]
     paths-ignore:
+      - ".gitattributes"
       - ".gitignore"
       - ".prettierignore"
       - "MANIFEST.in"
@@ -25,7 +26,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: "Debug event.json"
         continue-on-error: true
@@ -51,7 +52,7 @@ jobs:
       #      pyproject.toml
 
       - name: "Setup Python 3.13"
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.13"
           cache: "pip"
@@ -74,7 +75,7 @@ jobs:
 
       - name: "astral-sh/ruff"
         if: ${{ !cancelled() }}
-        uses: astral-sh/ruff-action@v3
+        uses: astral-sh/ruff-action@v4.1.0
         with:
           version: latest
 
@@ -127,7 +128,7 @@ jobs:
           echo "::endgroup::"
           yamllint -c .github/yamllint.yaml .
 
-      - name: "Actionlint"
+      - name: "actionlint"
         if: ${{ !cancelled() }}
         uses: cssnr/actionlint-action@master
         with:

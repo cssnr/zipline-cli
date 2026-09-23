@@ -19,6 +19,7 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
+  "click",
   "python-dotenv",
   "requests>=2,<3",
   "typer",

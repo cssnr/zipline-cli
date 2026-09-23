@@ -22,6 +22,7 @@ dependencies = [
   "click",
   "python-dotenv",
   "requests>=2,<3",
+  "rich",
   "typer",
 ]
 dynamic = ["version"]
@@ -52,6 +53,7 @@ dev = [
   "ruff",
   "setuptools",
   "tombi",
+  "toml-run",
   "ty",
   "typer",
   "types-psycopg2",
@@ -105,6 +107,38 @@ extend-exclude = [".github"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "B", "Q"]
+
+[tool.scripts]
+# test = ["coverage run -m pytest", "coverage report -m"]
+clean = "rm -rf .cache dist site"
+build = "python -m build"
+predocs = "rm -rf .cache site"
+docs = "zensical serve --open --dev-addr 0.0.0.0:8000"
+docs-build = "zensical build --clean"
+format = [
+  "black src",
+  "isort src",
+  "ruff format src",
+  "tombi format",
+  "which prettier && prettier --write . || echo missing prettier",
+]
+lint = [
+  "run bandit",
+  "run mypy",
+  "run ruff",
+  "run validate",
+  "run yamllint",
+  "which prettier && prettier --check . || echo missing prettier",
+  "black --check src",
+  "isort -c src",
+  "tombi lint",
+  "ty check -v src",
+]
+bandit = "bandit -c pyproject.toml -r src"
+mypy = "mypy src"
+ruff = "ruff check src"
+validate = "validate-pyproject pyproject.toml"
+yamllint = "yamllint -c .github/yamllint.yaml ."
 
 # Setup Tools
 # https://setuptools.pypa.io/en/latest/

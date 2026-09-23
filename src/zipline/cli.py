@@ -2,7 +2,7 @@ import os
 import sys
 from importlib.metadata import version
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import Annotated, Any, List, Optional
 
 import click
 import typer
@@ -11,7 +11,6 @@ from rich import print
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
-from typing_extensions import Annotated
 
 from . import __doc__ as package_doc
 from . import _utils as utils

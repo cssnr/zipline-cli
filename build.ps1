@@ -6,9 +6,9 @@ param (
 
 $ErrorActionPreference = "Stop"
 
-write-output "Clean:         $c"
-write-output "Install:       $i"
-write-output "Uninstall:     $u"
+Write-Output "Clean:         $c"
+Write-Output "Install:       $i"
+Write-Output "Uninstall:     $u"
 
 $PackageName = "zipline-cli"
 $PackageFile = $PackageName -replace '-', '_'

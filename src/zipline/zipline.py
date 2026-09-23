@@ -144,7 +144,7 @@ def get_type(file_path: Path) -> str:  # NOSONAR
         return "image/heic"
     elif chunk.startswith(b"\x00\x00\x01\x00"):
         return "image/ico"
-    elif chunk.startswith(b"II*") or chunk.startswith(b"II+") or chunk.startswith(b"MM"):
+    elif chunk.startswith((b"II*", b"II+", b"MM")):
         return "image/tiff"
     elif chunk.startswith(b"BM"):
         return "image/bmp"

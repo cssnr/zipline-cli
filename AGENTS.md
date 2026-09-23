@@ -23,7 +23,7 @@ Zipline CLI, a Python 3 CLI File Uploader for [Diced/Zipline](https://github.com
 - Use the `venv` at the repo root (Python 3.13). Activate with `.\venv\Scripts\activate`.
 - Install dev dependencies with `python -m pip install --group dev` (pip >= 25.1).
 - Global tools on PATH (not in the dev group): `zensical`, `yamllint`.
-- `run` (from `toml-run`) is part of the dev group. Re-run `python -m pip install --group dev` after editing the group to pick up new members.
+- Command: `run` (from `toml-run`) is part of the dev group. Re-run `python -m pip install --group dev` after editing the group to pick up new members.
 
 ## Commands
 
